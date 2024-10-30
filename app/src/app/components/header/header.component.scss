@@ -1,0 +1,9 @@
+.nav-item {
+    cursor: pointer;
+    user-select: none;
+}
+
+.navbar-nav{
+    display: flex;
+    justify-content: space-between;
+}
