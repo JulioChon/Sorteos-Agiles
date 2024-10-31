@@ -30,6 +30,7 @@
           aria-expanded="false"
         >
           Opciones de Administrador
+          <i class="bi bi-person-fill"></i>
         </a>
         <ul class="dropdown-menu" *ngIf="isAdmin">
           <li *ngFor="let adminItem of adminItems" (click)="navigate(adminItem.route)">
