@@ -32,10 +32,13 @@ public class Sorteo {
     private Long rangoNum;
 
     @NotNull(message = "La fecha de inicio es requerida")
-    private Date ferchaInicio;
+    private Date ferchaInicioVenta;
 
     @NotNull(message = "La fecha de fin es requerida")
-    private Date fechaFin;
+    private Date fechaFinVenta;
+
+    @NotNull(message = "La fecha del sorteo es requerida")
+    private Date fechaSorteo;
 
     @NotNull(message = "El estado es requerido")
     private ESTADO estado;
@@ -47,29 +50,34 @@ public class Sorteo {
 
     public Sorteo(Integer id, String nombre, String imagenSorteo,
             @NotNull(message = "El rango es requerido") Long rangoNum,
-            @NotNull(message = "La fecha de inicio es requerida") Date ferchaInicio,
-            @NotNull(message = "La fecha de fin es requerida") Date fechaFin,
+            @NotNull(message = "La fecha de inicio es requerida") Date ferchaInicioVenta,
+            @NotNull(message = "La fecha de fin es requerida") Date fechaFinVenta,
+            @NotNull(message = "La fecha del sorteo es requerida") Date fechaSorteo,
             @NotNull(message = "El estado es requerido") ESTADO estado) {
         this.id = id;
         this.nombre = nombre;
         this.imagenSorteo = imagenSorteo;
         this.rangoNum = rangoNum;
-        this.ferchaInicio = ferchaInicio;
-        this.fechaFin = fechaFin;
+        this.ferchaInicioVenta = ferchaInicioVenta;
+        this.fechaFinVenta = fechaFinVenta;
+        this.fechaSorteo = fechaSorteo;
         this.estado = estado;
     }
 
         
 
-    public Sorteo(String nombre, String imagenSorteo, @NotNull(message = "El rango es requerido") Long rangoNum,
-            @NotNull(message = "La fecha de inicio es requerida") Date ferchaInicio,
-            @NotNull(message = "La fecha de fin es requerida") Date fechaFin,
+    public Sorteo(String nombre, String imagenSorteo, 
+            @NotNull(message = "El rango es requerido") Long rangoNum,
+            @NotNull(message = "La fecha de inicio es requerida") Date ferchaInicioVenta,
+            @NotNull(message = "La fecha de fin es requerida") Date fechaFinVenta,
+            @NotNull(message = "La fecha del sorteo es requerida") Date fechaSorteo,
             @NotNull(message = "El estado es requerido") ESTADO estado) {
         this.nombre = nombre;
         this.imagenSorteo = imagenSorteo;
         this.rangoNum = rangoNum;
-        this.ferchaInicio = ferchaInicio;
-        this.fechaFin = fechaFin;
+        this.ferchaInicioVenta = ferchaInicioVenta;
+        this.fechaFinVenta = fechaFinVenta;
+        this.fechaSorteo = fechaSorteo;
         this.estado = estado;
     }
 
@@ -114,23 +122,33 @@ public class Sorteo {
     }
 
 
-    public Date getFerchaInicio() {
-        return ferchaInicio;
+    public Date getferchaInicioVenta() {
+        return ferchaInicioVenta;
     }
 
 
-    public void setFerchaInicio(Date ferchaInicio) {
-        this.ferchaInicio = ferchaInicio;
+    public void setferchaInicioVenta(Date ferchaInicioVenta) {
+        this.ferchaInicioVenta = ferchaInicioVenta;
     }
 
 
-    public Date getFechaFin() {
-        return fechaFin;
+    public Date getfechaFinVenta() {
+        return fechaFinVenta;
     }
 
 
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
+    public void setfechaFinVenta(Date fechaFinVenta) {
+        this.fechaFinVenta = fechaFinVenta;
+    }
+
+
+    public Date getFechaSorteo() {
+        return fechaSorteo;
+    }
+
+
+    public void setFechaSorteo(Date fechaSorteo) {
+        this.fechaSorteo = fechaSorteo;
     }
 
 
