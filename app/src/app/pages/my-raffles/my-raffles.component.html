@@ -1,0 +1,18 @@
+<div class="d-flex flex-column min-vh-100">
+  <app-header></app-header>
+
+  <main class="flex-fill bg-light p-4">
+    <div class="container">
+      <h1 class="text-center mb-4">Mis Sorteos</h1>
+
+      <app-spinner *ngIf="showLoading"></app-spinner>
+      <app-raffle-gallery *ngIf="!showLoading" [raffles]="raffles"></app-raffle-gallery>
+      <div *ngIf="!showLoading && raffles.length <= 0" class="text-center">
+        <p>No tienes un correo registrado</p>
+        <button class="btn btn-primary">Crea tu primer sorteo</button>
+      </div>
+    </div>
+  </main>
+
+  <app-footer></app-footer>
+</div>

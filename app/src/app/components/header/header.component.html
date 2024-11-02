@@ -14,11 +14,11 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li
-          class="nav-item d-flex align-items-center fw-bold"
+          class="nav-item d-flex align-items-center fw-bold mx-3"
           *ngFor="let item of items"
           (click)="navigate(item.route)"
         >
-          <div class="nav-link" routerLinkActive="active">{{ item.title }}</div>
+          <div class="nav-link">{{ item.title }}</div>
           <i [className]="item.icon"></i>
         </li>
       </ul>

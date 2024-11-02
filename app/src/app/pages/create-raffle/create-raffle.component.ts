@@ -12,11 +12,12 @@ import {
 } from '@angular/forms';
 import { FirestorageService } from '../../shared/services/storage/firestorage.service';
 import { File } from 'buffer';
+import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
   selector: 'app-create-raffle',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, HeaderComponent ,FooterComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './create-raffle.component.html',
   styleUrls: ['./create-raffle.component.scss'],
   providers: [FirestorageService],
