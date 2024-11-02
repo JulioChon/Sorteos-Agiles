@@ -14,11 +14,12 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li
-          class="nav-item"
+          class="nav-item d-flex align-items-center fw-bold"
           *ngFor="let item of items"
           (click)="navigate(item.route)"
         >
           <div class="nav-link" routerLinkActive="active">{{ item.title }}</div>
+          <i [className]="item.icon"></i>
         </li>
       </ul>
       <div class="d-flex dropdown">
@@ -33,8 +34,13 @@
           <i class="bi bi-person-fill"></i>
         </a>
         <ul class="dropdown-menu" *ngIf="isAdmin">
-          <li *ngFor="let adminItem of adminItems" (click)="navigate(adminItem.route)">
-            <div class="dropdown-item">{{adminItem.title}}</div>
+          <li
+            *ngFor="let adminItem of adminItems"
+            (click)="navigate(adminItem.route)"
+            class="dropdown-item d-flex align-items-center no-select pointer"
+          >
+            <div class="dropdown-item">{{ adminItem.title }}</div>
+            <i class="{{adminItem.icon}}"></i>
           </li>
         </ul>
       </div>
