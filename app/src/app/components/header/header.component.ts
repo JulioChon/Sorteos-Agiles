@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
 
   initItems() {
     this.items = [
-      { title: 'Inicio', route: '/home', icon: 'home' },
+      { title: 'Inicio', route: '/home', icon: 'bi bi-house-fill' },
     ];
   }
 
@@ -50,7 +50,8 @@ export class HeaderComponent implements OnInit {
 
   addAdminItems() {
     this.adminItems = [
-      { title: 'Crear Sorteo', route: '/admin/create-raffle', icon: 'add' }
+      { title: 'Crear Sorteo', route: '/admin/create-raffle', icon: 'bi bi-plus' },
+      { title: 'Mis Sorteos' , route: '/admin/my-raffles', icon: 'bi bi-list' }
     ];
   }
 }

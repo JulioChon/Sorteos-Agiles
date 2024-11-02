@@ -10,3 +10,12 @@ body {
     height: 100%;
     width: 100%;
 }
+
+.no-select {
+    user-select: none;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
