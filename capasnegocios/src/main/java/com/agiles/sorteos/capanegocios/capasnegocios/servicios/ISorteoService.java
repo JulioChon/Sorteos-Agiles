@@ -1,13 +1,10 @@
-package com.agiles.sorteos.capadatos.capadatos.fachadas;
+package com.agiles.sorteos.capanegocios.capasnegocios.servicios;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.agiles.sorteos.capadatos.capadatos.dominio.Sorteo;
 
-@Service
-public interface IFachadaSorteos {
+public interface ISorteoService {
 
     Sorteo guardarSorteo(Sorteo sorteo);
 
@@ -18,5 +15,4 @@ public interface IFachadaSorteos {
     Sorteo obtenerSorteoPorId(Integer id);
 
     List<Sorteo> obtenerSorteos();
-    
 }
