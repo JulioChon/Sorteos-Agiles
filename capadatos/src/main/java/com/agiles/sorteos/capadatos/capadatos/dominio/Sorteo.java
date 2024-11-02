@@ -16,11 +16,9 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "sorteos")
 public class Sorteo {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
 
     @IesRequerido(message = "El nombre es requerido")
     private String nombre;
@@ -32,7 +30,7 @@ public class Sorteo {
     private Long rangoNum;
 
     @NotNull(message = "La fecha de inicio es requerida")
-    private Date ferchaInicioVenta;
+    private Date fechaInicioVenta;
 
     @NotNull(message = "La fecha de fin es requerida")
     private Date fechaFinVenta;
@@ -43,125 +41,84 @@ public class Sorteo {
     @NotNull(message = "El estado es requerido")
     private ESTADO estado;
 
-
+    // Constructor vacío
     public Sorteo() {
     }
 
-
-    public Sorteo(Integer id, String nombre, String imagenSorteo,
-            @NotNull(message = "El rango es requerido") Long rangoNum,
-            @NotNull(message = "La fecha de inicio es requerida") Date ferchaInicioVenta,
-            @NotNull(message = "La fecha de fin es requerida") Date fechaFinVenta,
-            @NotNull(message = "La fecha del sorteo es requerida") Date fechaSorteo,
-            @NotNull(message = "El estado es requerido") ESTADO estado) {
-        this.id = id;
+    // Constructor sin ID
+    public Sorteo(String nombre, String imagenSorteo, Long rangoNum,
+            Date fechaInicioVenta, Date fechaFinVenta, Date fechaSorteo, ESTADO estado) {
         this.nombre = nombre;
         this.imagenSorteo = imagenSorteo;
         this.rangoNum = rangoNum;
-        this.ferchaInicioVenta = ferchaInicioVenta;
+        this.fechaInicioVenta = fechaInicioVenta;
         this.fechaFinVenta = fechaFinVenta;
         this.fechaSorteo = fechaSorteo;
         this.estado = estado;
     }
 
-        
-
-    public Sorteo(String nombre, String imagenSorteo, 
-            @NotNull(message = "El rango es requerido") Long rangoNum,
-            @NotNull(message = "La fecha de inicio es requerida") Date ferchaInicioVenta,
-            @NotNull(message = "La fecha de fin es requerida") Date fechaFinVenta,
-            @NotNull(message = "La fecha del sorteo es requerida") Date fechaSorteo,
-            @NotNull(message = "El estado es requerido") ESTADO estado) {
-        this.nombre = nombre;
-        this.imagenSorteo = imagenSorteo;
-        this.rangoNum = rangoNum;
-        this.ferchaInicioVenta = ferchaInicioVenta;
-        this.fechaFinVenta = fechaFinVenta;
-        this.fechaSorteo = fechaSorteo;
-        this.estado = estado;
-    }
-
-
-    public int getId() {
+    // Getters y Setters
+    public Integer getId() {
         return id;
     }
 
-
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
-
 
     public String getNombre() {
         return nombre;
     }
 
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
 
     public String getImagenSorteo() {
         return imagenSorteo;
     }
 
-
     public void setImagenSorteo(String imagenSorteo) {
         this.imagenSorteo = imagenSorteo;
     }
-
 
     public Long getRangoNum() {
         return rangoNum;
     }
 
-
     public void setRangoNum(Long rangoNum) {
         this.rangoNum = rangoNum;
     }
 
-
-    public Date getferchaInicioVenta() {
-        return ferchaInicioVenta;
+    public Date getFechaInicioVenta() {
+        return fechaInicioVenta;
     }
 
-
-    public void setferchaInicioVenta(Date ferchaInicioVenta) {
-        this.ferchaInicioVenta = ferchaInicioVenta;
+    public void setFechaInicioVenta(Date fechaInicioVenta) {
+        this.fechaInicioVenta = fechaInicioVenta;
     }
 
-
-    public Date getfechaFinVenta() {
+    public Date getFechaFinVenta() {
         return fechaFinVenta;
     }
 
-
-    public void setfechaFinVenta(Date fechaFinVenta) {
+    public void setFechaFinVenta(Date fechaFinVenta) {
         this.fechaFinVenta = fechaFinVenta;
     }
-
 
     public Date getFechaSorteo() {
         return fechaSorteo;
     }
 
-
     public void setFechaSorteo(Date fechaSorteo) {
         this.fechaSorteo = fechaSorteo;
     }
-
 
     public ESTADO getEstado() {
         return estado;
     }
 
-
     public void setEstado(ESTADO estado) {
         this.estado = estado;
     }
-
-    
-
-
 }

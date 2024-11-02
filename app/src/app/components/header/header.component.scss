@@ -1,0 +1,13 @@
+.nav-item {
+    cursor: pointer;
+    user-select: none;
+}
+
+.navbar-nav{
+    display: flex;
+    justify-content: space-between;
+}
+
+nav {
+    border-bottom: 1px solid #e5e5e5;
+}
