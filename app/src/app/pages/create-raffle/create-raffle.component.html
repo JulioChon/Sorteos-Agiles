@@ -43,7 +43,7 @@
             La fecha de inicio es obligatoria.
           </div>
           <div *ngIf="startDate?.errors?.['invalidDate']">
-            La fecha de inicio no puede ser anterior a hoy.
+            {{ startDate.errors?.['invalidDate'] }}
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@
             La fecha de fin es obligatoria.
           </div>
           <div *ngIf="endDate?.errors?.['invalidDate']">
-            La fecha de fin no puede ser anterior a la fecha de inicio.
+            {{ endDate.errors?.['invalidDate'] }}
           </div>
         </div>
       </div>

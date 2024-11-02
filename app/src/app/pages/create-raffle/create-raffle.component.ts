@@ -82,9 +82,12 @@ export class CreateRaffleComponent {
       const selectedDate = new Date(control.value);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-
       if (selectedDate < today) {
         return { invalidDate: 'La fecha no puede ser anterior a la de hoy' };
+      }
+      const year: string = selectedDate.getFullYear().toString();
+      if (year.length > 4) {
+        return { invalidDate: ' Año no válido' };
       }
       return null;
     };
@@ -99,6 +102,10 @@ export class CreateRaffleComponent {
       const endDate = new Date(control.value);
       if (endDate < startDate) {
         return { invalidDate: 'La fecha no puede ser anterior a la de inicio' };
+      }
+      const year: string = endDate.getFullYear().toString();
+      if (year.length > 4) {
+        return { invalidDate: ' Año no válido' };
       }
       return null;
     };
