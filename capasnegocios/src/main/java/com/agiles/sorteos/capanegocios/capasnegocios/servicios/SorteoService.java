@@ -19,6 +19,10 @@ public class SorteoService implements ISorteoService {
        return fachadaSorteos.guardarSorteo(sorteo);
     }
 
+    public Sorteo guardarSorteoDos(Sorteo sorteo) {
+       return fachadaSorteos.guardarSorteo(sorteo);
+    }
+
     @Override
     public Sorteo actualizarSorteo(Integer id, Sorteo sorteo) {
        Sorteo sorteoViejo = fachadaSorteos.obtenerSorteoPorId(id);
