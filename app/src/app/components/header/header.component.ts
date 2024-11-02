@@ -4,7 +4,7 @@ import { NavItem } from './header.types';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'header',
+  selector: 'app-header',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './header.component.html',
@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
   initItems() {
     this.items = [
       { title: 'Inicio', route: '/home', icon: 'bi bi-house-fill' },
+      // { title: 'Sorteos', route: '/raffles', icon: 'bi bi-gift-fill' },
     ];
   }
 

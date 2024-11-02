@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { CreateRaffleComponent } from './pages/create-raffle/create-raffle.component';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
+import { MyRafflesComponent } from './pages/my-raffles/my-raffles.component';
 
 export const routes: Routes = [
     {
@@ -24,6 +25,10 @@ export const routes: Routes = [
             {
                 path: 'create-raffle',
                 component: CreateRaffleComponent
+            },
+            {
+                path: 'my-raffles',
+                component: MyRafflesComponent
             }
         ]
     }
