@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.agiles.sorteos.capadatos.capadatos.dominio.Administrador;
+import com.agiles.sorteos.capadatos.capadatos.dominio.Boleto;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Sorteo;
 
 @Service
@@ -18,5 +20,22 @@ public interface IFachadaSorteos {
     Sorteo obtenerSorteoPorId(Integer id);
 
     List<Sorteo> obtenerSorteos();
+
+   
+    List<Sorteo> findSorteosByAdministradorId( Integer idAdministrador);
+
+    Boleto guardarBoleto(Boleto boleto);
+
+    Boleto cambiarEstado(Integer id, Boleto boleto);
+
+    void eliminarBoleto(Integer id);
+
+    Boleto obtenerBoletoPorId(Integer id);
+
+    List<Boleto> obtenerBoletos();
+
+    List<Boleto> obtenerBoletosPorIdSorteo(Integer idSorteo);
+
+    Administrador obteAdministradorPorId(Integer id);
     
 }

@@ -6,7 +6,7 @@ import com.agiles.sorteos.capadatos.capadatos.dominio.Sorteo;
 
 public interface ISorteoService {
 
-    Sorteo guardarSorteo(Sorteo sorteo);
+    Sorteo guardarSorteo(Sorteo sorteo, Integer id);
 
     Sorteo actualizarSorteo(Integer id, Sorteo sorteo);
 
@@ -15,4 +15,6 @@ public interface ISorteoService {
     Sorteo obtenerSorteoPorId(Integer id);
 
     List<Sorteo> obtenerSorteos();
+
+    List<Sorteo> obtenerSorteosPorIdAdmin(Integer idAdmin);
 }
