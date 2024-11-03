@@ -15,7 +15,8 @@ public class SorteoService implements ISorteoService {
     private IFachadaSorteos fachadaSorteos;
 
     @Override
-    public Sorteo guardarSorteo(Sorteo sorteo) {
+    public Sorteo guardarSorteo(Sorteo sorteo, Integer id) {
+        sorteo.setIdAdministrador(fachadaSorteos.obteAdministradorPorId(id));
        return fachadaSorteos.guardarSorteo(sorteo);
     }
 
@@ -57,6 +58,15 @@ public class SorteoService implements ISorteoService {
 
         if (sorteos.isEmpty()) {
             throw new NotFoundException("No hay sorteos");
+        }
+        return sorteos;
+    }
+
+    @Override
+    public List<Sorteo> obtenerSorteosPorIdAdmin(Integer idAdmin) {
+       List <Sorteo> sorteos = fachadaSorteos.findSorteosByAdministradorId(idAdmin);
+        if (sorteos.isEmpty()) {
+            throw new NotFoundException("No hay sorteos para el administrador con ID " + idAdmin );
         }
         return sorteos;
     }

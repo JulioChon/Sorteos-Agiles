@@ -22,6 +22,7 @@ import com.agiles.sorteos.capanegocios.capasnegocios.servicios.ISorteoService;
 
 import jakarta.validation.Valid;
 
+
 @RestController
 @CrossOrigin(origins="http://localhost:4200", originPatterns = "*")
 @RequestMapping("/api/sorteos")
@@ -30,12 +31,12 @@ public class SorteoController {
     @Autowired
     private ISorteoService sorteoService;
 
-    @PostMapping
-    public ResponseEntity<?> crearSorteo(@Valid @RequestBody Sorteo sorteo, BindingResult result) {
+    @PostMapping("/{id}")
+    public ResponseEntity<?> crearSorteo(@Valid @RequestBody Sorteo sorteo, BindingResult result, @PathVariable Integer id) {
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(sorteoService.guardarSorteo(sorteo));
+        return ResponseEntity.status(HttpStatus.CREATED).body(sorteoService.guardarSorteo(sorteo,id));
 
     }
 
@@ -43,6 +44,12 @@ public class SorteoController {
     public ResponseEntity<?> obtenerSorteoPorId(@PathVariable Integer id) {
         return ResponseEntity.ok(sorteoService.obtenerSorteoPorId(id));
     }
+
+    @GetMapping("/admin/{idAdmin}")
+    public ResponseEntity<?> obtenerSorteoPorIdAdmin(@PathVariable Integer idAdmin) {
+        return ResponseEntity.ok(sorteoService.obtenerSorteosPorIdAdmin(idAdmin));
+    }
+    
 
     @GetMapping
     public ResponseEntity<?> obtenerSorteos() {

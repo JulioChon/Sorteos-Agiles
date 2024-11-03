@@ -5,10 +5,13 @@ import java.util.Date;
 import com.agiles.sorteos.capadatos.capadatos.utilis.ESTADO;
 import com.agiles.sorteos.capadatos.capadatos.utilis.IesRequerido;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 
@@ -26,40 +29,97 @@ public class Sorteo {
     @IesRequerido(message = "La imagen es requerida")
     private String imagenSorteo;
 
-    @NotNull(message = "El rango es requerido")
-    private Long rangoNum;
+    @NotNull(message = "El rango maximo es requerido")
+    private Long rangoMax;
 
+    @NotNull(message = "El rango minimo es requerido")
+    private Long rangoMin;
     @NotNull(message = "La fecha de inicio es requerida")
+    @Column(name = "fecha_inicio_venta", nullable = false)
     private Date fechaInicioVenta;
 
     @NotNull(message = "La fecha de fin es requerida")
+    @Column(name = "fecha_fin_venta", nullable = false)
     private Date fechaFinVenta;
 
     @NotNull(message = "La fecha del sorteo es requerida")
+    @Column(name = "fecha_sorteo", nullable = false)
     private Date fechaSorteo;
 
     @NotNull(message = "El estado es requerido")
     private ESTADO estado;
+
+    @ManyToOne
+    @JoinColumn(name = "id_administrador") 
+    private Administrador idAdministrador;
 
     // Constructor vacío
     public Sorteo() {
     }
 
     // Constructor sin ID
-    public Sorteo(String nombre, String imagenSorteo, Long rangoNum,
-            Date fechaInicioVenta, Date fechaFinVenta, Date fechaSorteo, ESTADO estado) {
+   
+
+    // Getters y Setters
+    public Sorteo(String nombre, String imagenSorteo, @NotNull(message = "El rango maximo es requerido") Long rangoMax,
+            @NotNull(message = "El rango minimo es requerido") Long rangoMin,
+            @NotNull(message = "La fecha de inicio es requerida") Date fechaInicioVenta,
+            @NotNull(message = "La fecha de fin es requerida") Date fechaFinVenta,
+            @NotNull(message = "La fecha del sorteo es requerida") Date fechaSorteo,
+            @NotNull(message = "El estado es requerido") ESTADO estado, Administrador idAdministrador) {
         this.nombre = nombre;
         this.imagenSorteo = imagenSorteo;
-        this.rangoNum = rangoNum;
+        this.rangoMax = rangoMax;
+        this.rangoMin = rangoMin;
         this.fechaInicioVenta = fechaInicioVenta;
         this.fechaFinVenta = fechaFinVenta;
         this.fechaSorteo = fechaSorteo;
         this.estado = estado;
+        this.idAdministrador = idAdministrador;
     }
 
-    // Getters y Setters
+    
+
+    
+    public Sorteo(Integer id, String nombre, String imagenSorteo,
+            @NotNull(message = "El rango maximo es requerido") Long rangoMax,
+            @NotNull(message = "El rango minimo es requerido") Long rangoMin,
+            @NotNull(message = "La fecha de inicio es requerida") Date fechaInicioVenta,
+            @NotNull(message = "La fecha de fin es requerida") Date fechaFinVenta,
+            @NotNull(message = "La fecha del sorteo es requerida") Date fechaSorteo,
+            @NotNull(message = "El estado es requerido") ESTADO estado, Administrador idAdministrador) {
+        this.id = id;
+        this.nombre = nombre;
+        this.imagenSorteo = imagenSorteo;
+        this.rangoMax = rangoMax;
+        this.rangoMin = rangoMin;
+        this.fechaInicioVenta = fechaInicioVenta;
+        this.fechaFinVenta = fechaFinVenta;
+        this.fechaSorteo = fechaSorteo;
+        this.estado = estado;
+        this.idAdministrador = idAdministrador;
+    }
+
     public Integer getId() {
         return id;
+    }
+
+
+
+    public Long getRangoMax() {
+        return rangoMax;
+    }
+
+    public void setRangoMax(Long rangoMax) {
+        this.rangoMax = rangoMax;
+    }
+
+    public Long getRangoMin() {
+        return rangoMin;
+    }
+
+    public void setRangoMin(Long rangoMin) {
+        this.rangoMin = rangoMin;
     }
 
     public void setId(Integer id) {
@@ -80,14 +140,6 @@ public class Sorteo {
 
     public void setImagenSorteo(String imagenSorteo) {
         this.imagenSorteo = imagenSorteo;
-    }
-
-    public Long getRangoNum() {
-        return rangoNum;
-    }
-
-    public void setRangoNum(Long rangoNum) {
-        this.rangoNum = rangoNum;
     }
 
     public Date getFechaInicioVenta() {
@@ -120,5 +172,13 @@ public class Sorteo {
 
     public void setEstado(ESTADO estado) {
         this.estado = estado;
+    }
+
+    public Administrador getIdAdministrador() {
+        return idAdministrador;
+    }
+
+    public void setIdAdministrador(Administrador idAdministrador) {
+        this.idAdministrador = idAdministrador;
     }
 }
