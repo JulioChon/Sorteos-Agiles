@@ -27,7 +27,7 @@ export const routes: Routes = [
                 path: '',
                 redirectTo: 'my-raffles',
                 pathMatch: 'full'
-            }, 
+            },
             {
                 path: 'my-raffles',
                 component: MyRafflesComponent
@@ -36,10 +36,15 @@ export const routes: Routes = [
                 path: 'create-raffle',
                 component: CreateRaffleComponent
             },
-            {
-                path: 'modify-raffle/:id',
-                component: ModifyRaffleComponent
-            }
         ]
+    },
+    {
+      path: 'raffle/:id',
+      children: [
+        {
+          path: 'edit',
+          component: ModifyRaffleComponent
+        }
+      ]
     }
 ];

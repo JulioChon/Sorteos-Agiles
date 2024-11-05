@@ -11,9 +11,12 @@
         {{modalOptions.message}}
       </p>
     </div>
-    <div class="_modal-footer d-flex gap-2">
+    <div *ngIf="modalOptions.type === 'confirm'" class="_modal-footer d-flex gap-2">
       <button class="btn btn-danger" (click)="closeModal()">Cancelar</button>
       <button class="btn btn-success" (click)="confirm()">Confirmar</button>
+    </div>
+    <div *ngIf="modalOptions.type !== 'confirm'" class="_modal-footer d-flex gap-2">
+      <button class="btn btn-primary" (click)="closeModal()">Entendido</button>
     </div>
   </div>
 </div>

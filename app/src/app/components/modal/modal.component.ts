@@ -24,6 +24,7 @@ export class ModalComponent implements OnInit {
   async suscribeToModal() {
     this.alertService.modal.subscribe({
       next: (modalOptions: ModalOptions) => {
+        debugger;
         this.modalOptions = modalOptions;
         this.openModal();
       },

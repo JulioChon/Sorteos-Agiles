@@ -21,4 +21,16 @@ export class AlertService {
       });
     });
   }
+
+  async openInfoModal(message: string, title?: string): Promise<void> {
+    return new Promise((resolve) => {
+      this.modal.emit({
+        type: ModalType.INFO,
+        title: title,
+        message,
+        onConfirm: () => resolve(),
+        onCancel: () => resolve(),
+      });
+    });
+  }
 }

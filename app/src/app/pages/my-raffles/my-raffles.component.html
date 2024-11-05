@@ -7,7 +7,7 @@
       <app-raffle-gallery *ngIf="!showLoading" [raffles]="raffles" [buttonsRaffleIdActions]="galleryButtonActions"></app-raffle-gallery>
       <div *ngIf="!showLoading && raffles.length <= 0" class="text-center">
         <p>No tienes un correo registrado</p>
-        <button class="btn btn-primary">Crea tu primer sorteo</button>
+        <button class="btn btn-primary" (click)="openCreateRaffle()">Crea tu primer sorteo</button>
       </div>
     </div>
   </main>
