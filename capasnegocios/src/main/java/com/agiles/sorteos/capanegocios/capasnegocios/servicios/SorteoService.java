@@ -27,6 +27,7 @@ public class SorteoService implements ISorteoService {
                 throw new NotFoundException("sorteo con ID " + id );
             } else {
                 sorteo.setId(id);
+                sorteo.setIdAdministrador(sorteoViejo.getIdAdministrador());
                 return fachadaSorteos.guardarSorteo(sorteo);
             }
     }

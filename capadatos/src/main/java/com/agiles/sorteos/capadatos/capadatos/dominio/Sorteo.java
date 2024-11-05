@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.agiles.sorteos.capadatos.capadatos.utilis.ESTADO;
 import com.agiles.sorteos.capadatos.capadatos.utilis.IesRequerido;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+
 
 @Entity
 @Table(name = "sorteos")
@@ -51,6 +53,7 @@ public class Sorteo {
 
     @ManyToOne
     @JoinColumn(name = "id_administrador") 
+    @JsonIgnore
     private Administrador idAdministrador;
 
     // Constructor vacío

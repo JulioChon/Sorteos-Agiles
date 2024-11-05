@@ -127,5 +127,10 @@ public class FachadaSorteos implements IFachadaSorteos {
         return adminDAO.findById(id).orElse(null);
     }
 
+    @Override
+    public Boleto obtenerBoletoSorteo(Integer numBoleto, Integer idSorteo) {
+       return boletosDAO.obtenerBoletoSorteo(numBoleto, idSorteo);
+    }
+
 
 }
