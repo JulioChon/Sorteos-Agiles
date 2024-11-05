@@ -4,14 +4,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.agiles.sorteos.capadatos.capadatos.DAOS.IAdminDAO;
 import com.agiles.sorteos.capadatos.capadatos.DAOS.IBoletosDAO;
+import com.agiles.sorteos.capadatos.capadatos.DAOS.IClienteDAO;
 import com.agiles.sorteos.capadatos.capadatos.DAOS.ISorteosDAO;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Administrador;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Boleto;
+import com.agiles.sorteos.capadatos.capadatos.dominio.Cliente;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Sorteo;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -19,14 +21,26 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class FachadaSorteos implements IFachadaSorteos {
 
-    @Autowired
     private ISorteosDAO sorteosDAO;
 
-    @Autowired
     private IBoletosDAO boletosDAO;
 
-    @Autowired
+    
     private IAdminDAO adminDAO;
+
+    private IClienteDAO clienteDao;
+
+    private PasswordEncoder passwordEncoder;
+
+
+    public FachadaSorteos(ISorteosDAO sorteosDAO, IBoletosDAO boletosDAO, IAdminDAO adminDAO, IClienteDAO clienteDao,
+            PasswordEncoder passwordEncoder) {
+        this.sorteosDAO = sorteosDAO;
+        this.boletosDAO = boletosDAO;
+        this.adminDAO = adminDAO;
+        this.clienteDao = clienteDao;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     @Transactional
@@ -130,6 +144,42 @@ public class FachadaSorteos implements IFachadaSorteos {
     @Override
     public Boleto obtenerBoletoSorteo(Integer numBoleto, Integer idSorteo) {
        return boletosDAO.obtenerBoletoSorteo(numBoleto, idSorteo);
+    }
+
+    @Override
+    public Cliente agregarCliente(Cliente cliente) {
+        String contraseniaHasheada = passwordEncoder.encode(cliente.getContrasenia());
+        cliente.setContrasenia(contraseniaHasheada);
+        return clienteDao.save(cliente);
+    }
+
+    @Override
+    public Boolean verificarCliente(String correo, String cotrasenia) {
+        Cliente guardado = clienteDao.findByCorreo(correo);
+        if(guardado!=null){
+            return passwordEncoder.matches(cotrasenia, guardado.getContrasenia());
+
+        }
+        return false;
+    }
+
+    @Override
+    public List<Boleto> obtenerBoletosCliente(Integer idCliente) {
+       return boletosDAO.obtenerBoletosPorIdCliente(idCliente);
+    }
+
+    @Override
+    public Cliente clienteExiste(String correo) {
+       Cliente buscado = clienteDao.findByCorreo(correo);
+
+       return buscado;
+    }
+
+    @Override
+    public Administrador verificarAdmin(String correo, String contrasenia) {
+        Administrador administrador = adminDAO.findByEmailAndContrasena(correo, contrasenia);
+        
+        return administrador;
     }
 
 

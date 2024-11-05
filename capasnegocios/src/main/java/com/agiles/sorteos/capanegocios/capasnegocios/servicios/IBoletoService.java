@@ -24,4 +24,8 @@ public interface IBoletoService {
     List<Boleto> obtenerBoletos();
 
     List<Boleto> obtenerBoletosPorIdSorteo(Integer idSorteo);
+
+    List<Boleto> obtenerBoletosCliente(Integer idCliente);
+
+    
 }

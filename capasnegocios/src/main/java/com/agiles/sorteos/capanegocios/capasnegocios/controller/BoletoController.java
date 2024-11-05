@@ -41,6 +41,10 @@ public class BoletoController {
     public ResponseEntity<?> obtenerBoletosPorIdSorteo(@PathVariable Integer idSorteo) {
         return ResponseEntity.ok(boletoService.obtenerBoletosPorIdSorteo(idSorteo));
     }
+    @GetMapping("/cliente/{idCliente}")
+    public ResponseEntity<?> obtenerBoletosPorIdCliente(@PathVariable Integer idCliente){
+        return ResponseEntity.ok(boletoService.obtenerBoletosCliente(idCliente));
+    }
 
     @PostMapping("/query")
     public ResponseEntity<?> agregarSorteos(@RequestParam(name = "rangoMaximo") Long rangoMaximo,
@@ -70,6 +74,7 @@ public class BoletoController {
     public ResponseEntity<?> cambiarEstadoApartado(@PathVariable Integer id) {
         return ResponseEntity.ok(boletoService.cambiarEstadoApartado(id));
     }
+    
 
 
 

@@ -26,30 +26,55 @@ public class Cliente {
     @NotNull(message = "El telefono no debe de ser nulo")
     private String telefono;
 
+    @NotBlank(message = "El telefono no debe de estar en blanco")
+    @NotNull(message = "El telefono no debe de ser nulo")
+    private String contrasenia;
+
 
     public Cliente(){
-        
+
     }
     
+    
+
+
     public Cliente(Integer id,
             @NotBlank(message = "El nombre no debe de estar en blanco") @NotNull(message = "El nombre no debe de ser nulo") String nombre,
             @NotBlank(message = "El correo no debe de estar en blanco") @NotNull(message = "El correo no debe de ser nulo") String correo,
-            @NotBlank(message = "El telefono no debe de estar en blanco") @NotNull(message = "El telefono no debe de ser nulo") String telefono) {
+            @NotBlank(message = "El telefono no debe de estar en blanco") @NotNull(message = "El telefono no debe de ser nulo") String telefono,
+            @NotBlank(message = "El telefono no debe de estar en blanco") @NotNull(message = "El telefono no debe de ser nulo") String contrasenia) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
         this.telefono = telefono;
+        this.contrasenia = contrasenia;
     }
 
-    
+
+
+
     public Cliente(
             @NotBlank(message = "El nombre no debe de estar en blanco") @NotNull(message = "El nombre no debe de ser nulo") String nombre,
             @NotBlank(message = "El correo no debe de estar en blanco") @NotNull(message = "El correo no debe de ser nulo") String correo,
-            @NotBlank(message = "El telefono no debe de estar en blanco") @NotNull(message = "El telefono no debe de ser nulo") String telefono) {
+            @NotBlank(message = "El telefono no debe de estar en blanco") @NotNull(message = "El telefono no debe de ser nulo") String telefono,
+            @NotBlank(message = "El telefono no debe de estar en blanco") @NotNull(message = "El telefono no debe de ser nulo") String contrasenia) {
         this.nombre = nombre;
         this.correo = correo;
         this.telefono = telefono;
+        this.contrasenia = contrasenia;
     }
+
+
+
+
+    public Cliente(
+            @NotBlank(message = "El nombre no debe de estar en blanco") @NotNull(message = "El nombre no debe de ser nulo") String nombre,
+            @NotBlank(message = "El telefono no debe de estar en blanco") @NotNull(message = "El telefono no debe de ser nulo") String contrasenia) {
+        this.nombre = nombre;
+        this.contrasenia = contrasenia;
+    }
+
+
 
 
     public Integer getId() {
@@ -75,6 +100,20 @@ public class Cliente {
     }
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+
+
+
+    public String getContrasenia() {
+        return contrasenia;
+    }
+
+
+
+
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
 
     
