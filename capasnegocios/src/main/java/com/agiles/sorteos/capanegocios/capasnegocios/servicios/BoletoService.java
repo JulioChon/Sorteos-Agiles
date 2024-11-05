@@ -26,7 +26,8 @@ public class BoletoService implements IBoletoService {
         Sorteo sorteo = fachadaSorteos.obtenerSorteoPorId(idSorteo);
         for(int i = 0; i < rangoMaximo; i++) {
             Boleto boleto = new Boleto();
-            boleto.setNumeroBoleto(40);
+            
+            boleto.setNumeroBoleto((int) (rangoMinimo + i));
             boleto.setIdSorteo(sorteo);
             boleto.setEstado(BOLETOESTADO.LIBRE);
             boleto.setPrecio(precio);
@@ -51,20 +52,10 @@ public class BoletoService implements IBoletoService {
        return fachadaSorteos.guardarBoleto(boleto);
     }
 
-    @Override
-    public Boleto cambiarEstado(Integer id, Boleto boleto) {
-        Boleto boletoViejo = fachadaSorteos.obtenerBoletoPorId(id);
-        if (boletoViejo==null) {
-            throw new NotFoundException("boleto con ID " + id );
-        } else {
-            boleto.setNumeroBoleto(id);
-            return fachadaSorteos.guardarBoleto(boleto);
-        }
-    }
-
+    
     @Override
     public void eliminarBoleto(Integer id) {
-
+        
         Boleto boletoElim = this.obtenerBoletoPorId(id);
 
         if (boletoElim == null) {
@@ -84,15 +75,15 @@ public class BoletoService implements IBoletoService {
 
     @Override
     public List<Boleto> obtenerBoletos() {
-            
-            List<Boleto> boletos = fachadaSorteos.obtenerBoletos();
-    
-            if (boletos.isEmpty()) {
-                throw new NotFoundException("No hay boletos");
-            }
-            return boletos;
+        
+        List<Boleto> boletos = fachadaSorteos.obtenerBoletos();
+        
+        if (boletos.isEmpty()) {
+            throw new NotFoundException("No hay boletos");
+        }
+        return boletos;
     }
-
+    
     @Override
     public List<Boleto> obtenerBoletosPorIdSorteo(Integer idSorteo) {
         List<Boleto> boletos = fachadaSorteos.obtenerBoletosPorIdSorteo(idSorteo);
@@ -100,6 +91,66 @@ public class BoletoService implements IBoletoService {
             throw new NotFoundException("No hay boletos para el sorteo con ID " + idSorteo );
         }
         return boletos;
+    }
+    
+    
+    @Override
+    public Boleto cambiarEstadoLibre(Integer id) {
+        Boleto boleto = fachadaSorteos.obtenerBoletoPorId(id);
+        if (boleto==null) {
+            throw new NotFoundException("boleto con ID " + id );
+        } else {
+            boleto.setEstado(BOLETOESTADO.LIBRE);
+            return fachadaSorteos.guardarBoleto(boleto);
+        }
+    }
+    
+
+
+    @Override
+    public Boleto cambiarEstadoApartado(Integer id) {
+        Boleto boleto = fachadaSorteos.obtenerBoletoPorId(id);
+        if (boleto==null) {
+            throw new NotFoundException("boleto con ID " + id );
+        } else {
+            boleto.setEstado(BOLETOESTADO.LIBRE);
+            return fachadaSorteos.guardarBoleto(boleto);
+        }
+    }
+
+
+    @Override
+    public Boleto cambiarEstadoVendido(Integer id) {
+        Boleto boleto = fachadaSorteos.obtenerBoletoPorId(id);
+        if (boleto==null) {
+            throw new NotFoundException("boleto con ID " + id );
+        } else {
+            boleto.setEstado(BOLETOESTADO.LIBRE);
+            return fachadaSorteos.guardarBoleto(boleto);
+        }
+    }
+
+
+    @Override
+    public Boleto obtenerBoletoPorNumeroSorteo(Integer numBoleto, Integer idSorteo) {
+        Boleto boleto = fachadaSorteos.obtenerBoletoSorteo(numBoleto, idSorteo);
+        if (boleto==null) {
+            throw new NotFoundException("boleto con numero de boleto " + numBoleto );
+        } else {
+            boleto.setEstado(BOLETOESTADO.LIBRE);
+            return boleto;
+        }
+    }
+
+
+    @Override
+    public List<Boleto> obtenerBoletosCliente(Integer idCliente) {
+        List<Boleto> boleto = fachadaSorteos.obtenerBoletosCliente(idCliente);
+        if (boleto.size()==0) {
+            throw new NotFoundException("El boleto de" + idCliente );
+        } else {
+            return boleto;
+        }
     }
 
 

@@ -43,6 +43,10 @@ public class Boleto {
     @JoinColumn(name = "id_sorteo")
     private Sorteo idSorteo;
 
+    @ManyToOne
+    @JoinColumn(name= "id_cliente")
+    private Cliente idCliente;
+
 
 
     public Boleto() {
@@ -117,6 +121,14 @@ public class Boleto {
 
     public void setIdSorteo(Sorteo idSorteo) {
         this.idSorteo = idSorteo;
+    }
+
+    public Cliente getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Cliente idCliente) {
+        this.idCliente = idCliente;
     }
 
     

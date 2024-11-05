@@ -9,14 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.agiles.sorteos.capadatos.capadatos.dominio.Boleto;
 import com.agiles.sorteos.capanegocios.capasnegocios.servicios.IBoletoService;
 
-import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -35,14 +32,18 @@ public class BoletoController {
         return ResponseEntity.ok(boletoService.obtenerBoletos());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> obtenerBoletoPorId(@PathVariable Integer id) {
-        return ResponseEntity.ok(boletoService.obtenerBoletoPorId(id));
+    @GetMapping("/query")
+    public ResponseEntity<?> obtenerBoletoPorId(@RequestParam(name="numeroBoleto") Integer numeroBoleto, @RequestParam(name="idSorteo" )Integer idSorteo) {
+        return ResponseEntity.ok(boletoService.obtenerBoletoPorNumeroSorteo(numeroBoleto, idSorteo));
     }
 
     @GetMapping("/sorteo/{idSorteo}")
     public ResponseEntity<?> obtenerBoletosPorIdSorteo(@PathVariable Integer idSorteo) {
         return ResponseEntity.ok(boletoService.obtenerBoletosPorIdSorteo(idSorteo));
+    }
+    @GetMapping("/cliente/{idCliente}")
+    public ResponseEntity<?> obtenerBoletosPorIdCliente(@PathVariable Integer idCliente){
+        return ResponseEntity.ok(boletoService.obtenerBoletosCliente(idCliente));
     }
 
     @PostMapping("/query")
@@ -61,9 +62,20 @@ public class BoletoController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("El Boleto con id " + id + " ha sido eliminado");
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> cambiarEstado(@PathVariable Integer id, @Valid @RequestBody Boleto boleto) {
-        return ResponseEntity.ok(boletoService.cambiarEstado(id,boleto));
+    @PutMapping("/libre/{id}")
+    public ResponseEntity<?> cambiarEstadoLibre(@PathVariable Integer id) {
+        return ResponseEntity.ok(boletoService.cambiarEstadoLibre(id));
     }
+    @PutMapping("/vendido/{id}")
+    public ResponseEntity<?> cambiarEstadoVendido(@PathVariable Integer id) {
+        return ResponseEntity.ok(boletoService.cambiarEstadoVendido(id));
+    }
+    @PutMapping("/apartado/{id}")
+    public ResponseEntity<?> cambiarEstadoApartado(@PathVariable Integer id) {
+        return ResponseEntity.ok(boletoService.cambiarEstadoApartado(id));
+    }
+    
+
+
 
 }
