@@ -15,9 +15,27 @@ export class ModifyRaffleService {
 
   findRaffleById(id: string): Observable<Raffle> {
     return this.http.get<Sorteo>(`${environment.api}/sorteos/${id}`).pipe(
-      map((sorteo: Sorteo) => {
+      map((sorteo: Sorteo): Raffle => {
         return {
-          id: sorteo.id.toString(),
+          id: sorteo.id,
+          title: sorteo.nombre,
+          raffleImage: sorteo.imagenSorteo,
+          maxRange: sorteo.rangoMax,
+          minRange: sorteo.rangoMin,
+          startDate: new Date(sorteo.fechaInicioVenta),
+          endDate: new Date(sorteo.fechaFinVenta),
+          raffleDate: new Date(sorteo.fechaSorteo),
+          status: sorteo.estado
+        };
+      })
+    );
+  }
+
+  updateRaffle(sorteo: Sorteo): Observable<Raffle> {
+    return this.http.put<Sorteo>(`${environment.api}/sorteos/${sorteo.id}`, sorteo).pipe(
+      map((sorteo: Sorteo): Raffle => {
+        return {
+          id: sorteo.id,
           title: sorteo.nombre,
           raffleImage: sorteo.imagenSorteo,
           maxRange: sorteo.rangoMax,

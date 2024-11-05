@@ -5,7 +5,7 @@ export interface Params {
 }
 
 export interface Raffle {
-    id: string,
+    id: number,
     title: string,
     raffleImage: string,
     maxRange: number,

@@ -10,12 +10,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Params, Raffle } from './modify-raffle.types';
+import { Params, Raffle, Sorteo } from './modify-raffle.types';
 import { ModifyRaffleService } from './modify-raffle.service';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { SelectImageComponent } from '../../components/select-image/select-image.component';
+import { FirestorageService } from '../../shared/services/storage/firestorage.service';
+import { AlertService } from '../../shared/services/alert.service';
 
 @Component({
   selector: 'app-modify-raffle',
@@ -27,25 +29,27 @@ import { SelectImageComponent } from '../../components/select-image/select-image
     HeaderComponent,
     FooterComponent,
     SpinnerComponent,
-    SelectImageComponent
+    SelectImageComponent,
   ],
   templateUrl: './modify-raffle.component.html',
   styleUrl: './modify-raffle.component.scss',
 })
 export class ModifyRaffleComponent implements OnInit {
-
   private params: Params;
   raffle: Raffle;
   updateRaffleForm: FormGroup;
   updateImagePreview: string | ArrayBuffer | null = null;
   updateSelectedFile: File | null = null;
   showLoading: boolean = true;
+  readonly defaultImage: string = 'https://placehold.co/300';
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
     private readonly modifyRaffleService: ModifyRaffleService,
     private readonly formBuilder: FormBuilder,
-    private readonly location: Location
+    private readonly location: Location,
+    private readonly fireStorage: FirestorageService,
+    private readonly alertService: AlertService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -82,9 +86,18 @@ export class ModifyRaffleComponent implements OnInit {
       raffleImage: [raffle.raffleImage, [Validators.required]],
       ticketsMax: [raffle.maxRange, [Validators.required]],
       ticketsMin: [raffle.minRange, [Validators.required]],
-      startDate: [formatDate(raffle.startDate, 'yyyy-MM-dd', 'en'), [Validators.required, this.validateStartDate()]],
-      endDate: [formatDate(raffle.endDate, 'yyyy-MM-dd', 'en'), [Validators.required, this.validateEndDate()]],
-      raffleDate: [formatDate(raffle.raffleDate, 'yyyy-MM-dd', 'en'), [Validators.required, this.validateRaffleDate()]],
+      startDate: [
+        formatDate(raffle.startDate, 'yyyy-MM-dd', 'en'),
+        [Validators.required, this.validateStartDate()],
+      ],
+      endDate: [
+        formatDate(raffle.endDate, 'yyyy-MM-dd', 'en'),
+        [Validators.required, this.validateEndDate()],
+      ],
+      raffleDate: [
+        formatDate(raffle.raffleDate, 'yyyy-MM-dd', 'en'),
+        [Validators.required, this.validateRaffleDate()],
+      ],
       status: [raffle.status, [Validators.required]],
     });
   }
@@ -121,7 +134,6 @@ export class ModifyRaffleComponent implements OnInit {
     return this.updateRaffleForm.get('status');
   }
 
-
   validateStartDate(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (!control.value) {
@@ -146,7 +158,9 @@ export class ModifyRaffleComponent implements OnInit {
       if (!control.value) {
         return { required: true };
       }
-      const startDateValue = new Date(this.updateRaffleForm.get('startDate')?.value);
+      const startDateValue = new Date(
+        this.updateRaffleForm?.get('startDate')?.value
+      );
       const endDate = new Date(control.value);
       if (endDate < startDateValue) {
         return { invalidDate: 'La fecha no puede ser anterior a la de inicio' };
@@ -158,6 +172,7 @@ export class ModifyRaffleComponent implements OnInit {
       return null;
     };
   }
+
   validateRaffleDate(): ValidatorFn {
     return (control: AbstractControl) => {
       if (!control.value) {
@@ -177,24 +192,6 @@ export class ModifyRaffleComponent implements OnInit {
     };
   }
 
-  // validateEndDate(): ValidatorFn {
-  //   return (control: AbstractControl) => {
-  //     if (!control.value) {
-  //       return { required: true };
-  //     }
-  //     const startDate = new Date(this.updateRaffleForm.get('startDate').value);
-  //     const endDate = new Date(control.value);
-  //     if (endDate < startDate) {
-  //       return { invalidDate: 'La fecha no puede ser anterior a la de inicio' };
-  //     }
-  //     const year: string = endDate.getFullYear().toString();
-  //     if (year.length > 4) {
-  //       return { invalidDate: ' Año no válido' };
-  //     }
-  //     return null;
-  //   };
-  // }
-
   onFileSelected(file: File): void {
     this.updateSelectedFile = file;
     const reader = new FileReader();
@@ -211,5 +208,40 @@ export class ModifyRaffleComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  async onSubmit(): Promise<void> {
+    if (this.updateRaffleForm.invalid) {
+      this.updateRaffleForm.markAllAsTouched();
+      return;
+    }
+    let sorteoImg = '';
+    if (this.updateSelectedFile) {
+      sorteoImg = await this.fireStorage.updateImage(this.updateSelectedFile, this.raffle.raffleImage);
+    } else {
+      sorteoImg = this.raffle.raffleImage;
+    }
+    const sorteo: Sorteo = {
+      id: this.raffle.id,
+      nombre: this.title.value,
+      imagenSorteo: sorteoImg,
+      rangoMax: this.ticketsMax.value,
+      rangoMin: this.ticketsMin.value,
+      fechaInicioVenta: this.startDate.value,
+      fechaFinVenta: this.endDate.value,
+      fechaSorteo: this.raffleDate.value,
+      estado: this.status.value,
+    }
+    this.modifyRaffleService.updateRaffle(sorteo).subscribe({
+      next: (response) => {
+        this.alertService.openInfoModal('Sorteo actualizado correctamente');
+      },
+      error: (error) => {
+        this.alertService.openInfoModal('Error al actualizar el sorteo');
+      },
+      complete: () => {
+        this.goBack();
+      }
+    });
   }
 }
