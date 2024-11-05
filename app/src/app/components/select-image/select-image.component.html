@@ -1,0 +1,13 @@
+<div class="image-container">
+  <label *ngIf="label" for="{{ formInputName }}" class="form-label">{{ label }}</label>
+  <input
+    type="file"
+    id="{{ formInputName }}"
+    class="form-control"
+    (change)="onImageSelected($event)"
+    accept="image/*"
+    aria-label="Seleccionar imagen"
+  />
+
+  <div *ngIf="errorMessage" class="text-danger">{{ errorMessage }}</div>
+</div>

@@ -6,7 +6,7 @@
       <h1 class="text-center mb-4">Mis Sorteos</h1>
 
       <app-spinner *ngIf="showLoading"></app-spinner>
-      <app-raffle-gallery *ngIf="!showLoading" [raffles]="raffles"></app-raffle-gallery>
+      <app-raffle-gallery *ngIf="!showLoading" [raffles]="raffles" [buttonsRaffleIdActions]="galleryButtonActions"></app-raffle-gallery>
       <div *ngIf="!showLoading && raffles.length <= 0" class="text-center">
         <p>No tienes un correo registrado</p>
         <button class="btn btn-primary">Crea tu primer sorteo</button>

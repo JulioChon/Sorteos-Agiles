@@ -3,6 +3,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { CreateRaffleComponent } from './pages/create-raffle/create-raffle.component';
 import { SignInComponent } from './pages/sign-in/sign-in.component';
 import { MyRafflesComponent } from './pages/my-raffles/my-raffles.component';
+import { ModifyRaffleComponent } from './pages/modify-raffle/modify-raffle.component';
 
 export const routes: Routes = [
     {
@@ -23,12 +24,21 @@ export const routes: Routes = [
         canActivate: [() => true],//TODO: Implement AuthGuard
         children: [
             {
+                path: '',
+                redirectTo: 'my-raffles',
+                pathMatch: 'full'
+            }, 
+            {
+                path: 'my-raffles',
+                component: MyRafflesComponent
+            },
+            {
                 path: 'create-raffle',
                 component: CreateRaffleComponent
             },
             {
-                path: 'my-raffles',
-                component: MyRafflesComponent
+                path: 'modify-raffle/:id',
+                component: ModifyRaffleComponent
             }
         ]
     }

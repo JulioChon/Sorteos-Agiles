@@ -1,0 +1,13 @@
+.sticky-back-button {
+  position: sticky; /* Para que sea sticky */
+  top: 1rem; /* Distancia desde la parte superior */
+  left: 1rem; /* Distancia desde la izquierda */
+  z-index: 10; /* Asegura que esté por encima de otros elementos */
+  opacity: 0.5; /* Opacidad del botón */
+  transition: all 0.3s; /* Transición de la opacidad */
+}
+
+.sticky-back-button:hover {
+  opacity: 1; /* Opacidad del botón al pasar el mouse */
+  transform: scale(1.1); /* Escala del botón al pasar el mouse */
+}

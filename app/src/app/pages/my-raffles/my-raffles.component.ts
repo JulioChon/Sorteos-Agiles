@@ -7,6 +7,7 @@ import { RaffleGalleryComponent } from '../../components/raffle-gallery/raffle-g
 import { RaffleStatus } from '../../shared/types/raffle-status.enum';
 import { RaffleDTO } from './my-raffles.types';
 import { MyRafflesService } from './my-raffles.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-raffles',
@@ -23,13 +24,19 @@ import { MyRafflesService } from './my-raffles.service';
   providers: [MyRafflesService],
 })
 export class MyRafflesComponent implements OnInit {
+
   showLoading: boolean = true;
   raffles: RaffleDTO[] = [];
+  galleryButtonActions: any[] = [];
 
-  constructor(private readonly myRafflesService: MyRafflesService) {}
+  constructor(
+    private readonly myRafflesService: MyRafflesService,
+    private readonly router: Router
+  ) {}
 
   ngOnInit() {
     this.findRafflesByUserId();
+    this.initButtonActions();
   }
 
   findRafflesByUserId() {
@@ -44,5 +51,32 @@ export class MyRafflesComponent implements OnInit {
         this.showLoading = false;
       },
     });
+  }
+
+  openModifyPage(raffleId: string) {
+    this.router.navigate(['admin/modify-raffle', raffleId]);
+  }
+
+  initButtonActions() {
+    this.galleryButtonActions = [
+      {
+        label: 'Editar',
+        cssClass: 'btn btn-primary',
+        action: (raffleId: string) => this.openModifyRaffle(raffleId),
+      },
+      {
+        label: 'Eliminar',
+        cssClass: 'btn btn-danger',
+        action: (raffleId: string) => this.deleteRaffle(raffleId),
+      }
+    ]
+  }
+
+  openModifyRaffle(raffleId: string) {
+    this.router.navigate(['admin/modify-raffle', raffleId]);
+  }
+
+  deleteRaffle(raffleId: string) {
+    console.log('Delete raffle with id: ', raffleId);
   }
 }
