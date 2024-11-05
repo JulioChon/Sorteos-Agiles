@@ -32,7 +32,7 @@ import { AlertService } from '../../shared/services/alert.service';
     SelectImageComponent,
   ],
   templateUrl: './modify-raffle.component.html',
-  styleUrl: './modify-raffle.component.scss',
+  styleUrls: ['./modify-raffle.component.scss'],
 })
 export class ModifyRaffleComponent implements OnInit {
   private params: Params;
@@ -215,23 +215,33 @@ export class ModifyRaffleComponent implements OnInit {
       this.updateRaffleForm.markAllAsTouched();
       return;
     }
+
     let sorteoImg = '';
     if (this.updateSelectedFile) {
       sorteoImg = await this.fireStorage.updateImage(this.updateSelectedFile, this.raffle.raffleImage);
     } else {
       sorteoImg = this.raffle.raffleImage;
     }
+
+    const toISOStringWithTimezone = (date: string): string => {
+      //add 1 day to the date
+      const newDate = new Date(date);
+      newDate.setDate(newDate.getDate() + 1);
+      return newDate.toISOString();
+    };
+
     const sorteo: Sorteo = {
       id: this.raffle.id,
       nombre: this.title.value,
       imagenSorteo: sorteoImg,
       rangoMax: this.ticketsMax.value,
       rangoMin: this.ticketsMin.value,
-      fechaInicioVenta: this.startDate.value,
-      fechaFinVenta: this.endDate.value,
-      fechaSorteo: this.raffleDate.value,
+      fechaInicioVenta: toISOStringWithTimezone(this.startDate.value),
+      fechaFinVenta: toISOStringWithTimezone(this.endDate.value),
+      fechaSorteo: toISOStringWithTimezone(this.raffleDate.value),
       estado: this.status.value,
-    }
+    };
+
     this.modifyRaffleService.updateRaffle(sorteo).subscribe({
       next: (response) => {
         this.alertService.openInfoModal('Sorteo actualizado correctamente');
@@ -244,4 +254,5 @@ export class ModifyRaffleComponent implements OnInit {
       }
     });
   }
+
 }
