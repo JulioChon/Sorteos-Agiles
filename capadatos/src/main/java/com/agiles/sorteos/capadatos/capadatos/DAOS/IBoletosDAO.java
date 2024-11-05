@@ -14,4 +14,7 @@ public interface IBoletosDAO extends CrudRepository<Boleto, Integer> {
     @Query("SELECT b FROM Boleto b WHERE b.idSorteo.id = ?2 AND b.numeroBoleto = ?1")
     Boleto obtenerBoletoSorteo(Integer numBoleto, Integer idSorteo);
 
+    @Query("SELECT b FROM Boleto b WHERE b.idCliente.id = ?1")
+    List<Boleto> obtenerBoletosPorIdCliente(Integer idCliente);
+
 }

@@ -143,4 +143,15 @@ public class BoletoService implements IBoletoService {
     }
 
 
+    @Override
+    public List<Boleto> obtenerBoletosCliente(Integer idCliente) {
+        List<Boleto> boleto = fachadaSorteos.obtenerBoletosCliente(idCliente);
+        if (boleto.size()==0) {
+            throw new NotFoundException("El boleto de" + idCliente );
+        } else {
+            return boleto;
+        }
+    }
+
+
 }
