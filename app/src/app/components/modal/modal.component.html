@@ -1,0 +1,19 @@
+<div *ngIf="showModal" class="_modal" aria-hidden="false">
+  <div class="_modal-content">
+    <div *ngIf="modalOptions.title" class="_modal-header">
+      <h2>{{modalOptions.title}}</h2>
+      <button class="btn" (click)="closeModal()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+    <div class="_modal-body">
+      <p>
+        {{modalOptions.message}}
+      </p>
+    </div>
+    <div class="_modal-footer d-flex gap-2">
+      <button class="btn btn-danger" (click)="closeModal()">Cancelar</button>
+      <button class="btn btn-success" (click)="confirm()">Confirmar</button>
+    </div>
+  </div>
+</div>

@@ -8,6 +8,7 @@ import { RaffleStatus } from '../../shared/types/raffle-status.enum';
 import { RaffleDTO } from './my-raffles.types';
 import { MyRafflesService } from './my-raffles.service';
 import { Router } from '@angular/router';
+import { AlertService } from '../../shared/services/alert.service';
 
 @Component({
   selector: 'app-my-raffles',
@@ -28,10 +29,12 @@ export class MyRafflesComponent implements OnInit {
   showLoading: boolean = true;
   raffles: RaffleDTO[] = [];
   galleryButtonActions: any[] = [];
+  showDeleteModal: boolean = false;
 
   constructor(
     private readonly myRafflesService: MyRafflesService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly alertService: AlertService
   ) {}
 
   ngOnInit() {
@@ -72,11 +75,11 @@ export class MyRafflesComponent implements OnInit {
     ]
   }
 
-  openModifyRaffle(raffleId: string) {
+  private openModifyRaffle(raffleId: string) {
     this.router.navigate(['admin/modify-raffle', raffleId]);
   }
 
-  deleteRaffle(raffleId: string) {
-    console.log('Delete raffle with id: ', raffleId);
+  private async deleteRaffle(raffleId: string) {
+    const message = await this.alertService.openConfirmModal('¿Estás seguro de que deseas eliminar este sorteo?', 'Eliminar sorteo');
   }
 }

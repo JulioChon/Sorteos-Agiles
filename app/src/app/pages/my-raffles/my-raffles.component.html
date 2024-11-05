@@ -1,10 +1,8 @@
 <div class="d-flex flex-column min-vh-100">
   <app-header></app-header>
-
   <main class="flex-fill bg-light p-4">
     <div class="container">
       <h1 class="text-center mb-4">Mis Sorteos</h1>
-
       <app-spinner *ngIf="showLoading"></app-spinner>
       <app-raffle-gallery *ngIf="!showLoading" [raffles]="raffles" [buttonsRaffleIdActions]="galleryButtonActions"></app-raffle-gallery>
       <div *ngIf="!showLoading && raffles.length <= 0" class="text-center">
@@ -13,6 +11,22 @@
       </div>
     </div>
   </main>
-
   <app-footer></app-footer>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>
