@@ -1,20 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Raffle } from './create-raffle.types';
 import { Observable } from 'rxjs';
+import { RaffleDTO } from './my-raffles.types';
 import { environment } from '../../environment/environment';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class CreateRaffleService {
+export class MyRafflesService {
 
   constructor(
     private readonly http: HttpClient
   ) { }
 
-  createRaffle(raffle: Raffle): Observable<Raffle> {
-    return this.http.post<Raffle>(`${environment.api}/sorteos/${1}`, raffle);
+  getMyRaffles(): Observable<RaffleDTO[]> {
+    return this.http.get<RaffleDTO[]>(`${environment.api}/sorteos/admin/${1}`);
   }
-
 }

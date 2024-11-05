@@ -5,57 +5,44 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { RaffleGalleryComponent } from '../../components/raffle-gallery/raffle-gallery.component';
 import { RaffleStatus } from '../../shared/types/raffle-status.enum';
+import { RaffleDTO } from './my-raffles.types';
+import { MyRafflesService } from './my-raffles.service';
 
 @Component({
   selector: 'app-my-raffles',
   standalone: true,
-  imports: [CommonModule, HeaderComponent, FooterComponent, SpinnerComponent, RaffleGalleryComponent],
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    FooterComponent,
+    SpinnerComponent,
+    RaffleGalleryComponent,
+  ],
   templateUrl: './my-raffles.component.html',
-  styleUrl: './my-raffles.component.scss'
+  styleUrl: './my-raffles.component.scss',
+  providers: [MyRafflesService],
 })
 export class MyRafflesComponent implements OnInit {
-
   showLoading: boolean = true;
-  raffles: any[] = [];
+  raffles: RaffleDTO[] = [];
 
-  constructor() { }
+  constructor(private readonly myRafflesService: MyRafflesService) {}
 
   ngOnInit() {
-    setTimeout(() => {
-      this.raffles = this.findRafflesByUserId();
-      this.showLoading = false;
-  }, 3000);
+    this.findRafflesByUserId();
   }
-  
 
   findRafflesByUserId() {
-    //TODO: Implement service call
-    return [
-      {
-        id: 1,
-        nombre: 'Sorteo de prueba',
-        imagenSorteo: 'https://placehold.co/200',
-        estado: RaffleStatus.ACTIVO
+    this.myRafflesService.getMyRaffles().subscribe({
+      next: (raffles) => {
+        Array.prototype.push.apply(this.raffles, raffles);
       },
-      {
-        id: 1,
-        nombre: 'Sorteo de prueba',
-        imagenSorteo: 'https://placehold.co/200',
-        estado: RaffleStatus.INACTIVO
+      error: (error) => {
+        console.error(error);
       },
-      {
-        id: 1,
-        nombre: 'Sorteo de prueba',
-        imagenSorteo: 'https://placehold.co/200',
-        estado: RaffleStatus.CANCELADO
+      complete: () => {
+        this.showLoading = false;
       },
-      {
-        id: 1,
-        nombre: 'Sorteo de prueba',
-        imagenSorteo: 'https://placehold.co/200',
-        estado: RaffleStatus.INACTIVO
-      },
-    ];
+    });
   }
-
 }
