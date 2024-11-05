@@ -1,10 +1,12 @@
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule, formatDate, Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -31,7 +33,7 @@ import { SelectImageComponent } from '../../components/select-image/select-image
   styleUrl: './modify-raffle.component.scss',
 })
 export class ModifyRaffleComponent implements OnInit {
-  
+
   private params: Params;
   raffle: Raffle;
   updateRaffleForm: FormGroup;
@@ -80,9 +82,9 @@ export class ModifyRaffleComponent implements OnInit {
       raffleImage: [raffle.raffleImage, [Validators.required]],
       ticketsMax: [raffle.maxRange, [Validators.required]],
       ticketsMin: [raffle.minRange, [Validators.required]],
-      startDate: [raffle.startDate, [Validators.required]],
-      endDate: [raffle.endDate, [Validators.required]],
-      raffleDate: [raffle.raffleDate, [Validators.required]],
+      startDate: [formatDate(raffle.startDate, 'yyyy-MM-dd', 'en'), [Validators.required, this.validateStartDate()]],
+      endDate: [formatDate(raffle.endDate, 'yyyy-MM-dd', 'en'), [Validators.required, this.validateEndDate()]],
+      raffleDate: [formatDate(raffle.raffleDate, 'yyyy-MM-dd', 'en'), [Validators.required, this.validateRaffleDate()]],
       status: [raffle.status, [Validators.required]],
     });
   }
@@ -118,6 +120,80 @@ export class ModifyRaffleComponent implements OnInit {
   get status() {
     return this.updateRaffleForm.get('status');
   }
+
+
+  validateStartDate(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (!control.value) {
+        return { required: true };
+      }
+      const selectedDate = new Date(control.value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (selectedDate < today) {
+        return { invalidDate: 'La fecha no puede ser anterior a la de hoy' };
+      }
+      const year: string = selectedDate.getFullYear().toString();
+      if (year.length > 4) {
+        return { invalidDate: ' Año no válido' };
+      }
+      return null;
+    };
+  }
+
+  validateEndDate(): ValidatorFn {
+    return (control: AbstractControl) => {
+      if (!control.value) {
+        return { required: true };
+      }
+      const startDateValue = new Date(this.updateRaffleForm.get('startDate')?.value);
+      const endDate = new Date(control.value);
+      if (endDate < startDateValue) {
+        return { invalidDate: 'La fecha no puede ser anterior a la de inicio' };
+      }
+      const year: string = endDate.getFullYear().toString();
+      if (year.length > 4) {
+        return { invalidDate: ' Año no válido' };
+      }
+      return null;
+    };
+  }
+  validateRaffleDate(): ValidatorFn {
+    return (control: AbstractControl) => {
+      if (!control.value) {
+        return { required: true };
+      }
+      const selectedDate = new Date(control.value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (selectedDate < today) {
+        return { invalidDate: 'La fecha no puede ser anterior a la de hoy' };
+      }
+      const year: string = selectedDate.getFullYear().toString();
+      if (year.length > 4) {
+        return { invalidDate: ' Año no válido' };
+      }
+      return null;
+    };
+  }
+
+  // validateEndDate(): ValidatorFn {
+  //   return (control: AbstractControl) => {
+  //     if (!control.value) {
+  //       return { required: true };
+  //     }
+  //     const startDate = new Date(this.updateRaffleForm.get('startDate').value);
+  //     const endDate = new Date(control.value);
+  //     if (endDate < startDate) {
+  //       return { invalidDate: 'La fecha no puede ser anterior a la de inicio' };
+  //     }
+  //     const year: string = endDate.getFullYear().toString();
+  //     if (year.length > 4) {
+  //       return { invalidDate: ' Año no válido' };
+  //     }
+  //     return null;
+  //   };
+  // }
 
   onFileSelected(file: File): void {
     this.updateSelectedFile = file;
