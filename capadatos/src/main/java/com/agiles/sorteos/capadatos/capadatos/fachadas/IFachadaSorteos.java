@@ -37,5 +37,7 @@ public interface IFachadaSorteos {
     List<Boleto> obtenerBoletosPorIdSorteo(Integer idSorteo);
 
     Administrador obteAdministradorPorId(Integer id);
+
+    Boleto obtenerBoletoSorteo(Integer numBoleto, Integer idSorteo);
     
 }
