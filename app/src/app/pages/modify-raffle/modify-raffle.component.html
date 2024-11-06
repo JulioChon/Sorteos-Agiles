@@ -5,7 +5,7 @@
       <i class="bi bi-arrow-left"></i> <span> Volver</span>
     </button>
     <app-spinner *ngIf="showLoading"></app-spinner>
-    <form *ngIf="!showLoading" [formGroup]="updateRaffleForm">
+    <form *ngIf="!showLoading" [formGroup]="updateRaffleForm" (ngSubmit)="onSubmit()">
       <div class="mb-3">
         <label for="title" class="form-label">Nombre del sorteo</label>
         <input
@@ -152,11 +152,14 @@
             formInputName="raffleImage"
             (file)="onFileSelected($event)"
           ></app-select-image>
-          <button class="btn btn-primary" (click)="onResetImage()">
+          <button type="button" class="btn btn-primary" (click)="onResetImage()">
             Restablecer
           </button>
         </div>
       </div>
+      <button class="btn btn-primary w-100" type="submit">
+        <i class="bi bi-save"></i> Guardar cambios
+      </button>
     </form>
   </main>
   <app-footer></app-footer>

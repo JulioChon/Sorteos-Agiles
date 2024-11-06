@@ -11,7 +11,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { FirestorageService } from '../../shared/services/storage/firestorage.service';
-import { File } from 'buffer';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { Raffle } from './create-raffle.types';
 import { CreateRaffleService } from './create-raffle.service';
