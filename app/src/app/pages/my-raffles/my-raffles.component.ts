@@ -81,7 +81,7 @@ export class MyRafflesComponent implements OnInit {
   }
 
   private openModifyRaffle(raffleId: string) {
-    this.router.navigate([`raffle/${raffleId}/edit`]);
+    this.router.navigate([`admin/raffle/${raffleId}/edit`]);
   }
 
   private async deleteRaffle(raffleId: number) {

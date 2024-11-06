@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NavItem } from './header.types';
 import { Router } from '@angular/router';
+import { AuthService } from '@shared/services/auth/auth.service';
+import { Cliente } from '@shared/interfaces/cliente.interface';
 
 @Component({
   selector: 'app-header',
@@ -15,13 +17,17 @@ export class HeaderComponent implements OnInit {
   items: NavItem[];
   isAdmin: boolean;
   adminItems: NavItem[];
+  commonUserItems: NavItem[];
+  user: Cliente;
 
   constructor(
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly authService: AuthService
   ) {}
 
   ngOnInit() {
     this.initItems();
+    this.user = this.isUserLoggedIn();
     this.checkUserAdmin();
   }
 
@@ -36,6 +42,10 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([route]);
   }
 
+  isUserLoggedIn(): Cliente {
+    return this.authService.getUser();
+  }
+
   async checkUserAdmin(): Promise<void> {
     this.isAdmin = await this.isUserAnAdmin();
     if (this.isAdmin) {
@@ -44,9 +54,8 @@ export class HeaderComponent implements OnInit {
   }
 
   isUserAnAdmin(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      resolve(true);//TODO: Implement user check
-    });
+    const user = this.authService.getUser();
+    return Promise.resolve(user?.role === 'ADMIN');
   }
 
   addAdminItems() {
@@ -55,4 +64,6 @@ export class HeaderComponent implements OnInit {
       { title: 'Mis Sorteos' , route: '/admin/my-raffles', icon: 'bi bi-list' }
     ];
   }
+
+  logout() {}
 }
