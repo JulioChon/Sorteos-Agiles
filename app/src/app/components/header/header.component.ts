@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavItem } from './header.types';
 import { Router } from '@angular/router';
 import { AuthService } from '@shared/services/auth/auth.service';
-import { Cliente } from '@shared/interfaces/cliente.interface';
+import { User } from '@shared/interfaces/user.interface';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
   isAdmin: boolean;
   adminItems: NavItem[];
   commonUserItems: NavItem[];
-  user: Cliente;
+  user: User;
 
   constructor(
     private readonly router: Router,
@@ -42,7 +42,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigate([route]);
   }
 
-  isUserLoggedIn(): Cliente {
+  isUserLoggedIn(): User {
     return this.authService.getUser();
   }
 
@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit {
 
   isUserAnAdmin(): Promise<boolean> {
     const user = this.authService.getUser();
-    return Promise.resolve(user?.role === 'ADMIN');
+    return Promise.resolve(user?.admin);
   }
 
   addAdminItems() {

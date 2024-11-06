@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cliente } from '@shared/interfaces/cliente.interface';
+import { User } from '@shared/interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +8,11 @@ export class AuthService {
 
   constructor() { }
 
-  saveUser(client: Cliente): void {
-    localStorage.setItem('user', JSON.stringify(client));
+  saveUser(user: User): void {
+    localStorage.setItem('user', JSON.stringify(user));
   }
 
-  getUser(): Cliente {
+  getUser(): User {
     return JSON.parse(localStorage.getItem('user'));
   }
 

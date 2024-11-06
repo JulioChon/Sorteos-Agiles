@@ -14,6 +14,7 @@ import { Cliente } from './sign-up.types';
 import { SignUpService } from './sign-up.service';
 import { AlertService } from '@shared/services/alert.service';
 import { AuthService } from '@shared/services/auth/auth.service';
+import { User } from '@shared/interfaces/user.interface';
 
 @Component({
   selector: 'app-sign-up',
@@ -80,7 +81,8 @@ export class SignUpComponent implements OnInit {
     }
     this.signUpService.signUp(client).subscribe({
       next: (client) => {
-        this.authService.saveUser(client);
+        const user : User = { nombre: client.nombre, correo: client.correo, admin: false };
+        this.authService.saveUser(user);
         this.alertService.openInfoModal('Usuario registrado correctamente');
         this.router.navigate(['/home']);
       },
