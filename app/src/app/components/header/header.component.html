@@ -33,7 +33,7 @@
         </button>
         <ul class="dropdown-menu">
           <li class="dropdown-item d-flex align-items-center no-select pointer">
-            <div class="dropdown-item">Cerrar sesión</div>
+            <div class="dropdown-item" (click)="logout()">Cerrar sesión</div>
             <i class="bi bi-box-arrow-right"></i>
           </li>
           <div *ngIf="isAdmin">
