@@ -11,7 +11,7 @@ public interface IBoletoService {
 
     Boleto cambiarEstadoLibre(Integer id);
 
-    Boleto cambiarEstadoApartado(Integer id);
+    Boleto cambiarEstadoApartado(Integer id, String correo);
 
     Boleto cambiarEstadoVendido(Integer id);
 

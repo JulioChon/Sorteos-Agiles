@@ -84,9 +84,9 @@ public class BoletoController {
     public ResponseEntity<?> cambiarEstadoVendido(@PathVariable Integer id) {
         return ResponseEntity.ok(boletoService.cambiarEstadoVendido(id));
     }
-    @PutMapping("/apartado/{id}")
-    public ResponseEntity<?> cambiarEstadoApartado(@PathVariable Integer id) {
-        return ResponseEntity.ok(boletoService.cambiarEstadoApartado(id));
+    @PutMapping("/apartado/query")
+    public ResponseEntity<?> cambiarEstadoApartado(@RequestParam(name ="idBoleto") Integer id, @RequestParam(name="correo") String correo) {
+        return ResponseEntity.ok(boletoService.cambiarEstadoApartado(id, correo));
     }
     
 

@@ -9,5 +9,6 @@ public interface IEnvioCorreoService {
     void enviarRecordatorios();
     void enviarCorreo(String correo, Boleto boleto);
     void guardarConfiguracionEnvio(ConfiguracionEnvio configuracionEnvio);
+    void enviarCorreoConfirmacionApartado(String correo, Boleto boleto);
 
 }
