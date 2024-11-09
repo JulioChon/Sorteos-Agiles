@@ -113,7 +113,7 @@ public class BoletoService implements IBoletoService {
         if (boleto==null) {
             throw new NotFoundException("boleto con ID " + id );
         } else {
-            boleto.setEstado(BOLETOESTADO.LIBRE);
+            boleto.setEstado(BOLETOESTADO.APARTADO);
             return fachadaSorteos.guardarBoleto(boleto);
         }
     }
@@ -125,7 +125,7 @@ public class BoletoService implements IBoletoService {
         if (boleto==null) {
             throw new NotFoundException("boleto con ID " + id );
         } else {
-            boleto.setEstado(BOLETOESTADO.LIBRE);
+            boleto.setEstado(BOLETOESTADO.VENDIDO);
             return fachadaSorteos.guardarBoleto(boleto);
         }
     }
