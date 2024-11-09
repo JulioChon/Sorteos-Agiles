@@ -20,6 +20,9 @@ public class BoletoService implements IBoletoService {
     @Autowired
     private IFachadaSorteos fachadaSorteos;
 
+    @Autowired 
+    private IEnvioCorreoService envioCorreoService;
+
 
     @Override
     public void generarBoletos(Long rangoMaximo, Long rangoMinimo, float precio, Integer idSorteo) {
@@ -40,15 +43,6 @@ public class BoletoService implements IBoletoService {
 
     @Override
     public Boleto guardarBoleto(Boleto boleto) {
-        Calendar fecha = Calendar.getInstance();
-        fecha.setTime(new Date());
-        fecha.add(Calendar.HOUR_OF_DAY, 48);
-        boleto.setFechaLimApart(fecha.getTime());
-        System.out.println(boleto.getNumeroBoleto());
-            System.out.println(boleto.getIdSorteo());
-            System.out.println(boleto.getEstado());
-            System.out.println(boleto.getPrecio());
-            System.out.println(boleto.getFechaLimApart());
        return fachadaSorteos.guardarBoleto(boleto);
     }
 
@@ -101,6 +95,8 @@ public class BoletoService implements IBoletoService {
             throw new NotFoundException("boleto con ID " + id );
         } else {
             boleto.setEstado(BOLETOESTADO.LIBRE);
+            boleto.setIdCliente(null);
+            boleto.setFechaLimApart(null);
             return fachadaSorteos.guardarBoleto(boleto);
         }
     }
@@ -108,12 +104,18 @@ public class BoletoService implements IBoletoService {
 
 
     @Override
-    public Boleto cambiarEstadoApartado(Integer id) {
+    public Boleto cambiarEstadoApartado(Integer id, String correo) {
         Boleto boleto = fachadaSorteos.obtenerBoletoPorId(id);
         if (boleto==null) {
             throw new NotFoundException("boleto con ID " + id );
         } else {
+            Calendar fecha = Calendar.getInstance();
+            fecha.setTime(new Date());
+            fecha.add(Calendar.HOUR_OF_DAY, 48);
+            boleto.setFechaLimApart(fecha.getTime());
             boleto.setEstado(BOLETOESTADO.APARTADO);
+            boleto.setIdCliente(fachadaSorteos.clienteExiste(correo));
+            envioCorreoService.enviarCorreoConfirmacionApartado(correo, boleto);
             return fachadaSorteos.guardarBoleto(boleto);
         }
     }
@@ -126,6 +128,7 @@ public class BoletoService implements IBoletoService {
             throw new NotFoundException("boleto con ID " + id );
         } else {
             boleto.setEstado(BOLETOESTADO.VENDIDO);
+            boleto.setFechaLimApart(null);
             return fachadaSorteos.guardarBoleto(boleto);
         }
     }

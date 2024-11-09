@@ -81,6 +81,17 @@ public class EnvioCorreoService implements IEnvioCorreoService {
         emailSender.send(mensaje);
     }
 
+    public void enviarCorreoConfirmacionApartado(String correo, Boleto boleto) {
+        SimpleMailMessage mensaje = new SimpleMailMessage();
+        mensaje.setTo(correo);
+        mensaje.setSubject("Confirmación de Apartado de Boleto");
+        mensaje.setText("Detalles del sorteo: " + boleto.getIdSorteo().getNombre() + "\n"
+                + "Fecha de sorteo: " + boleto.getIdSorteo().getFechaSorteo() + "\n" + "Número de boleto: "
+                + boleto.getNumeroBoleto()
+                + "\n" + "Precio: " + boleto.getPrecio() + "\n" + "Fecha límite de pago: " + boleto.getFechaLimApart());
+        emailSender.send(mensaje);
+    }
+
     @Override
     public void guardarConfiguracionEnvio(ConfiguracionEnvio configuracionEnvio) {
         fachadaSorteos.guardarConfiguracionEnvio(configuracionEnvio);
