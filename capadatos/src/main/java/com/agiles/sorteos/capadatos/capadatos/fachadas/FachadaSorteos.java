@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 import com.agiles.sorteos.capadatos.capadatos.DAOS.IAdminDAO;
 import com.agiles.sorteos.capadatos.capadatos.DAOS.IBoletosDAO;
 import com.agiles.sorteos.capadatos.capadatos.DAOS.IClienteDAO;
+import com.agiles.sorteos.capadatos.capadatos.DAOS.IConfiguracionEnvioDAO;
 import com.agiles.sorteos.capadatos.capadatos.DAOS.ISorteosDAO;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Administrador;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Boleto;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Cliente;
+import com.agiles.sorteos.capadatos.capadatos.dominio.ConfiguracionEnvio;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Sorteo;
+import com.agiles.sorteos.capadatos.capadatos.utilis.BOLETOESTADO;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,14 +35,17 @@ public class FachadaSorteos implements IFachadaSorteos {
 
     private PasswordEncoder passwordEncoder;
 
+    private IConfiguracionEnvioDAO configuracionEnvioDAO;
+
 
     public FachadaSorteos(ISorteosDAO sorteosDAO, IBoletosDAO boletosDAO, IAdminDAO adminDAO, IClienteDAO clienteDao,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder, IConfiguracionEnvioDAO configuracionEnvioDAO) {
         this.sorteosDAO = sorteosDAO;
         this.boletosDAO = boletosDAO;
         this.adminDAO = adminDAO;
         this.clienteDao = clienteDao;
         this.passwordEncoder = passwordEncoder;
+        this.configuracionEnvioDAO = configuracionEnvioDAO;
     }
 
     @Override
@@ -182,5 +188,21 @@ public class FachadaSorteos implements IFachadaSorteos {
         return administrador;
     }
 
+    @Override
+    public ConfiguracionEnvio guardarConfiguracionEnvio(ConfiguracionEnvio configuracionEnvio) {
+        configuracionEnvio.setId(1L);
+        return configuracionEnvioDAO.save(configuracionEnvio);
+    }
+
+    @Override
+    public ConfiguracionEnvio obtenerConfiguracionEnvio() {
+        return configuracionEnvioDAO.findById(1L).orElse(null);
+    }
+
+
+    @Override
+    public List<Boleto> obtenerBoletosApartados() {
+        return boletosDAO.findByEstado(BOLETOESTADO.APARTADO);
+    }
 
 }
