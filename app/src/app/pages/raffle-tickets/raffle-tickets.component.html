@@ -1,0 +1,57 @@
+<div class="d-flex flex-column min-vh-100">
+    <app-header></app-header>
+    <main class="flex-fill bg-light" *ngIf="raffle">
+      <!-- Encabezado del sorteo -->
+      <div class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+          <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Sorteo {{ raffle.name }}</h1>
+            <p class="lead fw-normal text-white-50 mb-0">
+              ¡Haz click en tu número de la suerte!
+            </p>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Leyenda de ejemplo de boletos -->
+      <div class="container my-3">
+        <div class="d-flex justify-content-center gap-4">
+          <div class="d-flex align-items-center">
+            <button class="btn btn-success" style="width: 30px; height: 30px;" disabled></button>
+            <span class="ms-2">Disponible</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <button class="btn btn-warning" style="width: 30px; height: 30px;" disabled></button>
+            <span class="ms-2">Apartado</span>
+          </div>
+          <div class="d-flex align-items-center">
+            <button class="btn btn-danger" style="width: 30px; height: 30px;" disabled></button>
+            <span class="ms-2">Vendido</span>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Cuadrícula de boletos -->
+      <div class="d-flex justify-content-center align-items-center">
+        <div
+          class="d-flex flex-wrap justify-content-center align-items-center gap-2 p-3 border rounded"
+          style="width: 100%; height: 500px; overflow-y: auto"
+        >
+          <button
+            *ngFor="let i of getTicketsArray(raffle.minRange, raffle.maxRange); let index = index"
+            [ngClass]="{
+              'btn-success': isTicketAvailable(i),
+              'btn-warning': isTicketReserved(i),
+              'btn-danger': isTicketSold(i)
+            }"
+            class="btn list__button"
+            style="width: 80px; height: 80px"
+          >
+            {{ i }}
+          </button>
+        </div>
+      </div>
+    </main>
+    <app-footer></app-footer>
+  </div>
+  

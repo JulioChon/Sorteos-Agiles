@@ -8,6 +8,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { environment } from './environment/environment';
 import { AlertService } from './shared/services/alert.service';
+import { AuthService } from '@shared/services/auth/auth.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideStorage(() => getStorage()),
-    AlertService
+    AlertService,
+    AuthService
   ],
 };
