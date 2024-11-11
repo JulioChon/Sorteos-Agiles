@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Administrador;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Boleto;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Cliente;
+import com.agiles.sorteos.capadatos.capadatos.dominio.ConfiguracionEnvio;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Sorteo;
 
 @Service
@@ -50,5 +51,11 @@ public interface IFachadaSorteos {
     Cliente clienteExiste(String correo);
 
     Administrador verificarAdmin(String correo, String contrasenia);
+
+    ConfiguracionEnvio guardarConfiguracionEnvio(ConfiguracionEnvio configuracionEnvio);
+
+    ConfiguracionEnvio obtenerConfiguracionEnvio();
+
+    public List<Boleto> obtenerBoletosApartados();
     
 }

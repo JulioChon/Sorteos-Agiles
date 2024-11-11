@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Sorteos Diversos</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" /> 
+    <link href="css/seleccionBoleto.css" rel="stylesheet"/>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="#!">Sorteos Diversos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="Sorteos.html">Sorteos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#!">Acerca de</a></li>
+                </ul>
+                <form class="d-flex">
+                    <button class="btn btn-outline-dark" type="submit">
+                        <i class="bi bi-person-circle"></i>
+                        Iniciar sesión
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+    <header class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Sorteo (Nombre del Sorteo)</h1>
+                <p class="lead fw-normal text-white-50 mb-0">
+                    ¡Haz click en tu número de la suerte!
+                </p>
+            </div>
+        </div>
+    </header>
+    <br>
+
+    <div class="button-container">
+        <button class="centered-button"></button>
+        <p class="p">--> Disponible</p>
+        <button class="centered-button" style="background-color: blue;"></button>
+        <p class="p">--> Apartado</p>
+        <button class="centered-button" style="background-color: black;"></button>
+        <p class="p">--> Vendido</p>
+    </div>
+
+    <!--logica para traer el rango del sorteo seleccionado para generar los botones-->
+    <div class="center">
+        <div class="Grid" style="position: relative; height: 500px;">
+            <button class="list__button">001</button>
+            <button class="list__button">002</button>
+            <button class="list__button">003</button>
+            <button class="list__button">004</button>
+            <button class="list__button">005</button>
+            <button class="list__button">006</button>
+            <button class="list__button">007</button>
+            <button class="list__button">008</button>
+            <button class="list__button">009</button>
+            <button class="list__button">010</button>
+            <button class="list__button">011</button>
+            <button class="list__button">012</button>
+            <button class="list__button">013</button>
+            <button class="list__button">014</button>
+            <button class="list__button">015</button>
+            <button class="list__button">016</button>
+            <button class="list__button">017</button>
+            <button class="list__button">018</button>
+            <button class="list__button">019</button>
+            <button class="list__button">020</button>
+            <button class="list__button">021</button>
+            <button class="list__button">022</button>
+            <button class="list__button">023</button>
+            <button class="list__button">024</button>
+            <button class="list__button">025</button>
+            <button class="list__button">026</button>
+            <button class="list__button">027</button>
+            <button class="list__button">028</button>
+            <button class="list__button">029</button>
+            <button class="list__button">030</button>
+        </div>
+    </div>
+
+    <div>
+        <p class="lead fw-normal" style="text-align: center;">
+            <!--Logica para mostrar los números seleccionados-->
+            Números seleccionados:
+        </p>
+
+        <div class="button-container">
+            <button class="centered-button">Comprar</button>
+        </div>
+
+    </div>
+
+    <br>
+    
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Equipo 1</p></div>
+    </footer>
+
+</body>
