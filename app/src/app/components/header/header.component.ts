@@ -34,6 +34,7 @@ export class HeaderComponent implements OnInit {
   initItems() {
     this.items = [
       { title: 'Inicio', route: '/home', icon: 'bi bi-house-fill' },
+      { title: 'Sorteos', route: '/raffles', icon: 'bi bi-gift-fill' },
       // { title: 'Sorteos', route: '/raffles', icon: 'bi bi-gift-fill' },
     ];
   }

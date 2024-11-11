@@ -19,6 +19,19 @@ export const routes: Routes = [
         loadComponent: () => import('@pages/home/home.component').then(m => m.HomeComponent)
     },
     {
+        path: 'raffles',
+        loadComponent: () => import('@pages/raffles/raffles.component').then(m => m.RafflesComponent)
+    },
+    {
+        path: 'raffle/:id',
+        children: [
+            {
+                path: 'tickets',
+                loadComponent: () => import('@pages/raffle-tickets/raffle-tickets.component').then(m => m.RaffleTicketsComponent)
+            }
+        ]
+    },
+    {
         path: 'admin',
         canActivate: [authGuard, roleGuard],
         children: [
