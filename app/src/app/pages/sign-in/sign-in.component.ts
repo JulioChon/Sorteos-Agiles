@@ -37,8 +37,17 @@ export class SignInComponent implements OnInit {
     });
   }
 
+  get email() {
+    return this.signInForm.get('email');
+  }
+
+  get password() {
+    return this.signInForm.get('password');
+  }
+
   signIn() {
     if (this.signInForm.invalid) {
+      this.signInForm.markAllAsTouched();
       this.showMessageError = true;
     }
     this.signInService.signIn(this.signInForm.value.email, this.signInForm.value.password).subscribe({
@@ -50,5 +59,9 @@ export class SignInComponent implements OnInit {
         this.showMessageError = true;
       }
     });
-  }  
+  }
+
+  goToSignUp() {
+    this.router.navigate(['/sign-up']);
+  }
 }

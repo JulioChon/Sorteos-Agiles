@@ -85,6 +85,17 @@ export class CreateRaffleComponent {
     return this.createRaffleForm.get('image');
   }
 
+  validateDatesControllers(): void {
+    this.startDate?.updateValueAndValidity();
+    this.endDate?.updateValueAndValidity();
+    this.raffleDate?.updateValueAndValidity();
+  }
+
+  validateTicketsControllers(): void {
+    this.ticketsMax?.updateValueAndValidity();
+    this.ticketsMin?.updateValueAndValidity();
+  }
+
   validateStartDate(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (!control.value) {
@@ -171,6 +182,8 @@ export class CreateRaffleComponent {
   }
 
   async onSubmit() {
+    this.validateDatesControllers();
+    this.validateTicketsControllers();
     if (this.createRaffleForm.invalid) {
       this.createRaffleForm.markAllAsTouched();
       return;
