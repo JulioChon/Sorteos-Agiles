@@ -1,0 +1,27 @@
+<div class="d-flex flex-column min-vh-100">
+  <app-header></app-header>
+
+  <main class="flex-fill py-4">
+    <section class="sorteo-config container my-4">
+        <h2 class="mb-4">Configuración de Recordatorios de Pago</h2>
+        <form id="config-form" class="row g-3">
+          <div class="col-md-6">
+            <label for="frequency" class="form-label">Frecuencia de Recordatorio (en días):</label>
+            <input
+              type="number"
+              id="frequency"
+              name="frequency"
+              min="1"
+              class="form-control"
+              placeholder="Ej: 1 día"
+            />
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary">Guardar Configuración</button>
+          </div>
+        </form>
+      </section>
+  </main>
+
+  <app-footer></app-footer>
+</div>
