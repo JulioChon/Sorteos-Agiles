@@ -50,5 +50,9 @@ export class SignInComponent implements OnInit {
         this.showMessageError = true;
       }
     });
-  }  
+  }
+
+  goToSignUp() {
+    this.router.navigate(['/sign-up']);
+  }
 }
