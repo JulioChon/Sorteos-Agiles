@@ -35,6 +35,7 @@ import { AlertService } from '../../shared/services/alert.service';
   styleUrls: ['./modify-raffle.component.scss'],
 })
 export class ModifyRaffleComponent implements OnInit {
+  minTicketsRange = 1;
   private params: Params;
   raffle: Raffle;
   updateRaffleForm: FormGroup;
@@ -84,8 +85,14 @@ export class ModifyRaffleComponent implements OnInit {
     this.updateRaffleForm = this.formBuilder.group({
       title: [raffle.title, [Validators.required]],
       raffleImage: [raffle.raffleImage, [Validators.required]],
-      ticketsMax: [raffle.maxRange, [Validators.required]],
-      ticketsMin: [raffle.minRange, [Validators.required]],
+      ticketsMin: [
+        raffle.minRange,
+        [Validators.required, Validators.min(this.minTicketsRange)],
+      ],
+      ticketsMax: [
+        raffle.maxRange,
+        [Validators.required, this.validateTicketsMax()],
+      ],
       startDate: [
         formatDate(raffle.startDate, 'yyyy-MM-dd', 'en'),
         [Validators.required, this.validateStartDate()],
@@ -100,6 +107,22 @@ export class ModifyRaffleComponent implements OnInit {
       ],
       status: [raffle.status, [Validators.required]],
     });
+
+    // Revalidar `ticketsMax` si cambia `ticketsMin`
+    this.updateRaffleForm.get('ticketsMin')?.valueChanges.subscribe(() => {
+      this.updateRaffleForm.get('ticketsMax')?.updateValueAndValidity();
+    });
+  }
+
+  validateDatesControllers(): void {
+    this.startDate?.updateValueAndValidity();
+    this.endDate?.updateValueAndValidity();
+    this.raffleDate?.updateValueAndValidity();
+  }
+
+  validateTicketsControllers(): void {
+    this.ticketsMax?.updateValueAndValidity();
+    this.ticketsMin?.updateValueAndValidity();
   }
 
   get title() {
@@ -163,6 +186,7 @@ export class ModifyRaffleComponent implements OnInit {
       );
       const endDate = new Date(control.value);
       if (endDate < startDateValue) {
+        console.log('startDateValue', startDateValue);
         return { invalidDate: 'La fecha no puede ser anterior a la de inicio' };
       }
       const year: string = endDate.getFullYear().toString();
@@ -201,6 +225,23 @@ export class ModifyRaffleComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
+  validateTicketsMax(): ValidatorFn {
+    return (control: AbstractControl) => {
+      if (!control.value) {
+        return { required: true };
+      }
+      // Obtenemos el valor mínimo en cada cambio del campo
+      const minTickets = this.updateRaffleForm?.get('ticketsMin')?.value;
+      const maxTickets = control.value;
+
+      // Validación: maxTickets no puede ser menor que minTickets
+      if (maxTickets < minTickets) {
+        return { invalidTickets: 'El valor no puede ser menor al mínimo' };
+      }
+      return null;
+    };
+  }
+
   onResetImage(): void {
     this.updateSelectedFile = null;
     this.updateImagePreview = null;
@@ -211,14 +252,20 @@ export class ModifyRaffleComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
+    this.validateDatesControllers();
+    this.validateTicketsControllers();
     if (this.updateRaffleForm.invalid) {
       this.updateRaffleForm.markAllAsTouched();
+      console.log('Formulario inválido', this.updateRaffleForm.errors); // Para depuración
       return;
     }
 
     let sorteoImg = '';
     if (this.updateSelectedFile) {
-      sorteoImg = await this.fireStorage.updateImage(this.updateSelectedFile, this.raffle.raffleImage);
+      sorteoImg = await this.fireStorage.updateImage(
+        this.updateSelectedFile,
+        this.raffle.raffleImage
+      );
     } else {
       sorteoImg = this.raffle.raffleImage;
     }
@@ -251,8 +298,7 @@ export class ModifyRaffleComponent implements OnInit {
       },
       complete: () => {
         this.goBack();
-      }
+      },
     });
   }
-
 }
