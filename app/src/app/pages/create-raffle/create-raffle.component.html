@@ -24,9 +24,17 @@
               <div *ngIf="title?.errors?.['required']">
                 El nombre del sorteo es obligatorio.
               </div>
+              <div *ngIf="title?.errors?.['invalidName'] === 'El nombre debe tener más de 3 caracteres'">
+                El nombre debe tener más de 3 caracteres.
+              </div>
+              <div *ngIf="title?.errors?.['invalidName'] === 'El nombre no puede contener solo espacios en blanco'">
+                El nombre no puede contener solo espacios en blanco.
+              </div>
+              <div *ngIf="title?.errors?.['invalidName'] === 'El nombre debe contener letras si incluye números'">
+                El nombre debe contener letras si incluye números.
+              </div>
             </div>
           </div>
-
           <!-- Campo para la fecha de inicio -->
           <div class="mb-3">
             <label for="startDate" class="form-label">Fecha de inicio</label>
