@@ -15,11 +15,13 @@ import { SignUpService } from './sign-up.service';
 import { AlertService } from '@shared/services/alert.service';
 import { AuthService } from '@shared/services/auth/auth.service';
 import { User } from '@shared/interfaces/user.interface';
+import { FooterComponent } from "../../components/footer/footer.component";
+import { HeaderComponent } from "../../components/header/header.component";
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, FooterComponent, HeaderComponent],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.scss',
   providers: [SignUpService]

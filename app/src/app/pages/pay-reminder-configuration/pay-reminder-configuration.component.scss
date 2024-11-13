@@ -1,0 +1,40 @@
+/* Estilo para quitar los bordes y otros estilos de los inputs */
+.time-value {
+  background: none; /* Elimina el fondo */
+  border: none; /* Elimina el borde */
+  outline: none; /* Elimina el borde al hacer foco */
+  text-align: center; /* Centra el texto dentro del input */
+  font-size: 3rem; /* Tamaño grande de la fuente */
+  font-weight: bold; /* Estilo en negritas */
+  color: #333; /* Color del texto */
+  width: 100%; /* Ajusta el ancho al 100% de su contenedor */
+  padding: 10px 0; /* Agrega algo de espaciado vertical */
+}
+
+/* Añadir espacio entre la etiqueta y el input */
+.time-display {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilo para las etiquetas de los inputs */
+.time-label {
+  font-size: 1.2rem; /* Tamaño de la fuente */
+  font-weight: bold; /* Estilo en negritas */
+  margin-top: 5px; /* Espaciado entre el valor y la etiqueta */
+  color: #333; /* Color de la etiqueta */
+}
+
+/* Eliminar el "spin button" en los inputs tipo número */
+.time-value::-webkit-outer-spin-button,
+.time-value::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Elimina los botones de incremento/decremento en WebKit (Chrome, Safari) */
+  margin: 0; /* Elimina el margen por defecto */
+}
+
+.time-value[type="number"] {
+  -moz-appearance: textfield; /* Elimina los botones de incremento/decremento en Firefox */
+  appearance: textfield; /* Elimina los botones de incremento/decremento en otros navegadores */
+}

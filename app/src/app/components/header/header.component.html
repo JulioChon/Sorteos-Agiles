@@ -22,7 +22,7 @@
           <i [className]="item.icon"></i>
         </li>
       </ul>
-      <div class="dropstart">
+      <div *ngIf="user" class="dropstart">
         <button
           type="button"
           class="btn"
@@ -49,6 +49,8 @@
           </div>
         </ul>
       </div>
+      <button *ngIf="!user" class="btn btn-outline-primary mx-1" (click)="goToSignIn()">Iniciar sesión</button>
+      <button *ngIf="!user" class="btn btn-success mx-1" (click)="goToSignUp()">Registrarme</button>
     </div>
   </div>
 </nav>

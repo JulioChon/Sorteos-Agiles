@@ -83,7 +83,7 @@ export class ModifyRaffleComponent implements OnInit {
 
   createUpdateRaffleForm(raffle: Raffle): void {
     this.updateRaffleForm = this.formBuilder.group({
-      title: [raffle.title, [Validators.required]],
+      title: [raffle.title, [Validators.required, this.validateRaffleName()]],
       raffleImage: [raffle.raffleImage, [Validators.required]],
       ticketsMin: [
         raffle.minRange,
@@ -113,6 +113,7 @@ export class ModifyRaffleComponent implements OnInit {
       this.updateRaffleForm.get('ticketsMax')?.updateValueAndValidity();
     });
   }
+
 
   validateDatesControllers(): void {
     this.startDate?.updateValueAndValidity();
@@ -155,6 +156,26 @@ export class ModifyRaffleComponent implements OnInit {
 
   get status() {
     return this.updateRaffleForm.get('status');
+  }
+
+  validateRaffleName(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value?.trim();
+
+      if (!value || value.length <= 3) {
+        return { invalidName: 'El nombre debe tener más de 3 caracteres' };
+      }
+
+      if (/^\s*$/.test(value)) {
+        return { invalidName: 'El nombre no puede contener solo espacios en blanco' };
+      }
+
+      if (/\d/.test(value) && !/[a-zA-Z]/.test(value)) {
+        return { invalidName: 'El nombre debe contener letras si incluye números' };
+      }
+
+      return null;
+    };
   }
 
   validateStartDate(): ValidatorFn {
