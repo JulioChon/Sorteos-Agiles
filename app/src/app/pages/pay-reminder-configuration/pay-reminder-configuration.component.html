@@ -1,88 +1,108 @@
 <div class="d-flex flex-column min-vh-100">
-    <app-header></app-header>
-  
-    <main class="flex-fill py-4">
-      <section class="sorteo-config container my-4">
-        <h2 class="mb-4">Configuración de Recordatorios de Pago</h2>
-        <form [formGroup]="reminderForm" (ngSubmit)="onSubmit()" class="row g-3">
-          <div class="col-md-3">
-            <label for="days" class="form-label">Días:</label>
+  <app-header></app-header>
+
+  <main class="flex-fill py-4">
+    <section class="sorteo-config container my-4 text-center">
+      <h2 class="mb-4">Configuración de Recordatorios de Pago</h2>
+      <form
+        [formGroup]="reminderForm"
+        (ngSubmit)="onSubmit()"
+        class="row g-3 justify-content-center"
+      >
+        <!-- Bloque de Días -->
+        <div class="col-md-3 text-center">
+          <div class="time-display">
             <input
               type="number"
               id="days"
               formControlName="days"
-              class="form-control"
-              placeholder="Ej: 1 día"
+              class="time-value"
               min="0"
             />
-            <div *ngIf="days?.invalid && days?.touched" class="text-danger">
-              <small *ngIf="days?.errors?.['min']">Los días deben ser 0 o mayor.</small>
-            </div>
+            <div class="time-label">DÍAS</div>
           </div>
-  
-          <div class="col-md-3">
-            <label for="hours" class="form-label">Horas:</label>
+        </div>
+
+        <!-- Bloque de Horas -->
+        <div class="col-md-3 text-center">
+          <div class="time-display">
             <input
               type="number"
               id="hours"
               formControlName="hours"
-              class="form-control"
-              placeholder="Ej: 2 horas"
+              class="time-value"
               min="0"
               max="23"
             />
-            <div *ngIf="hours?.invalid && hours?.touched" class="text-danger">
-              <small *ngIf="hours?.errors?.['min']">Las horas deben ser 0 o mayor.</small>
-              <small *ngIf="hours?.errors?.['max']">Las horas no pueden superar las 23.</small>
-            </div>
+            <div class="time-label">HORAS</div>
           </div>
-  
-          <div class="col-md-3">
-            <label for="minutes" class="form-label">Minutos:</label>
+        </div>
+
+        <!-- Bloque de Minutos -->
+        <div class="col-md-3 text-center">
+          <div class="time-display">
             <input
               type="number"
               id="minutes"
               formControlName="minutes"
-              class="form-control"
-              placeholder="Ej: 30 minutos"
+              class="time-value"
               min="0"
               max="59"
             />
-            <div *ngIf="minutes?.invalid && minutes?.touched" class="text-danger">
-              <small *ngIf="minutes?.errors?.['min']">Los minutos deben ser 0 o mayor.</small>
-              <small *ngIf="minutes?.errors?.['max']">Los minutos no pueden superar los 59.</small>
-            </div>
+            <div class="time-label">MINUTOS</div>
           </div>
-  
-          <div class="col-md-3">
-            <label for="seconds" class="form-label">Segundos:</label>
+        </div>
+
+        <!-- Bloque de Segundos -->
+        <div class="col-md-3 text-center">
+          <div class="time-display">
             <input
               type="number"
               id="seconds"
               formControlName="seconds"
-              class="form-control"
-              placeholder="Ej: 15 segundos"
+              class="time-value"
               min="0"
               max="59"
             />
-            <div *ngIf="seconds?.invalid && seconds?.touched" class="text-danger">
-              <small *ngIf="seconds?.errors?.['min']">Los segundos deben ser 0 o mayor.</small>
-              <small *ngIf="seconds?.errors?.['max']">Los segundos no pueden superar los 59.</small>
-            </div>
+            <div class="time-label">SEGUNDOS</div>
           </div>
-  
-          <!-- Error de validación de al menos un campo -->
-          <div *ngIf="reminderForm.errors?.['atLeastOne']" class="col-12 text-danger">
-            <small>Debe ingresar al menos un valor en días, horas, minutos o segundos.</small>
-          </div>
-  
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary" [disabled]="reminderForm.invalid">Guardar Configuración</button>
-          </div>
-        </form>
-      </section>
-    </main>
-  
-    <app-footer></app-footer>
-  </div>
-  
+        </div>
+
+        <!-- Botón de Envío -->
+        <div class="col-12 mt-3">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="reminderForm.invalid"
+          >
+            Guardar Configuración
+          </button>
+        </div>
+
+        <!-- Mensajes de error debajo del botón -->
+        <div *ngIf="reminderForm.errors?.['atLeastOne']" class="col-12 text-danger mt-2">
+          <small>Debe ingresar al menos un valor en días, horas, minutos o segundos.</small>
+        </div>
+        
+        <div *ngIf="days?.invalid && days?.touched" class="col-12 text-danger mt-2">
+          <small *ngIf="days?.errors?.['min']">Los días deben ser 0 o mayor.</small>
+        </div>
+        <div *ngIf="hours?.invalid && hours?.touched" class="col-12 text-danger mt-2">
+          <small *ngIf="hours?.errors?.['min']">Las horas deben ser 0 o mayor.</small>
+          <small *ngIf="hours?.errors?.['max']">Las horas no pueden superar las 23.</small>
+        </div>
+        <div *ngIf="minutes?.invalid && minutes?.touched" class="col-12 text-danger mt-2">
+          <small *ngIf="minutes?.errors?.['min']">Los minutos deben ser 0 o mayor.</small>
+          <small *ngIf="minutes?.errors?.['max']">Los minutos no pueden superar los 59.</small>
+        </div>
+        <div *ngIf="seconds?.invalid && seconds?.touched" class="col-12 text-danger mt-2">
+          <small *ngIf="seconds?.errors?.['min']">Los segundos deben ser 0 o mayor.</small>
+          <small *ngIf="seconds?.errors?.['max']">Los segundos no pueden superar los 59.</small>
+        </div>
+
+      </form>
+    </section>
+  </main>
+
+  <app-footer></app-footer>
+</div>
