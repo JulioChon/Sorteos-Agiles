@@ -5,11 +5,13 @@ import * as bootstrap from 'bootstrap';
 import { SignInService } from './sign-in.service';
 import { AuthService } from '@shared/services/auth/auth.service';
 import { Router } from '@angular/router';
+import { HeaderComponent } from "../../components/header/header.component";
+import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, HeaderComponent, FooterComponent],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss',
   providers: [SignInService]

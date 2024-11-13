@@ -1,53 +1,68 @@
-<div class="p-center">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <h2 class="text-center">Iniciar Sesión</h2>
-        <form [formGroup]="signInForm" (ngSubmit)="signIn()">
-          <p *ngIf="showMessageError" class="text-danger text-center">Las credenciales son incorrectas</p>
-          <div class="mb-3">
-            <label for="email" class="form-label">Correo Electrónico</label>
-            <input
-              type="email"
-              id="email"
-              class="form-control"
-              formControlName="email"
-              required
-            />
-            <div
-              *ngIf="email.invalid && (email.dirty || email.touched)"
-              class="text-danger"
-            >
-              <div *ngIf="email.errors?.['required']">
-                El correo electrónico es requerido
+<div class="d-flex flex-column min-vh-100">
+  <app-header></app-header>
+  <main class="flex-fill py-4">
+    <div class="p-center">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <h2 class="text-center">Iniciar Sesión</h2>
+            <form [formGroup]="signInForm" (ngSubmit)="signIn()">
+              <p *ngIf="showMessageError" class="text-danger text-center">
+                Las credenciales son incorrectas
+              </p>
+              <div class="mb-3">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <input
+                  type="email"
+                  id="email"
+                  class="form-control"
+                  formControlName="email"
+                  required
+                />
+                <div
+                  *ngIf="email.invalid && (email.dirty || email.touched)"
+                  class="text-danger"
+                >
+                  <div *ngIf="email.errors?.['required']">
+                    El correo electrónico es requerido
+                  </div>
+                  <div *ngIf="email.errors?.['email']">
+                    El correo electrónico no es válido
+                  </div>
+                </div>
               </div>
-              <div *ngIf="email.errors?.['email']">
-                El correo electrónico no es válido
+              <div class="mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input
+                  type="password"
+                  id="password"
+                  class="form-control"
+                  formControlName="password"
+                  required
+                />
+                <div
+                  *ngIf="
+                    password.invalid && (password.dirty || password.touched)
+                  "
+                  class="text-danger"
+                >
+                  <div *ngIf="password.errors?.['required']">
+                    La contraseña es requerida
+                  </div>
+                </div>
               </div>
+              <button type="submit" class="btn btn-primary w-100">
+                Iniciar Sesión
+              </button>
+            </form>
+            <!-- Estilizamos como link y agregamos un evento (click) -->
+            <div class="register-link text-center my-3" (click)="goToSignUp()">
+              ¿No tienes cuenta? Regístrate
             </div>
           </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Contraseña</label>
-            <input
-              type="password"
-              id="password"
-              class="form-control"
-              formControlName="password"
-              required
-            />
-            <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
-              <div *ngIf="password.errors?.['required']">La contraseña es requerida</div>
-          </div>
-          </div>
-          <button type="submit" class="btn btn-primary w-100">
-            Iniciar Sesión
-          </button>
-        </form>
-        <!-- Estilizamos como link y agregamos un evento (click) -->
-        <div class="register-link text-center my-3" (click)="goToSignUp()">
-          ¿No tienes cuenta? Regístrate
         </div>
       </div>
     </div>
-  </div>
+  </main>
+  <app-footer></app-footer>
 </div>
