@@ -47,6 +47,7 @@ export class SignInComponent implements OnInit {
 
   signIn() {
     if (this.signInForm.invalid) {
+      this.signInForm.markAllAsTouched();
       this.showMessageError = true;
     }
     this.signInService.signIn(this.signInForm.value.email, this.signInForm.value.password).subscribe({

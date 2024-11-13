@@ -35,6 +35,9 @@
               formControlName="password"
               required
             />
+            <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
+              <div *ngIf="password.errors?.['required']">La contraseña es requerida</div>
+          </div>
           </div>
           <button type="submit" class="btn btn-primary w-100">
             Iniciar Sesión
