@@ -27,11 +27,14 @@ public class ClienteService implements IClienteService {
     @Override
     public User verificarCliente(String correo, String contrasenia) {
         User user = new User();
-        Cliente verificacion = fachadaSorteos.clienteExiste(correo);
-        if (verificacion!=null) {
-           user.setId(verificacion.getId());
-           user.setCorreo(verificacion.getCorreo());
-           user.setNombre(verificacion.getNombre());
+        Cliente existe = fachadaSorteos.clienteExiste(correo);
+        if (existe!=null) {
+            if(!fachadaSorteos.verificarCliente(correo, contrasenia)){
+                throw new NotFoundException("El correo o contrasenia son incorrectos");
+            }
+           user.setId(existe.getId());
+           user.setCorreo(existe.getCorreo());
+           user.setNombre(existe.getNombre());
            user.setAdmin(false);
            return user;
         }
