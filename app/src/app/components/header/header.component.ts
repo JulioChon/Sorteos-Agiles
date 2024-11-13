@@ -70,4 +70,12 @@ export class HeaderComponent implements OnInit {
     this.authService.removeUser();
     this.router.navigate(['/sign-in']);
   }
+
+  goToSignIn() {
+    this.router.navigate(['/sign-in']);
+  }
+
+  goToSignUp() {
+    this.router.navigate(['/sign-up']);
+  }
 }
