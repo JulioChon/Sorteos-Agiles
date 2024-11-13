@@ -44,7 +44,7 @@ export class CreateRaffleComponent {
 
   initFormCreateRaffle() {
     this.createRaffleForm = this.formBuilder.group({
-      title: ['', [Validators.required]],
+      title: ['', [Validators.required, this.validateRaffleName()]],
       startDate: ['', [Validators.required, this.validateStartDate()]],
       endDate: ['', [Validators.required, this.validateEndDate()]],
       raffleDate: ['', [Validators.required, this.validateRaffleDate()]],
@@ -95,6 +95,27 @@ export class CreateRaffleComponent {
     this.ticketsMax?.updateValueAndValidity();
     this.ticketsMin?.updateValueAndValidity();
   }
+
+  validateRaffleName(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value?.trim();
+
+      if (!value || value.length <= 3) {
+        return { invalidName: 'El nombre debe tener más de 3 caracteres' };
+      }
+
+      if (/^\s*$/.test(value)) {
+        return { invalidName: 'El nombre no puede contener solo espacios en blanco' };
+      }
+
+      if (/\d/.test(value) && !/[a-zA-Z]/.test(value)) {
+        return { invalidName: 'El nombre debe contener letras si incluye números' };
+      }
+
+      return null;
+    };
+  }
+
 
   validateStartDate(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
