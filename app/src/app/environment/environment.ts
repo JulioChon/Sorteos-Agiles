@@ -1,5 +1,5 @@
 export const environment = {
-  api: 'http://localhost:8080',
+  api: 'http://localhost:8080/api',
   firebaseConfig: {
     apiKey: 'AIzaSyC9z1FzJ6F4zomtTBE-be96onOsm8fiDOs',
     authDomain: 'sorteoagiles.firebaseapp.com',

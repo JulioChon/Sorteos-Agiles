@@ -11,8 +11,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { FirestorageService } from '../../shared/services/storage/firestorage.service';
-import { File } from 'buffer';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { Raffle } from './create-raffle.types';
+import { CreateRaffleService } from './create-raffle.service';
+import { RaffleStatus } from '../../shared/types/raffle-status.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-raffle',
@@ -20,7 +23,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
   imports: [CommonModule, HeaderComponent ,FooterComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './create-raffle.component.html',
   styleUrls: ['./create-raffle.component.scss'],
-  providers: [FirestorageService],
+  providers: [FirestorageService, CreateRaffleService],
 })
 export class CreateRaffleComponent {
   minTicketsRange = 1;
@@ -30,7 +33,9 @@ export class CreateRaffleComponent {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly fireStorage: FirestorageService
+    private readonly fireStorage: FirestorageService,
+    private readonly createRaffleService: CreateRaffleService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +47,7 @@ export class CreateRaffleComponent {
       title: ['', [Validators.required]],
       startDate: ['', [Validators.required, this.validateStartDate()]],
       endDate: ['', [Validators.required, this.validateEndDate()]],
+      raffleDate: ['', [Validators.required, this.validateRaffleDate()]],
       ticketsMin: [
         this.minTicketsRange,
         [Validators.required, Validators.min(this.minTicketsRange)],
@@ -63,6 +69,10 @@ export class CreateRaffleComponent {
     return this.createRaffleForm.get('endDate');
   }
 
+  get raffleDate() {
+    return this.createRaffleForm.get('raffleDate');
+  }
+
   get ticketsMin() {
     return this.createRaffleForm.get('ticketsMin');
   }
@@ -73,6 +83,17 @@ export class CreateRaffleComponent {
 
   get image() {
     return this.createRaffleForm.get('image');
+  }
+
+  validateDatesControllers(): void {
+    this.startDate?.updateValueAndValidity();
+    this.endDate?.updateValueAndValidity();
+    this.raffleDate?.updateValueAndValidity();
+  }
+
+  validateTicketsControllers(): void {
+    this.ticketsMax?.updateValueAndValidity();
+    this.ticketsMin?.updateValueAndValidity();
   }
 
   validateStartDate(): ValidatorFn {
@@ -112,6 +133,25 @@ export class CreateRaffleComponent {
     };
   }
 
+  validateRaffleDate(): ValidatorFn {
+    return (control: AbstractControl) => {
+      if (!control.value) {
+        return { required: true };
+      }
+      const selectedDate = new Date(control.value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (selectedDate < today) {
+        return { invalidDate: 'La fecha no puede ser anterior a la de hoy' };
+      }
+      const year: string = selectedDate.getFullYear().toString();
+      if (year.length > 4) {
+        return { invalidDate: ' Año no válido' };
+      }
+      return null;
+    };
+  }
+
   validateTicketsMax(): ValidatorFn {
     return (control: AbstractControl) => {
       if (!control.value) {
@@ -142,10 +182,30 @@ export class CreateRaffleComponent {
   }
 
   async onSubmit() {
+    this.validateDatesControllers();
+    this.validateTicketsControllers();
     if (this.createRaffleForm.invalid) {
       this.createRaffleForm.markAllAsTouched();
       return;
     }
     const photoUrl = await this.fireStorage.uploadImage(this.selectedFile);
+    const raffle: Raffle = {
+      nombre: this.title?.value,
+      imagenSorteo: photoUrl,
+      rangoMax: this.ticketsMax?.value,
+      rangoMin: this.ticketsMin?.value,
+      fechaInicioVenta: new Date(this.startDate?.value).toISOString(),
+      fechaFinVenta: new Date(this.endDate?.value).toISOString(),
+      estado: RaffleStatus.ACTIVO,
+      fechaSorteo: new Date(this.raffleDate?.value).toISOString(),
+    };
+    this.createRaffleService.createRaffle(raffle).subscribe({
+      next: (raffle) => {
+        this.router.navigate(['/admin/my-raffles']);
+      },
+      error: (error) => {
+        this.fireStorage.removeImage(photoUrl);
+      }
+    })
   }
 }

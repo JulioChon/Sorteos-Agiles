@@ -1,0 +1,33 @@
+<div class="d-flex flex-column min-vh-100">
+  <app-header></app-header>
+  <main class="flex-fill bg-light">
+    <div class="bg-dark py-5">
+      <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+          <h1 class="display-4 fw-bolder">Sorteos Activos</h1>
+          <p class="lead fw-normal text-white-50 mb-0">¡Únete a un Sorteo!</p>
+        </div>
+      </div>
+    </div>
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 mt-5">
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div *ngFor="let raffle of raffles" class="col mb-5">
+                    <div class="card h-100">
+                        <img class="card-img-top" [src]="raffle.image" [alt]="raffle.name" />
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bolder">{{raffle.name}}</h5>
+                            </div>
+                        </div>
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent text-center">
+                            <button class="btn btn-primary" (click)="goToRaffle(raffle.id)">Ver boletos</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+  </main>
+  <app-footer></app-footer>
+</div>

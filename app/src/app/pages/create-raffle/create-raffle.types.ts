@@ -1,7 +1,12 @@
+import { RaffleStatus } from "../../shared/types/raffle-status.enum";
+
 export interface Raffle {
     nombre: string;
     imagenSorteo: string;
-    rangoNum: number;
-    fechaInicio: Date;
-    fechaFin: Date;
+    rangoMax: number;
+    rangoMin: number;
+    fechaSorteo: string;
+    fechaInicioVenta: string;
+    fechaFinVenta: string;
+    estado: RaffleStatus;
 }

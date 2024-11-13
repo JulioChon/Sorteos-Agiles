@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NavItem } from './header.types';
 import { Router } from '@angular/router';
+import { AuthService } from '@shared/services/auth/auth.service';
+import { User } from '@shared/interfaces/user.interface';
 
 @Component({
   selector: 'app-header',
@@ -15,25 +17,34 @@ export class HeaderComponent implements OnInit {
   items: NavItem[];
   isAdmin: boolean;
   adminItems: NavItem[];
+  commonUserItems: NavItem[];
+  user: User;
 
   constructor(
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly authService: AuthService
   ) {}
 
   ngOnInit() {
     this.initItems();
+    this.user = this.isUserLoggedIn();
     this.checkUserAdmin();
   }
 
   initItems() {
     this.items = [
       { title: 'Inicio', route: '/home', icon: 'bi bi-house-fill' },
+      { title: 'Sorteos', route: '/raffles', icon: 'bi bi-gift-fill' },
       // { title: 'Sorteos', route: '/raffles', icon: 'bi bi-gift-fill' },
     ];
   }
 
   navigate(route: string) {
     this.router.navigate([route]);
+  }
+
+  isUserLoggedIn(): User {
+    return this.authService.getUser();
   }
 
   async checkUserAdmin(): Promise<void> {
@@ -44,9 +55,8 @@ export class HeaderComponent implements OnInit {
   }
 
   isUserAnAdmin(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      resolve(true);//TODO: Implement user check
-    });
+    const user = this.authService.getUser();
+    return Promise.resolve(user?.admin);
   }
 
   addAdminItems() {
@@ -54,5 +64,10 @@ export class HeaderComponent implements OnInit {
       { title: 'Crear Sorteo', route: '/admin/create-raffle', icon: 'bi bi-plus' },
       { title: 'Mis Sorteos' , route: '/admin/my-raffles', icon: 'bi bi-list' }
     ];
+  }
+
+  logout() {
+    this.authService.removeUser();
+    this.router.navigate(['/sign-in']);
   }
 }

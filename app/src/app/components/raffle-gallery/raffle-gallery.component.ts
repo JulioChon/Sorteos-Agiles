@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { RaffleDTO } from './raffle-gallery.types';
+import { ButtonAction, RaffleDTO } from './raffle-gallery.types';
 import { RaffleStatus } from '../../shared/types/raffle-status.enum';
 
 @Component({
@@ -13,6 +13,7 @@ import { RaffleStatus } from '../../shared/types/raffle-status.enum';
 export class RaffleGalleryComponent implements OnInit {
 
   @Input() raffles: RaffleDTO[];
+  @Input() buttonsRaffleIdActions: ButtonAction[];
 
   constructor() { }
 
@@ -30,5 +31,9 @@ export class RaffleGalleryComponent implements OnInit {
       default:
         return 'dark';
     }
+  }
+
+  onActionWithRaffleId(action: (raffleId: number) => void, raffleId: number): void {
+    action(raffleId);
   }
 }

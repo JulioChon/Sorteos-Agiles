@@ -6,3 +6,9 @@ export interface RaffleDTO {
     imagenSorteo: string;
     estado: RaffleStatus;
 }
+
+export interface ButtonAction {
+    label: string;
+    cssClass: string;
+    action: () => void;
+}

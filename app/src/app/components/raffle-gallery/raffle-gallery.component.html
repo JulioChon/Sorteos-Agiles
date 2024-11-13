@@ -1,27 +1,30 @@
 <div class="row">
-    <div class="col-md-4 mb-4" *ngFor="let raffle of raffles">
-      <div class="card">
+  <div class="col-md-4 mb-4" *ngFor="let raffle of raffles">
+    <div class="card">
+      <div class="image-container">
         <img
           [src]="raffle.imagenSorteo"
-          class="card-img-top"
+          class="card-img-top raffle-photo"
           [alt]="raffle.nombre"
         />
-        <div class="card-body">
-          <h5 class="card-title">{{ raffle.nombre }}</h5>
-          <p
-            [ngClass]="[
-              'text-capitalize', 'fw-bold',
-              'text-' + colorClassByStatus(raffle.estado)
-            ]"
-          >
-            {{ raffle.estado }}
-          </p>
-          <div class="d-flex justify-content-start gap-2">
-            <button class="btn btn-primary">Editar</button>
-            <button class="btn btn-danger">Eliminar</button>
-          </div>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{ raffle.nombre }}</h5>
+        <p
+          [ngClass]="[
+            'text-capitalize',
+            'fw-bold',
+            'text-' + colorClassByStatus(raffle.estado)
+          ]"
+        >
+          {{ raffle.estado }}
+        </p>
+        <div class="d-flex justify-content-start gap-2 actions">
+          <button *ngFor="let buttonAction of buttonsRaffleIdActions" [ngClass]="buttonAction.cssClass" (click)="onActionWithRaffleId(buttonAction.action, raffle.id)">
+            {{ buttonAction.label }}
+          </button>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

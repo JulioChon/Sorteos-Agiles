@@ -22,26 +22,31 @@
           <i [className]="item.icon"></i>
         </li>
       </ul>
-      <div class="d-flex dropdown">
-        <a
-          class="nav-link dropdown-toggle"
-          href="#"
-          role="button"
+      <div class="dropstart">
+        <button
+          type="button"
+          class="btn"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          Opciones de Administrador
-          <i class="bi bi-person-fill"></i>
-        </a>
-        <ul class="dropdown-menu" *ngIf="isAdmin">
-          <li
-            *ngFor="let adminItem of adminItems"
-            (click)="navigate(adminItem.route)"
-            class="dropdown-item d-flex align-items-center no-select pointer"
-          >
-            <div class="dropdown-item">{{ adminItem.title }}</div>
-            <i class="{{adminItem.icon}}"></i>
+          Opciones
+        </button>
+        <ul class="dropdown-menu">
+          <li class="dropdown-item d-flex align-items-center no-select pointer">
+            <div class="dropdown-item" (click)="logout()">Cerrar sesión</div>
+            <i class="bi bi-box-arrow-right"></i>
           </li>
+          <div *ngIf="isAdmin">
+            <li><hr class="dropdown-divider" /></li>
+            <li
+              *ngFor="let adminItem of adminItems"
+              (click)="navigate(adminItem.route)"
+              class="dropdown-item d-flex align-items-center no-select pointer"
+            >
+              <div class="dropdown-item">{{ adminItem.title }}</div>
+              <i class="{{ adminItem.icon }}"></i>
+            </li>
+          </div>
         </ul>
       </div>
     </div>

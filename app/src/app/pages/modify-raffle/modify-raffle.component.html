@@ -1,0 +1,166 @@
+<div class="d-flex flex-column min-vh-100">
+  <app-header></app-header>
+  <main class="flex-fill py-4 p-4">
+    <button class="btn btn-secondary sticky-back-button" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i> <span> Volver</span>
+    </button>
+    <app-spinner *ngIf="showLoading"></app-spinner>
+    <form *ngIf="!showLoading" [formGroup]="updateRaffleForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="title" class="form-label">Nombre del sorteo</label>
+        <input
+          type="text"
+          id="title"
+          class="form-control"
+          formControlName="title"
+          placeholder="Ingresa el nombre del sorteo"
+        />
+        <!-- Mensaje de error para el nombre del sorteo -->
+        <div
+          class="errors text-danger"
+          *ngIf="title?.invalid && (title?.touched || title?.dirty)"
+        >
+          <div *ngIf="title?.errors?.['required']">
+            El nombre del sorteo es obligatorio.
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="startDate" class="form-label">Fecha de inicio</label>
+        <input
+          type="date"
+          id="startDate"
+          class="form-control"
+          formControlName="startDate"
+        />
+        <!-- Mensaje de error para la fecha de inicio -->
+        <div
+          class="errors text-danger"
+          *ngIf="startDate?.invalid && (startDate?.touched || startDate?.dirty)"
+        >
+          <div *ngIf="startDate?.errors?.['required']">
+            La fecha de inicio es obligatoria.
+          </div>
+          <div *ngIf="startDate?.errors?.['invalidDate']">
+            {{ startDate.errors?.['invalidDate'] }}
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="endDate" class="form-label">Fecha de fin</label>
+        <input
+          type="date"
+          id="endDate"
+          class="form-control"
+          formControlName="endDate"
+        />
+        <div
+          class="errors text-danger"
+          *ngIf="endDate?.invalid && (endDate?.touched || endDate?.dirty)"
+        >
+          <div *ngIf="endDate?.errors?.['required']">
+            La fecha de fin es obligatoria.
+          </div>
+          <div *ngIf="endDate?.errors?.['invalidDate']">
+            {{ endDate.errors?.['invalidDate'] }}
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="raffleDate" class="form-label"
+          >Fecha en la que será la rifa</label
+        >
+        <input
+          type="date"
+          id="raffleDate"
+          class="form-control"
+          formControlName="raffleDate"
+        />
+        <div
+          class="errors text-danger"
+          *ngIf="
+            raffleDate?.invalid && (raffleDate?.touched || raffleDate?.dirty)
+          "
+        >
+          <div *ngIf="raffleDate?.errors?.['required']">
+            La fecha de rifa es obligatoria.
+          </div>
+          <div *ngIf="raffleDate?.errors?.['invalidDate']">
+            {{ raffleDate.errors?.['invalidDate'] }}
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="minTicketsRange" class="form-label"
+          >Rango mínimo de boletos</label
+        >
+        <input
+          type="number"
+          id="minTicketsRange"
+          class="form-control"
+          formControlName="ticketsMin"
+        />
+        <div
+          class="errors text-danger"
+          *ngIf="
+            ticketsMin?.invalid && (ticketsMin?.touched || ticketsMin?.dirty)
+          "
+        >
+          <div *ngIf="ticketsMin?.errors?.['required']">
+            El rango mínimo de boletos es obligatorio.
+          </div>
+          <div *ngIf="ticketsMin?.errors?.['min']">
+            El rango mínimo de boletos no puede ser menor a 1.
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="maxTicketsRange" class="form-label"
+          >Rango máximo de boletos</label
+        >
+        <input
+          type="number"
+          id="maxTicketsRange"
+          class="form-control"
+          formControlName="ticketsMax"
+        />
+        <div
+          class="errors text-danger"
+          *ngIf="
+            ticketsMax?.invalid && (ticketsMax?.touched || ticketsMax?.dirty)
+          "
+        >
+          <div *ngIf="ticketsMax?.errors?.['required']">
+            El rango máximo de boletos es obligatorio.
+          </div>
+          <div *ngIf="ticketsMax?.errors?.['invalidTickets']">
+            {{ ticketsMax.errors?.['invalidTickets'] }}
+          </div>
+        </div>
+      </div>
+      <div class="select-img d-flex flex-column align-items-center">
+        <div class="image-container">
+          <img
+            [src]="updateImagePreview ? updateImagePreview : raffle.raffleImage"
+            alt="Imagen del sorteo"
+            class="responsive-img"
+          />
+        </div>
+        <div class="image-actions d-flex align-items-center gap-2">
+          <app-select-image
+            class="my-3"
+            formInputName="raffleImage"
+            (file)="onFileSelected($event)"
+          ></app-select-image>
+          <button type="button" class="btn btn-primary" (click)="onResetImage()">
+            Restablecer
+          </button>
+        </div>
+      </div>
+      <button class="btn btn-primary w-100" type="submit">
+        <i class="bi bi-save"></i> Guardar cambios
+      </button>
+    </form>
+  </main>
+  <app-footer></app-footer>
+</div>

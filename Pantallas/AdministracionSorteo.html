@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de Sorteos</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="css/styles.css" rel="stylesheet" /> 
+</head>
+<body>
+
+    <header class="bg-dark">
+        <h1>Administración de Sorteos</h1>
+    </header>
+
+    <main>
+        <section class="sorteo-config">
+            <h2>Configuración de Recordatorios de Pago</h2>
+            <form id="config-form">
+                <label for="frequency">Frecuencia de Recordatorio (en días):</label>
+                <input type="number" id="frequency" name="frequency" min="1" placeholder="Ej: 1 día">
+                <button type="submit">Guardar Configuración</button>
+            </form>
+        </section>
+
+        <section class="sorteo-status">
+            <h2>Números Apartados</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Cliente</th>
+                        <th>Estado</th>
+                        <th>Fecha de Apartado</th>
+                        <th>Último Recordatorio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Lógica para traer a los numeros apartados -->
+                    <tr>
+                        <td>001</td>
+                        <td>Juan Pérez</td>
+                        <td>Apartado</td>
+                        <td>2024-11-05</td>
+                        <td>2024-11-06</td>
+                    </tr>
+                    <tr>
+                        <td>002</td>
+                        <td>María López</td>
+                        <td>Pagado</td>
+                        <td>2024-11-03</td>
+                        <td>2024-11-04</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Equipo 1</p></div>
+    </footer>
+
+</body>
+</html>
