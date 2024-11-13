@@ -37,6 +37,14 @@ export class SignInComponent implements OnInit {
     });
   }
 
+  get email() {
+    return this.signInForm.get('email');
+  }
+
+  get password() {
+    return this.signInForm.get('password');
+  }
+
   signIn() {
     if (this.signInForm.invalid) {
       this.showMessageError = true;
