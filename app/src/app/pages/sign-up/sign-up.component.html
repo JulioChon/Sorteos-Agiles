@@ -7,16 +7,18 @@
                 <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
                     <div class="mb-3">
                         <label for="fullName" class="form-label">Nombre Completo</label>
-                        <input type="text" class="form-control" id="fullName" placeholder="Ingresa tu nombre completo" formControlName="fullname">
+                        <input type="text" class="form-control" id="fullName" placeholder="Ingresa tu nombre completo" formControlName="fullname" maxlength="60">
                         <div *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)" class="text-danger">
                             <div *ngIf="fullname.errors?.['required']">El nombre completo es requerido</div>
+                            <div *ngIf="fullname.errors?.['pattern']">No se pueden incluir carácteres especiales o números</div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="cellphone" class="form-label">Número de celular</label>
-                        <input type="tel" class="form-control" id="cellphone" placeholder="(123)-465-7890" formControlName="cellphone">
+                        <input type="tel" class="form-control" id="cellphone" placeholder="1234567890" formControlName="cellphone" maxlength="10">
                         <div *ngIf="cellphone.invalid && (cellphone.dirty || cellphone.touched)" class="text-danger">
                             <div *ngIf="cellphone.errors?.['required']">El número de celular es requerido</div>
+                            <div *ngIf="cellphone.errors?.['minlength']">El número debe ser de 10 carácteres</div>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -54,4 +56,3 @@
     </main>
     <app-footer></app-footer>
   </div>
-  
