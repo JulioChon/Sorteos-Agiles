@@ -9,4 +9,5 @@ export interface Raffle {
     fechaInicioVenta: string;
     fechaFinVenta: string;
     estado: RaffleStatus;
+    precio: number;
 }

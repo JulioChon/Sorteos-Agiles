@@ -56,6 +56,7 @@ export class CreateRaffleComponent {
       ],
       ticketsMax: ['', [Validators.required, this.validateTicketsMax()]],
       image: [null],
+      price: [0, [Validators.required, Validators.min(0)]],
     });
   }
 
@@ -85,6 +86,10 @@ export class CreateRaffleComponent {
 
   get image() {
     return this.createRaffleForm.get('image');
+  }
+  
+  get price() {
+    return this.createRaffleForm.get('price');
   }
 
   validateDatesControllers(): void {
@@ -221,6 +226,7 @@ export class CreateRaffleComponent {
       fechaFinVenta: new Date(this.endDate?.value).toISOString(),
       estado: RaffleStatus.ACTIVO,
       fechaSorteo: new Date(this.raffleDate?.value).toISOString(),
+      precio: this.price?.value,
     };
     this.createRaffleService.createRaffle(raffle).subscribe({
       next: (raffle) => {
