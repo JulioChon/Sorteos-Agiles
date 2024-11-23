@@ -27,6 +27,7 @@
                         <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
                             <div *ngIf="email.errors?.['required']">El correo electrónico es requerido</div>
                             <div *ngIf="email.errors?.['email']">El correo electrónico no es válido</div>
+                            <div *ngIf="email.errors?.['maxlength']">El correo electrónico es demasiado largo</div>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -35,6 +36,7 @@
                         <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
                             <div *ngIf="password.errors?.['required']">La contraseña es requerida</div>
                             <div *ngIf="password.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</div>
+                            <div *ngIf="password.errors?.['maxlength']">La contraseña es demasiado larga</div>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -44,6 +46,7 @@
                             <div *ngIf="confirmPassword.errors?.['required']">La confirmación de la contraseña es requerida</div>
                             <div *ngIf="confirmPassword.errors?.['passwordNotMatch']">Las contraseñas no coinciden</div>
                             <div *ngIf="confirmPassword.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</div>
+                            <div *ngIf="confirmPassword.errors?.['maxlength']">La contraseña es demasiado larga</div>
                         </div>
                     </div>
                     <div class="d-grid gap-2">

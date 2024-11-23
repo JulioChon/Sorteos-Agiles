@@ -43,15 +43,16 @@ export class SignUpComponent implements OnInit {
 
   onCreateSignUpForm() {
     this.signUpForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      fullname: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*$')]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
+      fullname: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*$'), Validators.maxLength(50)]],
       cellphone: ['', [Validators.required, Validators.minLength(10)]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
       confirmPassword: [
         '',
         [
           Validators.required,
           Validators.minLength(6),
+          Validators.maxLength(20),
           this.validateConfirmPassword(),
         ],
       ],
@@ -92,7 +93,6 @@ export class SignUpComponent implements OnInit {
         this.alertService.openInfoModal('Error al registrar el usuario', 'Error');
       },
     });
-    // console.log(this.signUpForm.value);
   }
 
   get email() {
