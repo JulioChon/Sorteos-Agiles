@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.agiles.sorteos.capadatos.capadatos.utilis.BOLETOESTADO;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,15 +19,12 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "boletos")
 public class Boleto {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
     @Column(name = "numero_boleto")
     private Integer numeroBoleto;
-
 
     @NotNull(message = "El estado es requerido")
     @Column(name = "estado")
@@ -39,19 +37,17 @@ public class Boleto {
     @NotNull(message = "El precio es requerido")
     private float precio;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "id_sorteo")
     private Sorteo idSorteo;
 
     @ManyToOne
-    @JoinColumn(name= "id_cliente")
+    @JoinColumn(name = "id_cliente")
     private Cliente idCliente;
-
-
 
     public Boleto() {
     }
-    
+
     public Boleto(Integer numeroBoleto, @NotNull(message = "El estado es requerido") BOLETOESTADO estado,
             Date fechaLimApart, @NotNull(message = "El precio es requerido") float precio, Sorteo idSorteo) {
         this.numeroBoleto = numeroBoleto;
@@ -60,8 +56,6 @@ public class Boleto {
         this.precio = precio;
         this.idSorteo = idSorteo;
     }
-
-    
 
     public Boleto(Integer id, Integer numeroBoleto, @NotNull(message = "El estado es requerido") BOLETOESTADO estado,
             Date fechaLimApart, @NotNull(message = "El precio es requerido") float precio, Sorteo idSorteo) {
@@ -72,8 +66,6 @@ public class Boleto {
         this.precio = precio;
         this.idSorteo = idSorteo;
     }
-
-
 
     public Integer getId() {
         return id;
@@ -130,7 +122,5 @@ public class Boleto {
     public void setIdCliente(Cliente idCliente) {
         this.idCliente = idCliente;
     }
-
-    
 
 }

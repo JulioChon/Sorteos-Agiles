@@ -14,10 +14,15 @@ public class SorteoService implements ISorteoService {
     @Autowired
     private IFachadaSorteos fachadaSorteos;
 
+    @Autowired
+    private IBoletoService boletoService;
+
     @Override
     public Sorteo guardarSorteo(Sorteo sorteo, Integer id) {
         sorteo.setIdAdministrador(fachadaSorteos.obteAdministradorPorId(id));
-       return fachadaSorteos.guardarSorteo(sorteo);
+        Sorteo sorteoNuevo = fachadaSorteos.guardarSorteo(sorteo);
+        boletoService.generarBoletos(sorteoNuevo.getRangoMax(), sorteoNuevo.getRangoMin(), sorteo.getPrecio(), sorteoNuevo.getId());
+        return sorteoNuevo;
     }
 
     @Override
