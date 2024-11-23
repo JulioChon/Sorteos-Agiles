@@ -25,7 +25,6 @@ import { AlertService } from '../../shared/services/alert.service';
   providers: [MyRafflesService],
 })
 export class MyRafflesComponent implements OnInit {
-
   showLoading: boolean = true;
   raffles: RaffleDTO[] = [];
   galleryButtonActions: any[] = [];
@@ -52,8 +51,8 @@ export class MyRafflesComponent implements OnInit {
         Array.prototype.push.apply(this.raffles, raffles);
       },
       error: (error) => {
-        console.error(error);
         this.showLoading = false;
+        this.alertService.openInfoModal('Error al obtener los sorteos', 'Error');
       },
       complete: () => {
         this.showLoading = false;
@@ -76,8 +75,8 @@ export class MyRafflesComponent implements OnInit {
         label: 'Eliminar',
         cssClass: 'btn btn-danger',
         action: (raffleId: number) => this.deleteRaffle(raffleId),
-      }
-    ]
+      },
+    ];
   }
 
   private openModifyRaffle(raffleId: string) {
@@ -85,7 +84,10 @@ export class MyRafflesComponent implements OnInit {
   }
 
   private async deleteRaffle(raffleId: number) {
-    const message = await this.alertService.openConfirmModal('¿Estás seguro de que deseas eliminar este sorteo?', 'Eliminar sorteo');
+    const message = await this.alertService.openConfirmModal(
+      '¿Estás seguro de que deseas eliminar este sorteo?',
+      'Eliminar sorteo'
+    );
     if (message === 'cancel') {
       return;
     }
@@ -94,7 +96,10 @@ export class MyRafflesComponent implements OnInit {
         console.log(data);
         this.raffles = this.raffles.filter((raffle) => raffle.id !== raffleId);
         this.alertService.openInfoModal('Sorteo eliminado correctamente');
+      },
+      error: (error) => {
+        this.alertService.openInfoModal('Error al eliminar el sorteo', 'Error');
       }
-    })
+    });
   }
 }

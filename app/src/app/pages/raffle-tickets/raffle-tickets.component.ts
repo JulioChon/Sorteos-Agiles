@@ -5,6 +5,7 @@ import { RaffleTicketsService } from './raffle-tickets.service';
 import { RaffleDTO } from './raffle-tickets.types';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AlertService } from '@shared/services/alert.service';
 
 @Component({
   selector: 'app-raffle-tickets',
@@ -18,7 +19,8 @@ export class RaffleTicketsComponent implements OnInit {
   raffle: RaffleDTO;
 
   constructor(private readonly raffleTicketsService: RaffleTicketsService,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -27,8 +29,13 @@ export class RaffleTicketsComponent implements OnInit {
   }
 
   loadRaffle(id: number): void {
-    this.raffleTicketsService.findRaffleById(id).subscribe((raffle: RaffleDTO) => {
-      this.raffle = raffle;
+    this.raffleTicketsService.findRaffleById(id).subscribe({
+      next: (raffle: RaffleDTO) => {
+        this.raffle = raffle;
+      },
+      error: (error) => {
+        this.alertService.openInfoModal('Error al obtener el sorteo', 'Error');
+      }
     });
   }
 

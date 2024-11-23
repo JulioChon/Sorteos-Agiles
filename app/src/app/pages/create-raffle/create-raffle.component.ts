@@ -16,6 +16,7 @@ import { Raffle } from './create-raffle.types';
 import { CreateRaffleService } from './create-raffle.service';
 import { RaffleStatus } from '../../shared/types/raffle-status.enum';
 import { Router } from '@angular/router';
+import { AlertService } from '@shared/services/alert.service';
 
 @Component({
   selector: 'app-create-raffle',
@@ -35,7 +36,8 @@ export class CreateRaffleComponent {
     private readonly formBuilder: FormBuilder,
     private readonly fireStorage: FirestorageService,
     private readonly createRaffleService: CreateRaffleService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly alert: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -226,6 +228,7 @@ export class CreateRaffleComponent {
       },
       error: (error) => {
         this.fireStorage.removeImage(photoUrl);
+        this.alert.openInfoModal('Error al crear el sorteo, revisa los detalles', 'Por favor, intenta de nuevo');
       }
     })
   }

@@ -7,9 +7,6 @@
           <div class="col-md-6">
             <h2 class="text-center">Iniciar Sesión</h2>
             <form [formGroup]="signInForm" (ngSubmit)="signIn()">
-              <p *ngIf="showMessageError" class="text-danger text-center">
-                Las credenciales son incorrectas
-              </p>
               <div class="mb-3">
                 <label for="email" class="form-label">Correo Electrónico</label>
                 <input

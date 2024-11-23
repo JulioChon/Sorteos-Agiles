@@ -34,7 +34,7 @@ export class SignUpComponent implements OnInit {
     private readonly router: Router,
     private readonly signUpService: SignUpService,
     private readonly alertService: AlertService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) {}
 
   ngOnInit() {
@@ -89,7 +89,7 @@ export class SignUpComponent implements OnInit {
         this.router.navigate(['/home']);
       },
       error: (error) => {
-        console.error(error);
+        this.alertService.openInfoModal('Error al registrar el usuario', 'Error');
       },
     });
     // console.log(this.signUpForm.value);

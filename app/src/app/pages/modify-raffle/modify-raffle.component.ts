@@ -277,7 +277,6 @@ export class ModifyRaffleComponent implements OnInit {
     this.validateTicketsControllers();
     if (this.updateRaffleForm.invalid) {
       this.updateRaffleForm.markAllAsTouched();
-      console.log('Formulario inválido', this.updateRaffleForm.errors); // Para depuración
       return;
     }
 
