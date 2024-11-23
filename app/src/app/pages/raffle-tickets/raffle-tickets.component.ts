@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { HeaderComponent } from '../../components/header/header.component';
 import { RaffleTicketsService } from './raffle-tickets.service';
-import { RaffleDTO } from './raffle-tickets.types';
+import { RaffleDTO, RaffleTicketDTO } from './raffle-tickets.types';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AlertService } from '@shared/services/alert.service';
@@ -16,7 +16,9 @@ import { AlertService } from '@shared/services/alert.service';
   providers: [RaffleTicketsService],
 })
 export class RaffleTicketsComponent implements OnInit {
+
   raffle: RaffleDTO;
+  tickets: RaffleTicketDTO[];
 
   constructor(private readonly raffleTicketsService: RaffleTicketsService,
     private readonly activatedRoute: ActivatedRoute,
@@ -32,9 +34,21 @@ export class RaffleTicketsComponent implements OnInit {
     this.raffleTicketsService.findRaffleById(id).subscribe({
       next: (raffle: RaffleDTO) => {
         this.raffle = raffle;
+        this.loadTickets();
       },
       error: (error) => {
         this.alertService.openInfoModal('Error al obtener el sorteo', 'Error');
+      }
+    });
+  }
+
+  loadTickets(): void {
+    this.raffleTicketsService.findTicketsByRaffleId(this.raffle.id).subscribe({
+      next: (tickets: RaffleTicketDTO[]) => {
+        this.tickets = tickets;
+      },
+      error: (error) => {
+        this.alertService.openInfoModal('Error al obtener los boletos', 'Error');
       }
     });
   }
