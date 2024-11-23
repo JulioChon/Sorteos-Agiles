@@ -51,6 +51,9 @@ public class Sorteo {
     @NotNull(message = "El estado es requerido")
     private ESTADO estado;
 
+    @NotNull(message = "El precio es requerido")
+    private Float precio;
+
     @ManyToOne
     @JoinColumn(name = "id_administrador") 
     @JsonIgnore
@@ -64,33 +67,19 @@ public class Sorteo {
    
 
     // Getters y Setters
-    public Sorteo(String nombre, String imagenSorteo, @NotNull(message = "El rango maximo es requerido") Long rangoMax,
-            @NotNull(message = "El rango minimo es requerido") Long rangoMin,
-            @NotNull(message = "La fecha de inicio es requerida") Date fechaInicioVenta,
-            @NotNull(message = "La fecha de fin es requerida") Date fechaFinVenta,
-            @NotNull(message = "La fecha del sorteo es requerida") Date fechaSorteo,
-            @NotNull(message = "El estado es requerido") ESTADO estado, Administrador idAdministrador) {
-        this.nombre = nombre;
-        this.imagenSorteo = imagenSorteo;
-        this.rangoMax = rangoMax;
-        this.rangoMin = rangoMin;
-        this.fechaInicioVenta = fechaInicioVenta;
-        this.fechaFinVenta = fechaFinVenta;
-        this.fechaSorteo = fechaSorteo;
-        this.estado = estado;
-        this.idAdministrador = idAdministrador;
-    }
-
     
 
+    
+    
     
     public Sorteo(Integer id, String nombre, String imagenSorteo,
-            @NotNull(message = "El rango maximo es requerido") Long rangoMax,
-            @NotNull(message = "El rango minimo es requerido") Long rangoMin,
-            @NotNull(message = "La fecha de inicio es requerida") Date fechaInicioVenta,
-            @NotNull(message = "La fecha de fin es requerida") Date fechaFinVenta,
-            @NotNull(message = "La fecha del sorteo es requerida") Date fechaSorteo,
-            @NotNull(message = "El estado es requerido") ESTADO estado, Administrador idAdministrador) {
+    @NotNull(message = "El rango maximo es requerido") Long rangoMax,
+    @NotNull(message = "El rango minimo es requerido") Long rangoMin,
+    @NotNull(message = "La fecha de inicio es requerida") Date fechaInicioVenta,
+    @NotNull(message = "La fecha de fin es requerida") Date fechaFinVenta,
+    @NotNull(message = "La fecha del sorteo es requerida") Date fechaSorteo,
+    @NotNull(message = "El estado es requerido") ESTADO estado,
+    @NotNull(message = "El precio es requerido") Float precio, Administrador idAdministrador) {
         this.id = id;
         this.nombre = nombre;
         this.imagenSorteo = imagenSorteo;
@@ -100,15 +89,32 @@ public class Sorteo {
         this.fechaFinVenta = fechaFinVenta;
         this.fechaSorteo = fechaSorteo;
         this.estado = estado;
+        this.precio = precio;
+        this.idAdministrador = idAdministrador;
+    }
+    public Sorteo(String nombre, String imagenSorteo, @NotNull(message = "El rango maximo es requerido") Long rangoMax,
+            @NotNull(message = "El rango minimo es requerido") Long rangoMin,
+            @NotNull(message = "La fecha de inicio es requerida") Date fechaInicioVenta,
+            @NotNull(message = "La fecha de fin es requerida") Date fechaFinVenta,
+            @NotNull(message = "La fecha del sorteo es requerida") Date fechaSorteo,
+            @NotNull(message = "El estado es requerido") ESTADO estado,
+            @NotNull(message = "El precio es requerido") Float precio, Administrador idAdministrador) {
+        this.nombre = nombre;
+        this.imagenSorteo = imagenSorteo;
+        this.rangoMax = rangoMax;
+        this.rangoMin = rangoMin;
+        this.fechaInicioVenta = fechaInicioVenta;
+        this.fechaFinVenta = fechaFinVenta;
+        this.fechaSorteo = fechaSorteo;
+        this.estado = estado;
+        this.precio = precio;
         this.idAdministrador = idAdministrador;
     }
 
     public Integer getId() {
         return id;
     }
-
-
-
+    
     public Long getRangoMax() {
         return rangoMax;
     }
@@ -183,5 +189,13 @@ public class Sorteo {
 
     public void setIdAdministrador(Administrador idAdministrador) {
         this.idAdministrador = idAdministrador;
+    }
+
+    public Float getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Float precio) {
+        this.precio = precio;
     }
 }
