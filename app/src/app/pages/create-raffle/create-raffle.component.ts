@@ -44,7 +44,7 @@ export class CreateRaffleComponent {
 
   initFormCreateRaffle() {
     this.createRaffleForm = this.formBuilder.group({
-      title: ['', [Validators.required, this.validateRaffleName()]],
+      title: ['', [Validators.required, this.validateRaffleName(), Validators.maxLength(50)]],
       startDate: ['', [Validators.required, this.validateStartDate()]],
       endDate: ['', [Validators.required, this.validateEndDate()]],
       raffleDate: ['', [Validators.required, this.validateRaffleDate()]],
