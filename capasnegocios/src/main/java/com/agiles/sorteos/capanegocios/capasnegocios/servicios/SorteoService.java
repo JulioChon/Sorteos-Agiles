@@ -71,9 +71,6 @@ public class SorteoService implements ISorteoService {
     @Override
     public List<Sorteo> obtenerSorteosPorIdAdmin(Integer idAdmin) {
        List <Sorteo> sorteos = fachadaSorteos.findSorteosByAdministradorId(idAdmin);
-        if (sorteos.isEmpty()) {
-            throw new NotFoundException("No hay sorteos para el administrador con ID " + idAdmin );
-        }
         return sorteos;
     }
 
