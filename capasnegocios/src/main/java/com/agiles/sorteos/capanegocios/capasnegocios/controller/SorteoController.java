@@ -31,6 +31,8 @@ public class SorteoController {
     @Autowired
     private ISorteoService sorteoService;
 
+ 
+
     @PostMapping("/{id}")
     public ResponseEntity<?> crearSorteo(@Valid @RequestBody Sorteo sorteo, BindingResult result, @PathVariable Integer id) {
         if (result.hasFieldErrors()) {
