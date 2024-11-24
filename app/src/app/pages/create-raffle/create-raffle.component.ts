@@ -261,6 +261,8 @@ export class CreateRaffleComponent {
     }
   }
 
+
+
   async onSubmit() {
     this.validateDatesControllers();
     this.validateTicketsControllers();
@@ -269,15 +271,21 @@ export class CreateRaffleComponent {
       return;
     }
     const photoUrl = await this.fireStorage.uploadImage(this.selectedFile);
+    const toISOStringWithTimezone = (date: string): string => {
+      //add 1 day to the date
+      const newDate = new Date(date);
+      newDate.setDate(newDate.getDate() + 1);
+      return newDate.toISOString();
+    };
     const raffle: Raffle = {
       nombre: this.title?.value,
       imagenSorteo: photoUrl,
       rangoMax: this.ticketsMax?.value,
       rangoMin: this.ticketsMin?.value,
-      fechaInicioVenta: new Date(this.startDate?.value).toISOString(),
-      fechaFinVenta: new Date(this.endDate?.value).toISOString(),
+      fechaInicioVenta: toISOStringWithTimezone(this.startDate.value),
+      fechaFinVenta: toISOStringWithTimezone(this.endDate.value),
+      fechaSorteo: toISOStringWithTimezone(this.raffleDate.value),
       estado: RaffleStatus.ACTIVO,
-      fechaSorteo: new Date(this.raffleDate?.value).toISOString(),
       precio: this.ticketPrice?.value,
     };
     this.createRaffleService.createRaffle(raffle).subscribe({

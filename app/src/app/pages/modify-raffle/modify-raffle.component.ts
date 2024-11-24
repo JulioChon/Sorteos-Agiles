@@ -18,6 +18,7 @@ import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { SelectImageComponent } from '../../components/select-image/select-image.component';
 import { FirestorageService } from '../../shared/services/storage/firestorage.service';
 import { AlertService } from '../../shared/services/alert.service';
+import { RaffleStatus } from '@shared/types/raffle-status.enum';
 
 @Component({
   selector: 'app-modify-raffle',
@@ -43,6 +44,7 @@ export class ModifyRaffleComponent implements OnInit {
   updateSelectedFile: File | null = null;
   showLoading: boolean = true;
   readonly defaultImage: string = 'https://placehold.co/300';
+  raffleStatus = Object.values(RaffleStatus);
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -105,6 +107,7 @@ export class ModifyRaffleComponent implements OnInit {
         formatDate(raffle.raffleDate, 'yyyy-MM-dd', 'en'),
         [Validators.required, this.validateRaffleDate()],
       ],
+      ticketPrice: [raffle.price, [Validators.required, Validators.min(1)]],
       status: [raffle.status, [Validators.required]],
     });
 
@@ -154,6 +157,10 @@ export class ModifyRaffleComponent implements OnInit {
     return this.updateRaffleForm.get('raffleDate');
   }
 
+  get ticketPrice() {
+    return this.updateRaffleForm.get('ticketPrice');
+  }
+
   get status() {
     return this.updateRaffleForm.get('status');
   }
@@ -183,13 +190,14 @@ export class ModifyRaffleComponent implements OnInit {
       if (!control.value) {
         return { required: true };
       }
-      const selectedDate = new Date(control.value);
+      const startDate = new Date(control.value + 'T00:00:00');
       const today = new Date();
+      startDate.setHours(0, 0, 0, 0);
       today.setHours(0, 0, 0, 0);
-      if (selectedDate < today) {
+      if (startDate.getTime() < today.getTime()) {
         return { invalidDate: 'La fecha no puede ser anterior a la de hoy' };
       }
-      const year: string = selectedDate.getFullYear().toString();
+      const year: string = startDate.getFullYear().toString();
       if (year.length > 4) {
         return { invalidDate: ' Año no válido' };
       }
@@ -206,9 +214,13 @@ export class ModifyRaffleComponent implements OnInit {
         this.updateRaffleForm?.get('startDate')?.value
       );
       const endDate = new Date(control.value);
-      if (endDate < startDateValue) {
-        console.log('startDateValue', startDateValue);
+      startDateValue.setHours(0, 0, 0, 0);
+      endDate.setHours(0, 0, 0, 0);
+      if (endDate.getTime() < startDateValue.getTime()) {
         return { invalidDate: 'La fecha no puede ser anterior a la de inicio' };
+      }
+      if (endDate.getTime() === startDateValue.getTime()) {
+        return { invalidDate: 'La fecha no puede ser igual a la de inicio' };
       }
       const year: string = endDate.getFullYear().toString();
       if (year.length > 4) {
@@ -226,8 +238,34 @@ export class ModifyRaffleComponent implements OnInit {
       const selectedDate = new Date(control.value);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      if (selectedDate < today) {
+      if (selectedDate.getTime() < today.getTime()) {
         return { invalidDate: 'La fecha no puede ser anterior a la de hoy' };
+      }
+      const endDate = new Date(this.updateRaffleForm?.get('endDate')?.value);
+      if (selectedDate.getTime() < endDate.getTime()) {
+        return {
+          invalidDate: 'La fecha no puede ser anterior a la de fin de venta',
+        };
+      }
+      const startDate = new Date(this.updateRaffleForm?.get('startDate')?.value);
+      if (selectedDate.getTime() < startDate.getTime()) {
+        return {
+          invalidDate: 'La fecha no puede ser anterior a la de inicio de venta',
+        };
+      }
+      if (
+        selectedDate.getTime() > startDate.getTime() &&
+        selectedDate.getTime() < endDate.getTime()
+      ) {
+        return {
+          invalidDate:
+            'La fecha no puede estar en el periodo de venta del sorteo',
+        };
+      }
+      if (selectedDate.getTime() === endDate.getTime()) {
+        return {
+          invalidDate: 'La fecha no puede ser igual a la de fin de venta',
+        };
       }
       const year: string = selectedDate.getFullYear().toString();
       if (year.length > 4) {
@@ -306,6 +344,7 @@ export class ModifyRaffleComponent implements OnInit {
       fechaInicioVenta: toISOStringWithTimezone(this.startDate.value),
       fechaFinVenta: toISOStringWithTimezone(this.endDate.value),
       fechaSorteo: toISOStringWithTimezone(this.raffleDate.value),
+      precio: this.ticketPrice.value,
       estado: this.status.value,
     };
 

@@ -14,6 +14,7 @@ export interface Raffle {
     endDate: Date,
     raffleDate: Date,
     status: RaffleStatus
+    price: number
 }
 
 export interface Sorteo {
@@ -26,4 +27,5 @@ export interface Sorteo {
     fechaFinVenta: string;
     fechaSorteo: string;
     estado: RaffleStatus;
+    precio: number;
 }
