@@ -199,18 +199,19 @@
                   type="number"
                   id="ticketPrice"
                   class="form-control"
-                  formControlName="price"
+                  formControlName="ticketPrice"
+                  minlength="1"
                 />
                 <!-- Mensaje de error para el precio del boleto -->
                 <div
                   class="errors text-danger"
-                  *ngIf="price?.invalid && (price?.touched || price?.dirty)"
+                  *ngIf="ticketPrice?.invalid && (ticketPrice?.touched || ticketPrice?.dirty)"
                 >
-                  <div *ngIf="price?.errors?.['required']">
+                  <div *ngIf="ticketPrice?.errors?.['required']">
                     El precio del boleto es obligatorio.
                   </div>
-                  <div *ngIf="price?.errors?.['min']">
-                    El precio del boleto no puede ser menor a 0.
+                  <div *ngIf="ticketPrice?.errors?.['min']">
+                    El precio del boleto no puede ser menor o igual a 0.
                   </div>
                 </div>
               </div>

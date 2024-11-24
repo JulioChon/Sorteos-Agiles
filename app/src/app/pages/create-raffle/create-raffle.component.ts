@@ -21,7 +21,13 @@ import { AlertService } from '@shared/services/alert.service';
 @Component({
   selector: 'app-create-raffle',
   standalone: true,
-  imports: [CommonModule, HeaderComponent ,FooterComponent, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    FooterComponent,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './create-raffle.component.html',
   styleUrls: ['./create-raffle.component.scss'],
   providers: [FirestorageService, CreateRaffleService],
@@ -46,7 +52,14 @@ export class CreateRaffleComponent {
 
   initFormCreateRaffle() {
     this.createRaffleForm = this.formBuilder.group({
-      title: ['', [Validators.required, this.validateRaffleName(), Validators.maxLength(50)]],
+      title: [
+        '',
+        [
+          Validators.required,
+          this.validateRaffleName(),
+          Validators.maxLength(50),
+        ],
+      ],
       startDate: ['', [Validators.required, this.validateStartDate()]],
       endDate: ['', [Validators.required, this.validateEndDate()]],
       raffleDate: ['', [Validators.required, this.validateRaffleDate()]],
@@ -55,8 +68,8 @@ export class CreateRaffleComponent {
         [Validators.required, Validators.min(this.minTicketsRange)],
       ],
       ticketsMax: ['', [Validators.required, this.validateTicketsMax()]],
+      ticketPrice: [null, [Validators.required, Validators.min(1)]],
       image: [null],
-      price: [0, [Validators.required, Validators.min(0)]],
     });
   }
 
@@ -87,9 +100,9 @@ export class CreateRaffleComponent {
   get image() {
     return this.createRaffleForm.get('image');
   }
-  
-  get price() {
-    return this.createRaffleForm.get('price');
+
+  get ticketPrice() {
+    return this.createRaffleForm.get('ticketPrice');
   }
 
   validateDatesControllers(): void {
@@ -112,32 +125,36 @@ export class CreateRaffleComponent {
       }
 
       if (/^\s*$/.test(value)) {
-        return { invalidName: 'El nombre no puede contener solo espacios en blanco' };
+        return {
+          invalidName: 'El nombre no puede contener solo espacios en blanco',
+        };
       }
 
       if (/\d/.test(value) && !/[a-zA-Z]/.test(value)) {
-        return { invalidName: 'El nombre debe contener letras si incluye números' };
+        return {
+          invalidName: 'El nombre debe contener letras si incluye números',
+        };
       }
 
       return null;
     };
   }
 
-
   validateStartDate(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (!control.value) {
         return { required: true };
       }
-      const selectedDate = new Date(control.value);
+      const selectedDate = new Date(control.value + 'T00:00:00');
       const today = new Date();
+      selectedDate.setHours(0, 0, 0, 0);
       today.setHours(0, 0, 0, 0);
-      if (selectedDate < today) {
+      if (selectedDate.getTime() < today.getTime()) {
         return { invalidDate: 'La fecha no puede ser anterior a la de hoy' };
       }
       const year: string = selectedDate.getFullYear().toString();
       if (year.length > 4) {
-        return { invalidDate: ' Año no válido' };
+        return { invalidDate: 'Año no válido' };
       }
       return null;
     };
@@ -148,11 +165,20 @@ export class CreateRaffleComponent {
       if (!control.value) {
         return { required: true };
       }
-      const startDate = new Date(this.createRaffleForm.get('startDate').value);
-      const endDate = new Date(control.value);
-      if (endDate < startDate) {
+      const startDate = new Date(this.startDate?.value + 'T00:00:00');
+      const endDate = new Date(control.value + 'T00:00:00');
+
+      startDate.setHours(0, 0, 0, 0);
+      endDate.setHours(0, 0, 0, 0);
+
+      if (endDate.getTime() < startDate.getTime()) {
         return { invalidDate: 'La fecha no puede ser anterior a la de inicio' };
       }
+
+      if (endDate.getTime() === startDate.getTime()) {
+        return { invalidDate: 'La fecha no puede ser igual a la de inicio' };
+      }
+
       const year: string = endDate.getFullYear().toString();
       if (year.length > 4) {
         return { invalidDate: ' Año no válido' };
@@ -169,8 +195,34 @@ export class CreateRaffleComponent {
       const selectedDate = new Date(control.value);
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-      if (selectedDate < today) {
+      if (selectedDate.getTime() < today.getTime()) {
         return { invalidDate: 'La fecha no puede ser anterior a la de hoy' };
+      }
+      const endDate = new Date(this.endDate?.value);
+      if (selectedDate.getTime() < endDate.getTime()) {
+        return {
+          invalidDate: 'La fecha no puede ser anterior a la de fin de venta',
+        };
+      }
+      const startDate = new Date(this.startDate?.value);
+      if (selectedDate.getTime() < startDate.getTime()) {
+        return {
+          invalidDate: 'La fecha no puede ser anterior a la de inicio de venta',
+        };
+      }
+      if (
+        selectedDate.getTime() > startDate.getTime() &&
+        selectedDate.getTime() < endDate.getTime()
+      ) {
+        return {
+          invalidDate:
+            'La fecha no puede estar en el periodo de venta del sorteo',
+        };
+      }
+      if (selectedDate.getTime() === endDate.getTime()) {
+        return {
+          invalidDate: 'La fecha no puede ser igual a la de fin de venta',
+        };
       }
       const year: string = selectedDate.getFullYear().toString();
       if (year.length > 4) {
@@ -226,7 +278,7 @@ export class CreateRaffleComponent {
       fechaFinVenta: new Date(this.endDate?.value).toISOString(),
       estado: RaffleStatus.ACTIVO,
       fechaSorteo: new Date(this.raffleDate?.value).toISOString(),
-      precio: this.price?.value,
+      precio: this.ticketPrice?.value,
     };
     this.createRaffleService.createRaffle(raffle).subscribe({
       next: (raffle) => {
@@ -234,8 +286,11 @@ export class CreateRaffleComponent {
       },
       error: (error) => {
         this.fireStorage.removeImage(photoUrl);
-        this.alert.openInfoModal('Error al crear el sorteo, revisa los detalles', 'Por favor, intenta de nuevo');
-      }
-    })
+        this.alert.openInfoModal(
+          'Error al crear el sorteo, revisa los detalles',
+          'Por favor, intenta de nuevo'
+        );
+      },
+    });
   }
 }
