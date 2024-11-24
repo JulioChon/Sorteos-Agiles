@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { RaffleDTO, SorteoDTO } from './raffles.types';
+import { BoletoDTO, RaffleDTO, SorteoDTO, TicketDTO } from './raffles.types';
 import { environment } from '../../environment/environment';
 
 @Injectable({

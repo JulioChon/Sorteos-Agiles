@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.agiles.sorteos.capadatos.capadatos.dominio.ConfiguracionEnvio;
+import com.agiles.sorteos.capadatos.capadatos.dominio.Boleto;
 import com.agiles.sorteos.capadatos.capadatos.fachadas.IFachadaSorteos;
 import com.agiles.sorteos.capanegocios.capasnegocios.servicios.IBoletoService;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -53,7 +55,9 @@ public class BoletoController {
 
     @GetMapping("/sorteo/{idSorteo}")
     public ResponseEntity<?> obtenerBoletosPorIdSorteo(@PathVariable Integer idSorteo) {
-        return ResponseEntity.ok(boletoService.obtenerBoletosPorIdSorteo(idSorteo));
+        List<Boleto> boletos = boletoService.obtenerBoletosPorIdSorteo(idSorteo);
+        boletos.forEach(boleto -> boleto.setIdSorteo(null));
+        return ResponseEntity.ok(boletos);
     }
     @GetMapping("/cliente/{idCliente}")
     public ResponseEntity<?> obtenerBoletosPorIdCliente(@PathVariable Integer idCliente){

@@ -31,7 +31,7 @@ export class RaffleTicketsService {
 
   findTicketsByRaffleId(id: number): Observable<RaffleTicketDTO[]> {
     return this.http.get<BoletoDTO[]>(`${environment.api}/boletos/sorteo/${id}`).pipe(
-      map((boletos: BoletoDTO[]) => 
+      map((boletos: BoletoDTO[]) =>
         boletos.map((boleto) => ({
           id: boleto.id,
           ticketNumber: boleto.numeroBoleto,
@@ -53,5 +53,5 @@ export class RaffleTicketsService {
       )
     );
   }
-  
+
 }
