@@ -5,17 +5,19 @@ import java.util.Date;
 import com.agiles.sorteos.capadatos.capadatos.utilis.ESTADO;
 import com.agiles.sorteos.capadatos.capadatos.utilis.IesRequerido;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-
+import java.util.List;
 
 @Entity
 @Table(name = "sorteos")
@@ -55,31 +57,27 @@ public class Sorteo {
     private Float precio;
 
     @ManyToOne
-    @JoinColumn(name = "id_administrador") 
+    @JoinColumn(name = "id_administrador")
     @JsonIgnore
     private Administrador idAdministrador;
+
+    @OneToMany(mappedBy = "idSorteo", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    private List<Boleto> boletos;
 
     // Constructor vacío
     public Sorteo() {
     }
 
     // Constructor sin ID
-   
-
     // Getters y Setters
-    
-
-    
-    
-    
     public Sorteo(Integer id, String nombre, String imagenSorteo,
-    @NotNull(message = "El rango maximo es requerido") Long rangoMax,
-    @NotNull(message = "El rango minimo es requerido") Long rangoMin,
-    @NotNull(message = "La fecha de inicio es requerida") Date fechaInicioVenta,
-    @NotNull(message = "La fecha de fin es requerida") Date fechaFinVenta,
-    @NotNull(message = "La fecha del sorteo es requerida") Date fechaSorteo,
-    @NotNull(message = "El estado es requerido") ESTADO estado,
-    @NotNull(message = "El precio es requerido") Float precio, Administrador idAdministrador) {
+            @NotNull(message = "El rango maximo es requerido") Long rangoMax,
+            @NotNull(message = "El rango minimo es requerido") Long rangoMin,
+            @NotNull(message = "La fecha de inicio es requerida") Date fechaInicioVenta,
+            @NotNull(message = "La fecha de fin es requerida") Date fechaFinVenta,
+            @NotNull(message = "La fecha del sorteo es requerida") Date fechaSorteo,
+            @NotNull(message = "El estado es requerido") ESTADO estado,
+            @NotNull(message = "El precio es requerido") Float precio, Administrador idAdministrador) {
         this.id = id;
         this.nombre = nombre;
         this.imagenSorteo = imagenSorteo;
@@ -92,6 +90,7 @@ public class Sorteo {
         this.precio = precio;
         this.idAdministrador = idAdministrador;
     }
+
     public Sorteo(String nombre, String imagenSorteo, @NotNull(message = "El rango maximo es requerido") Long rangoMax,
             @NotNull(message = "El rango minimo es requerido") Long rangoMin,
             @NotNull(message = "La fecha de inicio es requerida") Date fechaInicioVenta,
@@ -114,7 +113,7 @@ public class Sorteo {
     public Integer getId() {
         return id;
     }
-    
+
     public Long getRangoMax() {
         return rangoMax;
     }
@@ -197,5 +196,13 @@ public class Sorteo {
 
     public void setPrecio(Float precio) {
         this.precio = precio;
+    }
+    
+    public List<Boleto> getBoletos() {
+        return this.boletos;
+    }
+    
+    public void setBoletos(List<Boleto> boletos) {
+        this.boletos = boletos;
     }
 }

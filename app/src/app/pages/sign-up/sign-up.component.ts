@@ -34,7 +34,7 @@ export class SignUpComponent implements OnInit {
     private readonly router: Router,
     private readonly signUpService: SignUpService,
     private readonly alertService: AlertService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) {}
 
   ngOnInit() {
@@ -43,15 +43,16 @@ export class SignUpComponent implements OnInit {
 
   onCreateSignUpForm() {
     this.signUpForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      fullname: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
+      fullname: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*$'), Validators.maxLength(50)]],
       cellphone: ['', [Validators.required, Validators.minLength(10)]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
       confirmPassword: [
         '',
         [
           Validators.required,
           Validators.minLength(6),
+          Validators.maxLength(20),
           this.validateConfirmPassword(),
         ],
       ],
@@ -89,10 +90,9 @@ export class SignUpComponent implements OnInit {
         this.router.navigate(['/home']);
       },
       error: (error) => {
-        console.error(error);
+        this.alertService.openInfoModal('Error al registrar el usuario', 'Error');
       },
     });
-    // console.log(this.signUpForm.value);
   }
 
   get email() {

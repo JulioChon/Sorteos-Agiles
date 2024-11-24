@@ -21,6 +21,8 @@ import com.agiles.sorteos.capadatos.capadatos.dominio.Sorteo;
 import com.agiles.sorteos.capanegocios.capasnegocios.servicios.ISorteoService;
 
 import jakarta.validation.Valid;
+import java.util.List;
+import org.springframework.data.repository.query.Param;
 
 
 @RestController
@@ -43,13 +45,19 @@ public class SorteoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> obtenerSorteoPorId(@PathVariable Integer id) {
-        return ResponseEntity.ok(sorteoService.obtenerSorteoPorId(id));
+    public ResponseEntity<?> obtenerSorteoPorId(@PathVariable Integer id,  @Param("tickets") boolean tickets) {
+        Sorteo sorteos = sorteoService.obtenerSorteoPorId(id);
+        if (!tickets) {
+            sorteos.setBoletos(null);
+        }
+        return ResponseEntity.ok(sorteos);
     }
 
     @GetMapping("/admin/{idAdmin}")
     public ResponseEntity<?> obtenerSorteoPorIdAdmin(@PathVariable Integer idAdmin) {
-        return ResponseEntity.ok(sorteoService.obtenerSorteosPorIdAdmin(idAdmin));
+        List<Sorteo> sorteos = sorteoService.obtenerSorteosPorIdAdmin(idAdmin);
+        sorteos.forEach(sorteo -> sorteo.setBoletos(null));
+        return ResponseEntity.ok(sorteos);
     }
     
 

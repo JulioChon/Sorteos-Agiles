@@ -7,16 +7,18 @@
                 <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
                     <div class="mb-3">
                         <label for="fullName" class="form-label">Nombre Completo</label>
-                        <input type="text" class="form-control" id="fullName" placeholder="Ingresa tu nombre completo" formControlName="fullname">
+                        <input type="text" class="form-control" id="fullName" placeholder="Ingresa tu nombre completo" formControlName="fullname" maxlength="60">
                         <div *ngIf="fullname.invalid && (fullname.dirty || fullname.touched)" class="text-danger">
                             <div *ngIf="fullname.errors?.['required']">El nombre completo es requerido</div>
+                            <div *ngIf="fullname.errors?.['pattern']">No se pueden incluir carácteres especiales o números</div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <label for="cellphone" class="form-label">Número de celular</label>
-                        <input type="tel" class="form-control" id="cellphone" placeholder="(123)-465-7890" formControlName="cellphone">
+                        <input type="tel" class="form-control" id="cellphone" placeholder="1234567890" formControlName="cellphone" maxlength="10">
                         <div *ngIf="cellphone.invalid && (cellphone.dirty || cellphone.touched)" class="text-danger">
                             <div *ngIf="cellphone.errors?.['required']">El número de celular es requerido</div>
+                            <div *ngIf="cellphone.errors?.['minlength']">El número debe ser de 10 carácteres</div>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -25,6 +27,7 @@
                         <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
                             <div *ngIf="email.errors?.['required']">El correo electrónico es requerido</div>
                             <div *ngIf="email.errors?.['email']">El correo electrónico no es válido</div>
+                            <div *ngIf="email.errors?.['maxlength']">El correo electrónico es demasiado largo</div>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -33,6 +36,7 @@
                         <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
                             <div *ngIf="password.errors?.['required']">La contraseña es requerida</div>
                             <div *ngIf="password.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</div>
+                            <div *ngIf="password.errors?.['maxlength']">La contraseña es demasiado larga</div>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -42,6 +46,7 @@
                             <div *ngIf="confirmPassword.errors?.['required']">La confirmación de la contraseña es requerida</div>
                             <div *ngIf="confirmPassword.errors?.['passwordNotMatch']">Las contraseñas no coinciden</div>
                             <div *ngIf="confirmPassword.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</div>
+                            <div *ngIf="confirmPassword.errors?.['maxlength']">La contraseña es demasiado larga</div>
                         </div>
                     </div>
                     <div class="d-grid gap-2">
@@ -54,4 +59,3 @@
     </main>
     <app-footer></app-footer>
   </div>
-  

@@ -22,6 +22,7 @@ export class ModifyRaffleService {
           startDate: new Date(sorteo.fechaInicioVenta),
           endDate: new Date(sorteo.fechaFinVenta),
           raffleDate: new Date(sorteo.fechaSorteo),
+          price: sorteo.precio,
           status: sorteo.estado,
         };
       })
@@ -42,6 +43,7 @@ export class ModifyRaffleService {
             startDate: new Date(sorteo.fechaInicioVenta + 'Z'),
             endDate: new Date(sorteo.fechaFinVenta + 'Z'),
             raffleDate: new Date(sorteo.fechaSorteo + 'Z'),
+            price: sorteo.precio,
             status: sorteo.estado,
           };
         })
