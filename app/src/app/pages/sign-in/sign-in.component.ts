@@ -7,6 +7,7 @@ import { AuthService } from '@shared/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { HeaderComponent } from "../../components/header/header.component";
 import { FooterComponent } from "../../components/footer/footer.component";
+import { AlertService } from '@shared/services/alert.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -19,13 +20,13 @@ import { FooterComponent } from "../../components/footer/footer.component";
 export class SignInComponent implements OnInit {
 
   signInForm: FormGroup;
-  showMessageError: boolean;
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly signInService: SignInService,
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly alert: AlertService
   ) { }
 
   ngOnInit() {
@@ -50,7 +51,6 @@ export class SignInComponent implements OnInit {
   signIn() {
     if (this.signInForm.invalid) {
       this.signInForm.markAllAsTouched();
-      this.showMessageError = true;
     }
     this.signInService.signIn(this.signInForm.value.email, this.signInForm.value.password).subscribe({
       next: (user) => {
@@ -58,7 +58,7 @@ export class SignInComponent implements OnInit {
         this.router.navigate(['/home']);
       },
       error: (error) => {
-        this.showMessageError = true;
+        this.alert.openInfoModal('Por favor, verifica tus credenciales e intenta nuevamente', 'Credenciales incorrectas');
       }
     });
   }

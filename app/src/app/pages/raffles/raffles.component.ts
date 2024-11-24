@@ -5,6 +5,7 @@ import { HeaderComponent } from '@components/header/header.component';
 import { RafflesService } from './raffles.service';
 import { RaffleDTO } from './raffles.types';
 import { Router } from '@angular/router';
+import { AlertService } from '@shared/services/alert.service';
 
 @Component({
   selector: 'app-raffles',
@@ -20,7 +21,8 @@ export class RafflesComponent implements OnInit{
 
   constructor(
     private readonly rafflesService: RafflesService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly alertService: AlertService
   ){}
 
   ngOnInit(){
@@ -28,8 +30,13 @@ export class RafflesComponent implements OnInit{
   }
 
   loadRaffles(){
-    this.rafflesService.findRaffles().subscribe(raffles => {
-      this.raffles = raffles;
+    this.rafflesService.findRaffles().subscribe({
+      next: (raffles) => {
+        this.raffles = raffles;
+      },
+      error: (error) => {
+        this.alertService.openInfoModal('Error al obtener los sorteos', 'Error');
+      }
     });
   }
 

@@ -74,15 +74,15 @@ export class PayReminderConfigurationComponent implements OnInit {
       minutos: this.minutes.value,
       segundos: this.seconds.value
     }
-    this.payReminderConfigurationService.createConfiguration(configuracion).subscribe(
-      () => {
+    this.payReminderConfigurationService.createConfiguration(configuracion).subscribe({
+      next: () => {
         this.alertService.openInfoModal('Configuración guardada correctamente');
         this.router.navigate(['/admin']);
       },
-      (error) => {
+      error: (error) => {
         this.alertService.openInfoModal('Error al guardar la configuración');
       }
-    );
+  });
   }
 
   // Getters para los campos del formulario
