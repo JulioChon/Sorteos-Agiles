@@ -1,5 +1,6 @@
 package com.agiles.sorteos.capadatos.capadatos.fachadas;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -203,6 +204,12 @@ public class FachadaSorteos implements IFachadaSorteos {
     @Override
     public List<Boleto> obtenerBoletosApartados() {
         return boletosDAO.findByEstado(BOLETOESTADO.APARTADO);
+    }
+
+    @Override
+    @Transactional
+    public void liberarBoletosVencidos(Date fechaLimite) {
+        boletosDAO.liberarBoletosVencidos(fechaLimite);
     }
 
 }

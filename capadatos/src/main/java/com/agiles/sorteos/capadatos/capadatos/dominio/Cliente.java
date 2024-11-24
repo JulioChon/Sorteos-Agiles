@@ -1,5 +1,7 @@
 package com.agiles.sorteos.capadatos.capadatos.dominio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,8 +28,9 @@ public class Cliente {
     @NotNull(message = "El telefono no debe de ser nulo")
     private String telefono;
 
-    @NotBlank(message = "El telefono no debe de estar en blanco")
-    @NotNull(message = "El telefono no debe de ser nulo")
+    @NotBlank(message = "La contraseña no debe de estar en blanco")
+    @NotNull(message = "La contraseña no debe de ser nula")
+    @JsonIgnore
     private String contrasenia;
 
 
