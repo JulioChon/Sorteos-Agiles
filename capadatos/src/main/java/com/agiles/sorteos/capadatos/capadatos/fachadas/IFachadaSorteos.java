@@ -1,5 +1,6 @@
 package com.agiles.sorteos.capadatos.capadatos.fachadas;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -56,6 +57,8 @@ public interface IFachadaSorteos {
 
     ConfiguracionEnvio obtenerConfiguracionEnvio();
 
-    public List<Boleto> obtenerBoletosApartados();
-    
+    List<Boleto> obtenerBoletosApartados();
+
+
+    void liberarBoletosVencidos(Date fechaLimite);
 }
