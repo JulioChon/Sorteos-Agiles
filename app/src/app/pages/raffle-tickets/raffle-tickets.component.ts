@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { HeaderComponent } from '../../components/header/header.component';
 import { RaffleTicketsService } from './raffle-tickets.service';
-import { RaffleDTO, RaffleTicketDTO } from './raffle-tickets.types';
+import { RaffleDTO, RaffleTicketDTO, RaffleTicketStatus } from './raffle-tickets.types';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AlertService } from '@shared/services/alert.service';
@@ -65,18 +65,27 @@ export class RaffleTicketsComponent implements OnInit {
     return this.createRange(maxRange - minRange + 1).map((_, i) => i + minRange);
   }
 
-  isTicketAvailable(ticket: number): boolean {
-    // Lógica para verificar si el boleto está disponible
-    return true; // Cambia esto según tu lógica
+  defineTicketStatus(status: RaffleTicketStatus): string {
+    switch (status) {
+      case RaffleTicketStatus.FREE:
+        return 'btn-success';
+      case RaffleTicketStatus.RESERVED:
+        return 'btn-warning';
+      case RaffleTicketStatus.SOLD:
+        return 'btn-danger';
+      default:
+        return 'Desconocido';
+    }
   }
 
-  isTicketReserved(ticket: number): boolean {
-    // Lógica para verificar si el boleto está apartado
-    return false; // Cambia esto según tu lógica
-  }
-
-  isTicketSold(ticket: number): boolean {
-    // Lógica para verificar si el boleto está vendido
-    return false; // Cambia esto según tu lógica
+  reserveTicket(ticketId: number): void {
+    this.raffleTicketsService.reserveTicket(ticketId).subscribe({
+      next: () => {
+        this.loadTickets();
+      },
+      error: (error) => {
+        this.alertService.openInfoModal('Error al reservar el boleto', 'Error');
+      }
+    });
   }
 }

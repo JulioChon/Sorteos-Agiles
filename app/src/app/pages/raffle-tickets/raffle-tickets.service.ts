@@ -4,12 +4,15 @@ import { BoletoDTO, BoletoEstado, RaffleDTO, RaffleTicketDTO, RaffleTicketStatus
 import { map, Observable } from 'rxjs';
 import { environment } from '../../environment/environment';
 import { RaffleStatus } from '@shared/types/raffle-status.enum';
+import { AuthService } from '@shared/services/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RaffleTicketsService {
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient,
+    private readonly auth: AuthService
+  ) {}
 
   findRaffleById(id: number): Observable<RaffleDTO> {
     return this.http.get<SorteoDTO>(`${environment.api}/sorteos/${id}`).pipe(
@@ -31,7 +34,7 @@ export class RaffleTicketsService {
 
   findTicketsByRaffleId(id: number): Observable<RaffleTicketDTO[]> {
     return this.http.get<BoletoDTO[]>(`${environment.api}/boletos/sorteo/${id}`).pipe(
-      map((boletos: BoletoDTO[]) => 
+      map((boletos: BoletoDTO[]) =>
         boletos.map((boleto) => ({
           id: boleto.id,
           ticketNumber: boleto.numeroBoleto,
@@ -53,5 +56,17 @@ export class RaffleTicketsService {
       )
     );
   }
-  
+
+  reserveTicket(ticketId: number): Observable<RaffleTicketDTO> {
+    const user = this.auth.getUser();
+    return this.http.put<BoletoDTO>(`${environment.api}/boletos/apartado/query`, null, {params: <any>{ idBoleto: ticketId, correo: user.correo }}).pipe(
+      map((boleto: BoletoDTO) => ({
+        id: boleto.id,
+        ticketNumber: boleto.numeroBoleto,
+        price: boleto.precio,
+        status: RaffleTicketStatus.RESERVED,
+        reservationLimitDate: new Date(boleto.fechaLimApart),
+      }))
+    );
+  }
 }

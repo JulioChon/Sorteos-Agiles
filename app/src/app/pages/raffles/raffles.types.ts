@@ -21,3 +21,29 @@ export interface SorteoDTO {
   rangoMax: number;
   rangoMin: number;
 }
+
+export interface BoletoDTO {
+  id: number;
+  numeroBoleto: number;
+  estado: BoletoEstado;
+  precio: number;
+}
+
+export enum BoletoEstado {
+  LIBRE = 'LIBRE',
+  VENDIDO = 'VENDIDO',
+  APARTADO = 'APARTADO'
+}
+
+export interface TicketDTO {
+  id: number;
+  number: number;
+  status: BoletoEstado;
+  price: number;
+}
+
+export enum TicketStatus {
+  FREE = 'FREE',
+  SOLD = 'SOLD',
+  RESERVED = 'RESERVED'
+}

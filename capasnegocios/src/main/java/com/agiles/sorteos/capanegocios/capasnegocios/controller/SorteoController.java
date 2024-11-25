@@ -24,28 +24,25 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.data.repository.query.Param;
 
-
 @RestController
-@CrossOrigin(origins="http://localhost:4200", originPatterns = "*")
+@CrossOrigin(origins = "http://localhost:4200", originPatterns = "*")
 @RequestMapping("/api/sorteos")
 public class SorteoController {
 
     @Autowired
     private ISorteoService sorteoService;
 
- 
-
     @PostMapping("/{id}")
     public ResponseEntity<?> crearSorteo(@Valid @RequestBody Sorteo sorteo, BindingResult result, @PathVariable Integer id) {
         if (result.hasFieldErrors()) {
             return validation(result);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(sorteoService.guardarSorteo(sorteo,id));
+        return ResponseEntity.status(HttpStatus.CREATED).body(sorteoService.guardarSorteo(sorteo, id));
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> obtenerSorteoPorId(@PathVariable Integer id,  @Param("tickets") boolean tickets) {
+    public ResponseEntity<?> obtenerSorteoPorId(@PathVariable Integer id, @Param("tickets") boolean tickets) {
         Sorteo sorteos = sorteoService.obtenerSorteoPorId(id);
         if (!tickets) {
             sorteos.setBoletos(null);
@@ -59,11 +56,14 @@ public class SorteoController {
         sorteos.forEach(sorteo -> sorteo.setBoletos(null));
         return ResponseEntity.ok(sorteos);
     }
-    
 
     @GetMapping
-    public ResponseEntity<?> obtenerSorteos() {
-        return ResponseEntity.ok(sorteoService.obtenerSorteos());
+    public ResponseEntity<?> obtenerSorteos(@Param("tickets") boolean tickets) {
+        List<Sorteo> sorteos = sorteoService.obtenerSorteos();
+        if (!tickets) {
+            sorteos.forEach(sorteo -> sorteo.setBoletos(null));
+        }
+        return ResponseEntity.ok(sorteos);
     }
 
     @DeleteMapping("/{id}")
