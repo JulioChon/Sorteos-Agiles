@@ -1,33 +1,41 @@
-name: Java CI with Maven
+name: Java CI for Multiple Projects
 
 on:
   push:
     branches:
-      - main  # Ejecutar el flujo de trabajo solo para la rama main
+      - main
     paths:
-      - '**/*.java'  # Solo ejecuta el flujo si hay cambios en archivos Java
+      - '**/*.java'  # Solo se ejecutará si hay cambios en archivos Java.
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Usar la última versión de Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
     # 1. Checkout el código
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # 2. Configurar JDK 17 (ajusta la versión si usas otra)
+    # 2. Configurar JDK 17
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
 
-    # 3. Instalar dependencias y ejecutar pruebas con Maven
-    - name: Build with Maven
-      run: mvn clean test -DskipTests=false  # Ejecuta las pruebas unitarias
+    # 3. Ejecutar pruebas para el primer proyecto
+    - name: Run tests for Project 1
+      run: |
+        cd capadatos
+        mvn clean test -DskipTests=false
 
-    # 4.  Subir resultados de pruebas
+    # 4. Ejecutar pruebas para el segundo proyecto
+    - name: Run tests for Project 2
+      run: |
+        cd capanegocios
+        mvn clean test -DskipTests=false
+
+
     - name: Upload test results
       uses: actions/upload-artifact@v3
       with:
