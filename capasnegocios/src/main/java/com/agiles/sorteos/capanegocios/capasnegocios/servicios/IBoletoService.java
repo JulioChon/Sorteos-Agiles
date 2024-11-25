@@ -27,5 +27,6 @@ public interface IBoletoService {
 
     List<Boleto> obtenerBoletosCliente(Integer idCliente);
 
-    
+    void liberarBoletosVencidos();
+
 }

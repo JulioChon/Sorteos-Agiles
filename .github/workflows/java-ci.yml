@@ -1,0 +1,36 @@
+name: Build and Test Java Projects
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**/*.java'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Clonar el código
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 2. Configurar Java
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    # 3. Construir e instalar capadatos
+    - name: Build and install capadatos
+      run: |
+        cd capadatos 
+        mvn clean install
+
+    # 4. Construir y probar capasnegocios
+    - name: Build and test capasnegocios
+      run: |
+        cd capasnegocios 
+        mvn clean test

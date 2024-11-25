@@ -61,6 +61,7 @@ public class Sorteo {
     @JsonIgnore
     private Administrador idAdministrador;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "idSorteo", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<Boleto> boletos;
 
