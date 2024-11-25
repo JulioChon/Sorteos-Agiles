@@ -1,43 +1,36 @@
-name: Java CI for Multiple Projects
+name: Build and Test Java Projects
 
 on:
   push:
     branches:
       - main
     paths:
-      - '**/*.java'  # Solo se ejecutará si hay cambios en archivos Java.
+      - '**/*.java'
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Checkout el código
+    # 1. Clonar el código
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # 2. Configurar JDK 17
+    # 2. Configurar Java
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
 
-    # 3. Ejecutar pruebas para el primer proyecto
-    - name: Run tests for Project 1
+    # 3. Construir e instalar capadatos
+    - name: Build and install capadatos
       run: |
-        cd capadatos
-        mvn clean test -DskipTests=false
+        cd capadatos 
+        mvn clean install
 
-    # 4. Ejecutar pruebas para el segundo proyecto
-    - name: Run tests for Project 2
+    # 4. Construir y probar capasnegocios
+    - name: Build and test capasnegocios
       run: |
-        cd capasnegocios
-        mvn clean test -DskipTests=false
-
-
-    - name: Upload test results
-      uses: actions/upload-artifact@v3
-      with:
-        name: test-results
-        path: target/test-classes
+        cd capasnegocios 
+        mvn clean test
