@@ -111,7 +111,11 @@ public class BoletoService implements IBoletoService {
             boleto.setFechaLimApart(fecha.getTime());
             boleto.setEstado(BOLETOESTADO.APARTADO);
             boleto.setIdCliente(fachadaSorteos.clienteExiste(correo));
-            envioCorreoService.enviarCorreoConfirmacionApartado(correo, boleto);
+            try {
+                envioCorreoService.enviarCorreoConfirmacionApartado(correo, boleto);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return fachadaSorteos.guardarBoleto(boleto);
         }
     }
