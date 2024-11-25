@@ -32,7 +32,7 @@ jobs:
     # 4. Ejecutar pruebas para el segundo proyecto
     - name: Run tests for Project 2
       run: |
-        cd capanegocios
+        cd capasnegocios
         mvn clean test -DskipTests=false
 
 
