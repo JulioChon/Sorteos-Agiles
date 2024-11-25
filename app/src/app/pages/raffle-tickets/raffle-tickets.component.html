@@ -42,6 +42,7 @@
             [ngClass]="defineTicketStatus(ticket.status)"
             class="btn list__button"
             style="width: 80px; height: 80px"
+            (click)="reserveTicket(ticket.id)"
           >
             {{ ticket.ticketNumber }}
           </button>

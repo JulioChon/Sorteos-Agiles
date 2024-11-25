@@ -65,21 +65,6 @@ export class RaffleTicketsComponent implements OnInit {
     return this.createRange(maxRange - minRange + 1).map((_, i) => i + minRange);
   }
 
-  isTicketAvailable(ticket: number): boolean {
-    // Lógica para verificar si el boleto está disponible
-    return true; // Cambia esto según tu lógica
-  }
-
-  isTicketReserved(ticket: number): boolean {
-    // Lógica para verificar si el boleto está apartado
-    return false; // Cambia esto según tu lógica
-  }
-
-  isTicketSold(ticket: number): boolean {
-    // Lógica para verificar si el boleto está vendido
-    return false; // Cambia esto según tu lógica
-  }
-
   defineTicketStatus(status: RaffleTicketStatus): string {
     switch (status) {
       case RaffleTicketStatus.FREE:
@@ -91,5 +76,16 @@ export class RaffleTicketsComponent implements OnInit {
       default:
         return 'Desconocido';
     }
+  }
+
+  reserveTicket(ticketId: number): void {
+    this.raffleTicketsService.reserveTicket(ticketId).subscribe({
+      next: () => {
+        this.loadTickets();
+      },
+      error: (error) => {
+        this.alertService.openInfoModal('Error al reservar el boleto', 'Error');
+      }
+    });
   }
 }
