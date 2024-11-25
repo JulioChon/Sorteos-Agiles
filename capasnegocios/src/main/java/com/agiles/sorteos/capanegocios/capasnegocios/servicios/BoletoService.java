@@ -33,6 +33,7 @@ public class BoletoService implements IBoletoService {
             boleto.setIdSorteo(sorteo);
             boleto.setEstado(BOLETOESTADO.LIBRE);
             boleto.setPrecio(precio);
+            
             this.guardarBoleto(boleto);
 
         }
