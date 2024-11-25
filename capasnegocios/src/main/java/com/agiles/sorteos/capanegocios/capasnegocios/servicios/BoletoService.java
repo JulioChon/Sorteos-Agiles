@@ -32,6 +32,8 @@ public class BoletoService implements IBoletoService {
             boleto.setNumeroBoleto((int) (rangoMinimo + i));
             boleto.setIdSorteo(sorteo);
             boleto.setEstado(BOLETOESTADO.LIBRE);
+
+            
             boleto.setPrecio(precio);
             this.guardarBoleto(boleto);
 
