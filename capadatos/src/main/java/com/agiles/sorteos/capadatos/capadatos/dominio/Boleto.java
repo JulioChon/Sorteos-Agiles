@@ -4,6 +4,8 @@ import java.util.Date;
 
 import com.agiles.sorteos.capadatos.capadatos.utilis.BOLETOESTADO;
 
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -37,11 +39,11 @@ public class Boleto {
     @NotNull(message = "El precio es requerido")
     private float precio;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_sorteo")
     private Sorteo idSorteo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cliente")
     private Cliente idCliente;
 

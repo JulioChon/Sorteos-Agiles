@@ -1,10 +1,13 @@
 package com.agiles.sorteos.capadatos.capadatos.dominio;
 
 import java.util.Date;
+import java.util.List;
 
 import com.agiles.sorteos.capadatos.capadatos.utilis.ESTADO;
 import com.agiles.sorteos.capadatos.capadatos.utilis.IesRequerido;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,10 +20,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
 @Table(name = "sorteos")
+@JsonIgnoreProperties({"boletos"})
 public class Sorteo {
 
     @Id
@@ -62,8 +65,9 @@ public class Sorteo {
     private Administrador idAdministrador;
 
 
-    @OneToMany(mappedBy = "idSorteo", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
-    private List<Boleto> boletos;
+     @OneToMany(mappedBy = "idSorteo", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    
+     private List<Boleto> boletos;
 
     // Constructor vacío
     public Sorteo() {
@@ -198,12 +202,14 @@ public class Sorteo {
     public void setPrecio(Float precio) {
         this.precio = precio;
     }
-    
+
     public List<Boleto> getBoletos() {
-        return this.boletos;
+        return boletos;
     }
-    
+
     public void setBoletos(List<Boleto> boletos) {
         this.boletos = boletos;
     }
+    
+
 }
