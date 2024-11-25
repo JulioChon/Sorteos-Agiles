@@ -56,7 +56,7 @@ public class BoletoController {
     @GetMapping("/sorteo/{idSorteo}")
     public ResponseEntity<?> obtenerBoletosPorIdSorteo(@PathVariable Integer idSorteo) {
         List<Boleto> boletos = boletoService.obtenerBoletosPorIdSorteo(idSorteo);
-        boletos.forEach(boleto -> boleto.setIdSorteo(null));
+        
         return ResponseEntity.ok(boletos);
     }
     @GetMapping("/cliente/{idCliente}")

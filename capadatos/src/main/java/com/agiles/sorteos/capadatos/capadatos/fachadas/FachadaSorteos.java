@@ -29,7 +29,6 @@ public class FachadaSorteos implements IFachadaSorteos {
 
     private IBoletosDAO boletosDAO;
 
-    
     private IAdminDAO adminDAO;
 
     private IClienteDAO clienteDao;
@@ -37,7 +36,6 @@ public class FachadaSorteos implements IFachadaSorteos {
     private PasswordEncoder passwordEncoder;
 
     private IConfiguracionEnvioDAO configuracionEnvioDAO;
-
 
     public FachadaSorteos(ISorteosDAO sorteosDAO, IBoletosDAO boletosDAO, IAdminDAO adminDAO, IClienteDAO clienteDao,
             PasswordEncoder passwordEncoder, IConfiguracionEnvioDAO configuracionEnvioDAO) {
@@ -58,18 +56,18 @@ public class FachadaSorteos implements IFachadaSorteos {
     @Override
     @Transactional
     public Sorteo actualizarSorteo(Integer id, Sorteo sorteo) {
-        if(sorteosDAO.existsById(id)) {
+        if (sorteosDAO.existsById(id)) {
             sorteo.setId(id);
             return sorteosDAO.save(sorteo);
         }
         return null;
-        
+
     }
 
     @Override
     @Transactional
     public void eliminarSorteo(Integer id) {
-        if(sorteosDAO.existsById(id)) {
+        if (sorteosDAO.existsById(id)) {
             sorteosDAO.deleteById(id);
         }
     }
@@ -89,13 +87,12 @@ public class FachadaSorteos implements IFachadaSorteos {
                 .collect(Collectors.toList());
         return lista;
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public List<Sorteo> findSorteosByAdministradorId(Integer idAdministrador) {
         return sorteosDAO.findSorteosByAdministradorId(idAdministrador);
     }
-    
 
     @Override
     @Transactional
@@ -106,7 +103,7 @@ public class FachadaSorteos implements IFachadaSorteos {
     @Override
     @Transactional
     public Boleto cambiarEstado(Integer id, Boleto boleto) {
-        if(boletosDAO.existsById(id)) {
+        if (boletosDAO.existsById(id)) {
             boleto.setNumeroBoleto(id);
             return boletosDAO.save(boleto);
         }
@@ -116,9 +113,9 @@ public class FachadaSorteos implements IFachadaSorteos {
     @Override
     @Transactional
     public void eliminarBoleto(Integer id) {
-        if(boletosDAO.existsById(id)) {
+        if (boletosDAO.existsById(id)) {
             boletosDAO.deleteById(id);
-           
+
         }
     }
 
@@ -138,9 +135,12 @@ public class FachadaSorteos implements IFachadaSorteos {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional()
     public List<Boleto> obtenerBoletosPorIdSorteo(Integer idSorteo) {
-        return boletosDAO.obtenerBoletosPorIdSorteo(idSorteo);
+
+        List<Boleto> boletos = boletosDAO.obtenerBoletosPorIdSorteo(idSorteo);
+
+        return boletos;
     }
 
     @Override
@@ -150,7 +150,7 @@ public class FachadaSorteos implements IFachadaSorteos {
 
     @Override
     public Boleto obtenerBoletoSorteo(Integer numBoleto, Integer idSorteo) {
-       return boletosDAO.obtenerBoletoSorteo(numBoleto, idSorteo);
+        return boletosDAO.obtenerBoletoSorteo(numBoleto, idSorteo);
     }
 
     @Override
@@ -163,7 +163,7 @@ public class FachadaSorteos implements IFachadaSorteos {
     @Override
     public Boolean verificarCliente(String correo, String cotrasenia) {
         Cliente guardado = clienteDao.findByCorreo(correo);
-        if(guardado!=null){
+        if (guardado != null) {
             return passwordEncoder.matches(cotrasenia, guardado.getContrasenia());
 
         }
@@ -172,20 +172,20 @@ public class FachadaSorteos implements IFachadaSorteos {
 
     @Override
     public List<Boleto> obtenerBoletosCliente(Integer idCliente) {
-       return boletosDAO.obtenerBoletosPorIdCliente(idCliente);
+        return boletosDAO.obtenerBoletosPorIdCliente(idCliente);
     }
 
     @Override
     public Cliente clienteExiste(String correo) {
-       Cliente buscado = clienteDao.findByCorreo(correo);
+        Cliente buscado = clienteDao.findByCorreo(correo);
 
-       return buscado;
+        return buscado;
     }
 
     @Override
     public Administrador verificarAdmin(String correo, String contrasenia) {
         Administrador administrador = adminDAO.findByEmailAndContrasena(correo, contrasenia);
-        
+
         return administrador;
     }
 
@@ -199,7 +199,6 @@ public class FachadaSorteos implements IFachadaSorteos {
     public ConfiguracionEnvio obtenerConfiguracionEnvio() {
         return configuracionEnvioDAO.findById(1L).orElse(null);
     }
-
 
     @Override
     public List<Boleto> obtenerBoletosApartados() {
