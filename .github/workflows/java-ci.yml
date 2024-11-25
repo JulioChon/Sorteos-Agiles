@@ -1,0 +1,35 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches:
+      - main  # Ejecutar el flujo de trabajo solo para la rama main
+    paths:
+      - '**/*.java'  # Solo ejecuta el flujo si hay cambios en archivos Java
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Usar la última versión de Ubuntu
+
+    steps:
+    # 1. Checkout el código
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # 2. Configurar JDK 17 (ajusta la versión si usas otra)
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'adoptopenjdk'
+
+    # 3. Instalar dependencias y ejecutar pruebas con Maven
+    - name: Build with Maven
+      run: mvn clean test -DskipTests=false  # Ejecuta las pruebas unitarias
+
+    # 4.  Subir resultados de pruebas
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: target/test-classes
