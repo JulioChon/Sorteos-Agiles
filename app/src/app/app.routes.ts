@@ -33,6 +33,11 @@ export const routes: Routes = [
         ]
     },
     {
+      path: 'my-tickets',
+      loadComponent: () => import('@pages/my-tickets/my-tickets.component').then(m => m.MyTicketsComponent),
+      canActivate: [authGuard]
+    },
+    {
         path: 'admin',
         canActivate: [authGuard, roleGuard],
         children: [

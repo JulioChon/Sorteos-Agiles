@@ -28,6 +28,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.initItems();
     this.user = this.isUserLoggedIn();
+    if (this.user) {
+      this.items.push({ title: 'Mis Boletos', route: '/my-tickets', icon: 'bi bi-ticket-fill' });
+    }
     this.checkUserAdmin();
   }
 

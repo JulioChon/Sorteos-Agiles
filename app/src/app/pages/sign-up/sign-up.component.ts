@@ -84,7 +84,7 @@ export class SignUpComponent implements OnInit {
     }
     this.signUpService.signUp(client).subscribe({
       next: (client) => {
-        const user : User = { nombre: client.nombre, correo: client.correo, admin: false };
+        const user : User = { id: client.id, nombre: client.nombre, correo: client.correo, admin: false };
         this.authService.saveUser(user);
         this.alertService.openInfoModal('Usuario registrado correctamente');
         this.router.navigate(['/home']);
