@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boletos Pendientes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/boletosPendientes.css">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Sorteos Diversos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="sorteos.html">Sorteos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Acerca de</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-dark text-white text-center py-4">
+        <h1 class="fw-bolder">Mis Boletos Pendientes</h1>
+        <p class="lead">Revisa los boletos que tienes pendientes de pago</p>
+    </header>
+
+    <main class="container my-5">
+        <section class="boletos-pendientes">
+            <h2>Boletos Pendientes</h2>
+            <table>
+                <thead>
+                    <!-- Lógica para traer los sorteos Participantes -->
+                    <tr>
+                        <th>Nombre del Sorteo</th>
+                        <th>Boletos Apartados</th>
+                        <th>Total a Pagar</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Sorteo de iPhone 20</td>
+                        <td>005, 007, 010</td>
+                        <td>$300.00</td>
+                        <td><button class="pagar-btn">Ver Detalles</button></td>
+                    </tr>
+                    <tr>
+                        <td>Sorteo de Carro</td>
+                        <td>015, 018</td>
+                        <td>$200.00</td>
+                        <td><button class="pagar-btn">Ver Detalles</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer class="bg-dark text-white text-center py-3">
+        <p>Copyright &copy; 2024 Equipo 1</p>
+    </footer>
+</body>
+</html>
