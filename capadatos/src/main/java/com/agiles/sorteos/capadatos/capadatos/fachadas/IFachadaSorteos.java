@@ -61,4 +61,7 @@ public interface IFachadaSorteos {
 
 
     void liberarBoletosVencidos(Date fechaLimite);
+
+
+    List<Boleto> obtenerBoletosApartadosPorSorteo(Integer idSorteo);
 }

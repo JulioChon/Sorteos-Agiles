@@ -59,6 +59,13 @@ public class BoletoController {
         
         return ResponseEntity.ok(boletos);
     }
+
+
+    @GetMapping("/boletosApartados/{idSorteo}")
+    public ResponseEntity<?> obtenerBoletosApartadosPorSorteo(@PathVariable Integer idSorteo) {
+        return ResponseEntity.ok(boletoService.obtenerBoletosApartadosPorSorteo(idSorteo));
+    }
+
     @GetMapping("/cliente/{idCliente}")
     public ResponseEntity<?> obtenerBoletosPorIdCliente(@PathVariable Integer idCliente){
         return ResponseEntity.ok(boletoService.obtenerBoletosCliente(idCliente));
