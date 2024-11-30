@@ -211,4 +211,9 @@ public class FachadaSorteos implements IFachadaSorteos {
         boletosDAO.liberarBoletosVencidos(fechaLimite);
     }
 
+    @Override
+    public List<Boleto> obtenerBoletosApartadosPorSorteo(Integer idSorteo) {
+        return boletosDAO.obtenerBoletosApartadosPorSorteo(idSorteo);
+    }
+
 }

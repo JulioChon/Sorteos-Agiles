@@ -26,4 +26,7 @@ public interface IBoletosDAO extends CrudRepository<Boleto, Integer> {
     @Query("UPDATE Boleto b SET b.estado = com.agiles.sorteos.capadatos.capadatos.utilis.BOLETOESTADO.LIBRE, b.fechaLimApart = null, b.idCliente = null WHERE b.fechaLimApart < ?1")
     void liberarBoletosVencidos(Date fechaLimite);
 
+    @Query("SELECT b FROM Boleto b WHERE b.idSorteo.id = ?1 AND b.estado = com.agiles.sorteos.capadatos.capadatos.utilis.BOLETOESTADO.APARTADO")
+    List<Boleto> obtenerBoletosApartadosPorSorteo(Integer idSorteo);
+
 }
