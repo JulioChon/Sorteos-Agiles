@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Deudores</title>
+    <link rel="stylesheet" href="css/deudores.css">
+    <link href="css/styles.css" rel="stylesheet" /> 
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="#!">Sorteos Diversos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="Sorteos.html">Sorteos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#!">Acerca de</a></li>
+                </ul>
+                <form class="d-flex">
+                    <button class="btn btn-outline-dark" type="submit">
+                        <i class="bi bi-person-circle"></i>
+                        Iniciar sesión
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-dark text-white">
+        <h1>Usuarios Deudores</h1>
+    </header>
+
+    <main>
+        <section class="sorteo-status">
+            <h2>Pagos Pendientes</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Números Apartados</th>
+                        <th>Total Deuda</th>
+                        <th>Último Recordatorio</th>
+                        <th>Recordar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Lógica para traer a los Usuarios Deudores -->
+                    <tr>
+                        <td>1</td>
+                        <td>Juan Pérez</td>
+                        <td>001, 005, 010</td>
+                        <td>$300</td>
+                        <td>2024-11-07</td>
+                        <td><button class="btn-reminder">Enviar Correo</button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>María López</td>
+                        <td>003, 007</td>
+                        <td>$200</td>
+                        <td>2024-11-08</td>
+                        <td><button class="btn-reminder">Enviar Correo</button></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Carlos Gómez</td>
+                        <td>015, 020, 025</td>
+                        <td>$450</td>
+                        <td>2024-11-06</td>
+                        <td><button class="btn-reminder">Enviar Correo</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+    </main>
+
+    <footer class="py-5 bg-dark text-white">
+        <div class="container">
+            <p class="m-0 text-center">Copyright &copy; Equipo 1</p>
+        </div>
+    </footer>
+
+</body>
+</html>

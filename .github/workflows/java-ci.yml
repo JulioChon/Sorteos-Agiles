@@ -27,7 +27,7 @@ jobs:
     - name: Build and install capadatos
       run: |
         cd capadatos 
-        mvn clean install
+        mvn clean test
 
     # 4. Construir y probar capasnegocios
     - name: Build and test capasnegocios

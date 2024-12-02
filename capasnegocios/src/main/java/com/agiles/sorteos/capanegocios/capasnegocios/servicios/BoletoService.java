@@ -160,4 +160,13 @@ public class BoletoService implements IBoletoService {
         fachadaSorteos.liberarBoletosVencidos(fechaLimite);
     }
 
+    @Override
+    public List<Boleto> obtenerBoletosApartadosPorSorteo(Integer idSorteo) {
+        List<Boleto> boletos = fachadaSorteos.obtenerBoletosApartadosPorSorteo(idSorteo);
+        if (boletos.isEmpty()) {
+            throw new NotFoundException("No hay boletos apartados para el sorteo con ID " + idSorteo);
+        }
+        return boletos;
+    }
+
 }

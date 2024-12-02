@@ -29,4 +29,6 @@ public interface IBoletoService {
 
     void liberarBoletosVencidos();
 
+    List<Boleto> obtenerBoletosApartadosPorSorteo(Integer idSorteo);
+
 }
