@@ -28,6 +28,10 @@
             <button class="btn btn-danger" style="width: 30px; height: 30px;" disabled></button>
             <span class="ms-2">Vendido</span>
           </div>
+          <div class="d-flex align-items-center">
+            <button class="btn btn-primary" style="width: 30px; height: 30px;" disabled></button>
+            <span class="ms-2">Seleccionado</span>
+          </div>
         </div>
       </div>
 
@@ -42,11 +46,14 @@
             [ngClass]="defineTicketStatus(ticket.status)"
             class="btn list__button"
             style="width: 80px; height: 80px"
-            (click)="reserveTicket(ticket.id)"
+            (click)="onClickTicket(ticket)"
           >
             {{ ticket.ticketNumber }}
           </button>
         </div>
+      </div>
+      <div class="buy-button" *ngIf="selected.length > 0">
+        <button class="btn btn-primary"(click)="buyMyTickets()">Finalizar compra</button>
       </div>
     </main>
     <app-footer></app-footer>

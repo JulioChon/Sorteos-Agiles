@@ -1,0 +1,15 @@
+.buy-button {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.buy-button > button {
+  transition: all 0.3s ease;
+}
+
+.buy-button > button:hover {
+  transform: scale(1.1);
+}

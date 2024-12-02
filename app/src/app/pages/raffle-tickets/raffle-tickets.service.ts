@@ -45,13 +45,24 @@ export class RaffleTicketsService {
               case BoletoEstado.VENDIDO:
                 return RaffleTicketStatus.SOLD;
               case BoletoEstado.APARTADO:
-                return RaffleTicketStatus.RESERVED;
+                const user = this.auth.getUser();
+                if (boleto.idCliente?.id === user.id) {
+                  return RaffleTicketStatus.SELECTED;
+                } else {
+                  return RaffleTicketStatus.RESERVED;
+                }
               default:
                 throw new Error(`Estado desconocido: ${boleto.estado}`);
             }
           })(),
           price: boleto.precio,
           reservationLimitDate: new Date(boleto.fechaLimApart),
+          client: {
+            id: boleto.idCliente?.id,
+            name: boleto.idCliente?.nombre,
+            email: boleto.idCliente?.correo,
+            phone: boleto.idCliente?.telefono,
+          }
         }))
       )
     );
@@ -66,6 +77,48 @@ export class RaffleTicketsService {
         price: boleto.precio,
         status: RaffleTicketStatus.RESERVED,
         reservationLimitDate: new Date(boleto.fechaLimApart),
+        client: {
+          id: boleto.idCliente?.id,
+          name: boleto.idCliente?.nombre,
+          email: boleto.idCliente?.correo,
+          phone: boleto.idCliente?.telefono,
+        }
+      }))
+    );
+  }
+
+  freeTicket(ticketId: number): Observable<RaffleTicketDTO> {
+    return this.http.put<BoletoDTO>(`${environment.api}/boletos/libre/${ticketId}`, null).pipe(
+      map((boleto: BoletoDTO) => ({
+        id: boleto.id,
+        ticketNumber: boleto.numeroBoleto,
+        price: boleto.precio,
+        status: RaffleTicketStatus.FREE,
+        reservationLimitDate: new Date(boleto.fechaLimApart),
+        client: {
+          id: boleto.idCliente?.id,
+          name: boleto.idCliente?.nombre,
+          email: boleto.idCliente?.correo,
+          phone: boleto.idCliente?.telefono,
+        }
+      }))
+    );
+  }
+
+  buyTicket(ticketId: number): Observable<RaffleTicketDTO> {
+    return this.http.put<BoletoDTO>(`${environment.api}/boletos/vendido/${ticketId}`, null).pipe(
+      map((boleto: BoletoDTO) => ({
+        id: boleto.id,
+        ticketNumber: boleto.numeroBoleto,
+        price: boleto.precio,
+        status: RaffleTicketStatus.SOLD,
+        reservationLimitDate: new Date(boleto.fechaLimApart),
+        client: {
+          id: boleto.idCliente?.id,
+          name: boleto.idCliente?.nombre,
+          email: boleto.idCliente?.correo,
+          phone: boleto.idCliente?.telefono,
+        }
       }))
     );
   }
