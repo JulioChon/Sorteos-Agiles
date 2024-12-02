@@ -13,7 +13,7 @@ public interface IBoletoService {
 
     Boleto cambiarEstadoApartado(Integer id, String correo);
 
-    Boleto cambiarEstadoVendido(Integer id);
+    Boleto cambiarEstadoVendido(Integer id,String correo);
 
     void eliminarBoleto(Integer id);
 
