@@ -121,14 +121,17 @@ public class BoletoService implements IBoletoService {
     }
 
     @Override
-    public Boleto cambiarEstadoVendido(Integer id) {
+    public Boleto cambiarEstadoVendido(Integer id,String correo) {
         Boleto boleto = fachadaSorteos.obtenerBoletoPorId(id);
         if (boleto == null) {
             throw new NotFoundException("boleto con ID " + id);
-        } else {
+        } else if (boleto.getIdCliente() == null || boleto.getIdCliente().getId()==fachadaSorteos.clienteExiste(correo).getId()) {
             boleto.setEstado(BOLETOESTADO.VENDIDO);
             boleto.setFechaLimApart(null);
+            boleto.setIdCliente(fachadaSorteos.clienteExiste(correo));
             return fachadaSorteos.guardarBoleto(boleto);
+        } else{
+            throw new NotFoundException("el boleto fue apartado por otra persona " + id);
         }
     }
 
