@@ -1,4 +1,4 @@
-<div class="d-flex flex-column min-vh-100">
+<div class="d-flex flex-column min-vh-100" [ngClass]="loading? 'loading': ''">
     <app-header></app-header>
     <main class="flex-fill bg-light" *ngIf="raffle">
       <!-- Encabezado del sorteo -->

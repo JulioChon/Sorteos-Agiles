@@ -21,6 +21,7 @@ export class RaffleTicketsComponent implements OnInit {
   raffle: RaffleDTO;
   tickets: RaffleTicketDTO[];
   selected: RaffleTicketDTO[];
+  loading: boolean = false;
 
   constructor(private readonly raffleTicketsService: RaffleTicketsService,
     private readonly activatedRoute: ActivatedRoute,
@@ -98,38 +99,47 @@ export class RaffleTicketsComponent implements OnInit {
   }
 
   reserveTicket(ticketId: number): void {
+    this.loading = true;
     this.raffleTicketsService.reserveTicket(ticketId).subscribe({
       next: () => {
         this.loadTickets();
+        this.loading = false;
       },
       error: (error) => {
         this.alertService.openInfoModal('Error al reservar el boleto', 'Error');
+        this.loading = false;
       }
     });
   }
 
   freeTicket(ticketId: number): void {
+    this.loading = true;
     this.raffleTicketsService.freeTicket(ticketId).subscribe({
       next: () => {
         this.loadTickets();
+        this.loading = false;
       },
       error: (error) => {
         this.alertService.openInfoModal('Error al liberar el boleto', 'Error');
+        this.loading = false;
       }
     });
   }
 
   buyMyTickets(): void {
+    this.loading = true;
     this.selected.forEach((ticket, index) => {
       this.raffleTicketsService.buyTicket(ticket.id).subscribe({
         next: () => {
           //If is te las ticket, reload the page
           if (index === this.selected.length - 1) {
             this.loadTickets();
+            this.loading = false;
           }
         },
         error: (error) => {
           this.alertService.openInfoModal('Error al comprar los boletos', 'Error');
+          this.loading = false;
         }
       });
     });
