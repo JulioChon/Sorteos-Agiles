@@ -6,6 +6,7 @@ import { RaffleDTO, RaffleTicketDTO, RaffleTicketStatus } from './raffle-tickets
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AlertService } from '@shared/services/alert.service';
+import { AuthService } from '@shared/services/auth/auth.service';
 
 @Component({
   selector: 'app-raffle-tickets',
@@ -19,10 +20,13 @@ export class RaffleTicketsComponent implements OnInit {
 
   raffle: RaffleDTO;
   tickets: RaffleTicketDTO[];
+  selected: RaffleTicketDTO[];
+  loading: boolean = false;
 
   constructor(private readonly raffleTicketsService: RaffleTicketsService,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly alertService: AlertService
+    private readonly alertService: AlertService,
+    private readonly authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -43,11 +47,14 @@ export class RaffleTicketsComponent implements OnInit {
   }
 
   loadTickets(): void {
+    this.selected = [];
     this.raffleTicketsService.findTicketsByRaffleId(this.raffle.id).subscribe({
       next: (tickets: RaffleTicketDTO[]) => {
         this.tickets = tickets;
+        this.selected = tickets.filter((ticket) => ticket.status === RaffleTicketStatus.SELECTED);
       },
       error: (error) => {
+        console.error(error);
         this.alertService.openInfoModal('Error al obtener los boletos', 'Error');
       }
     });
@@ -73,19 +80,68 @@ export class RaffleTicketsComponent implements OnInit {
         return 'btn-warning';
       case RaffleTicketStatus.SOLD:
         return 'btn-danger';
+      case RaffleTicketStatus.SELECTED:
+        return 'btn-primary';
       default:
         return 'Desconocido';
     }
   }
 
+  onClickTicket(ticket: RaffleTicketDTO): void {
+    if (ticket.status === RaffleTicketStatus.FREE) {
+      this.reserveTicket(ticket.id);
+    } else if (ticket.status === RaffleTicketStatus.SELECTED) {
+      const user = this.authService.getUser();
+      if (user.id === ticket.client?.id) {
+        this.freeTicket(ticket.id);
+      }
+    }
+  }
+
   reserveTicket(ticketId: number): void {
+    this.loading = true;
     this.raffleTicketsService.reserveTicket(ticketId).subscribe({
       next: () => {
         this.loadTickets();
+        this.loading = false;
       },
       error: (error) => {
         this.alertService.openInfoModal('Error al reservar el boleto', 'Error');
+        this.loading = false;
       }
+    });
+  }
+
+  freeTicket(ticketId: number): void {
+    this.loading = true;
+    this.raffleTicketsService.freeTicket(ticketId).subscribe({
+      next: () => {
+        this.loadTickets();
+        this.loading = false;
+      },
+      error: (error) => {
+        this.alertService.openInfoModal('Error al liberar el boleto', 'Error');
+        this.loading = false;
+      }
+    });
+  }
+
+  buyMyTickets(): void {
+    this.loading = true;
+    this.selected.forEach((ticket, index) => {
+      this.raffleTicketsService.buyTicket(ticket.id).subscribe({
+        next: () => {
+          //If is te las ticket, reload the page
+          if (index === this.selected.length - 1) {
+            this.loadTickets();
+            this.loading = false;
+          }
+        },
+        error: (error) => {
+          this.alertService.openInfoModal('Error al comprar los boletos', 'Error');
+          this.loading = false;
+        }
+      });
     });
   }
 }

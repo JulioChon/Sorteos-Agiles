@@ -1,0 +1,36 @@
+<div class="d-flex flex-column min-vh-100">
+  <app-header></app-header>
+  <main class="flex-fill bg-light p-4">
+    <div class="container">
+      <h1 class="text-center mb-4">Mis Boletos</h1>
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4 mb-4" *ngFor="let ticket of myTickets">
+          <div class="card h-100 shadow-sm">
+            <img
+              [src]="ticket.idSorteo.imagenSorteo"
+              class="card-img-top"
+              [alt]="ticket.idSorteo.nombre"
+            />
+            <div class="card-body text-center">
+              <h2 class="text-primary fw-bold mb-3">Boleto N° {{ ticket.numeroBoleto }}</h2>
+              <h5 class="card-title">{{ ticket.idSorteo.nombre }}</h5>
+              <p class="card-text">
+                <strong>Precio:</strong> ${{ ticket.precio }}<br>
+                <strong>Estado:</strong> {{ ticket.estado }}<br>
+                <strong>Rango:</strong> {{ ticket.idSorteo.rangoMin }} - {{ ticket.idSorteo.rangoMax }}
+              </p>
+            </div>
+            <div class="card-footer text-center">
+              <small class="text-muted">
+                Venta: {{ ticket.idSorteo.fechaInicioVenta | date:'shortDate' }}
+                - {{ ticket.idSorteo.fechaFinVenta | date:'shortDate' }}<br>
+                Sorteo: {{ ticket.idSorteo.fechaSorteo | date:'shortDate' }}
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <app-footer></app-footer>
+</div>
