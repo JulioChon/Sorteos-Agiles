@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CapasnegociosApplication<capasnegocios>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.agiles.sorteos.capanegocios.capasnegocios.CapasnegociosApplication",
+            "projectName": "capasnegocios",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-CapadatosApplication<capadatos>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.agiles.sorteos.capadatos.capadatos.CapadatosApplication",
+            "projectName": "capadatos",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
