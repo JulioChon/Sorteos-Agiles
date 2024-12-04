@@ -22,6 +22,7 @@ export class RaffleTicketsComponent implements OnInit {
   tickets: RaffleTicketDTO[];
   selected: RaffleTicketDTO[];
   loading: boolean = false;
+  canAction: boolean = true;
 
   constructor(private readonly raffleTicketsService: RaffleTicketsService,
     private readonly activatedRoute: ActivatedRoute,
@@ -30,8 +31,16 @@ export class RaffleTicketsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.adminView();
     const raffleId = this.getRaffleIdFromRoute();
     this.loadRaffle(raffleId);
+  }
+
+  adminView(): void {
+    const user = this.authService.getUser();
+    if (user.admin) {
+      this.canAction = false;
+    }
   }
 
   loadRaffle(id: number): void {
@@ -88,6 +97,12 @@ export class RaffleTicketsComponent implements OnInit {
   }
 
   onClickTicket(ticket: RaffleTicketDTO): void {
+
+    if (!this.canAction) {
+      this.alertService.openInfoModal('No puedes realizar esta acción', 'Error');
+      return;
+    }
+
     if (ticket.status === RaffleTicketStatus.FREE) {
       this.reserveTicket(ticket.id);
     } else if (ticket.status === RaffleTicketStatus.SELECTED) {
@@ -129,6 +144,10 @@ export class RaffleTicketsComponent implements OnInit {
   }
 
   buyMyTickets(): void {
+    if (!this.canAction) {
+      this.alertService.openInfoModal('No puedes realizar esta acción', 'Error');
+      return;
+    }
     this.loading = true;
     this.selected.forEach((ticket, index) => {
       this.raffleTicketsService.buyTicket(ticket.id).subscribe({

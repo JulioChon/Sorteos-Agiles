@@ -19,6 +19,8 @@
                         <div *ngIf="cellphone.invalid && (cellphone.dirty || cellphone.touched)" class="text-danger">
                             <div *ngIf="cellphone.errors?.['required']">El número de celular es requerido</div>
                             <div *ngIf="cellphone.errors?.['minlength']">El número debe ser de 10 carácteres</div>
+                            <!-- Pattter validation -->
+                            <div *ngIf="cellphone.errors?.['pattern']">El número de celular no es válido</div>
                         </div>
                     </div>
                     <div class="mb-3">
