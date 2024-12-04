@@ -104,6 +104,7 @@ export class RaffleTicketsComponent implements OnInit {
       next: () => {
         this.loadTickets();
         this.loading = false;
+        this.alertService.openInfoModal('Boleto reservado con éxito', 'Éxito');
       },
       error: (error) => {
         this.alertService.openInfoModal('Error al reservar el boleto', 'Error');
@@ -118,6 +119,7 @@ export class RaffleTicketsComponent implements OnInit {
       next: () => {
         this.loadTickets();
         this.loading = false;
+        this.alertService.openInfoModal('Boleto liberado con éxito', 'Éxito');
       },
       error: (error) => {
         this.alertService.openInfoModal('Error al liberar el boleto', 'Error');
@@ -135,6 +137,7 @@ export class RaffleTicketsComponent implements OnInit {
           if (index === this.selected.length - 1) {
             this.loadTickets();
             this.loading = false;
+            this.alertService.openInfoModal('Boletos comprados con éxito', 'Éxito');
           }
         },
         error: (error) => {
