@@ -33,4 +33,4 @@ jobs:
     - name: Build and test capasnegocios
       run: |
         cd capasnegocios 
-        mvn clean test
+        mvn clean install
