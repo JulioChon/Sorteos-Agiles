@@ -76,7 +76,10 @@ export class ModifyRaffleComponent implements OnInit {
         this.raffle = raffle;
         this.createUpdateRaffleForm(raffle);
       },
-      error: (error) => {},
+      error: (error) => {
+        this.alertService.openInfoModal('Error al obtener el sorteo', 'Error');
+        this.showLoading = false;
+      },
       complete: () => {
         this.showLoading = false;
       },

@@ -51,8 +51,8 @@ export class MyRafflesComponent implements OnInit {
         Array.prototype.push.apply(this.raffles, raffles);
       },
       error: (error) => {
-        this.showLoading = false;
         this.alertService.openInfoModal('Error al obtener los sorteos', 'Error');
+        this.showLoading = false;
       },
       complete: () => {
         this.showLoading = false;

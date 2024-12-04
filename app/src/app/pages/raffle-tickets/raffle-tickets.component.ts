@@ -63,7 +63,6 @@ export class RaffleTicketsComponent implements OnInit {
         this.selected = tickets.filter((ticket) => ticket.status === RaffleTicketStatus.SELECTED);
       },
       error: (error) => {
-        console.error(error);
         this.alertService.openInfoModal('Error al obtener los boletos', 'Error');
       }
     });
