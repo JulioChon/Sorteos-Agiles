@@ -1,10 +1,13 @@
 package com.agiles.sorteos.capanegocios.capasnegocios.servicios;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.agiles.sorteos.capadatos.capadatos.DTOs.BoletoDTO;
+import com.agiles.sorteos.capadatos.capadatos.DTOs.SorteoDTO;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Sorteo;
 import com.agiles.sorteos.capadatos.capadatos.fachadas.IFachadaSorteos;
 import com.agiles.sorteos.capanegocios.capasnegocios.Exception.NotFoundException;
@@ -73,5 +76,41 @@ public class SorteoService implements ISorteoService {
        List <Sorteo> sorteos = fachadaSorteos.findSorteosByAdministradorId(idAdmin);
         return sorteos;
     }
+
+    @Override
+    public List<SorteoDTO> obtenerSorteosDeudores(Integer idAdmin) {
+        List<Sorteo> sorteos = fachadaSorteos.findSorteosByAdministradorId(idAdmin);
+    
+        return sorteos.stream().map(sorteo -> {
+            SorteoDTO sorteoDTO = new SorteoDTO(
+                sorteo.getId(),
+                sorteo.getNombre(),
+                sorteo.getImagenSorteo(),
+                sorteo.getRangoMax(),
+                sorteo.getRangoMin(),
+                sorteo.getFechaInicioVenta(),
+                sorteo.getFechaFinVenta(),
+                sorteo.getFechaSorteo(),
+                sorteo.getEstado(),
+                sorteo.getPrecio()
+            );
+    
+            List<BoletoDTO> boletos = fachadaSorteos.obtenerBoletosApartadosPorSorteo(sorteo.getId()).stream()
+                .map(boleto -> new BoletoDTO(
+                    boleto.getId(),
+                    boleto.getNumeroBoleto(),
+                    boleto.getEstado(),
+                    boleto.getFechaLimApart(),
+                    boleto.getPrecio(),
+                    boleto.getIdCliente()
+                ))
+                .collect(Collectors.toList());
+    
+            sorteoDTO.setBoletos(boletos);
+    
+            return sorteoDTO;
+        }).collect(Collectors.toList());
+    }
+    
 
 }

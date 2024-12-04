@@ -2,6 +2,7 @@ package com.agiles.sorteos.capanegocios.capasnegocios.servicios;
 
 import java.util.List;
 
+import com.agiles.sorteos.capadatos.capadatos.DTOs.SorteoDTO;
 import com.agiles.sorteos.capadatos.capadatos.dominio.Sorteo;
 
 public interface ISorteoService {
@@ -17,4 +18,6 @@ public interface ISorteoService {
     List<Sorteo> obtenerSorteos();
 
     List<Sorteo> obtenerSorteosPorIdAdmin(Integer idAdmin);
+
+    List<SorteoDTO> obtenerSorteosDeudores(Integer idAdmin);
 }
