@@ -66,7 +66,8 @@ export class HeaderComponent implements OnInit {
     this.adminItems = [
       { title: 'Crear Sorteo', route: '/admin/create-raffle', icon: 'bi bi-plus' },
       { title: 'Mis Sorteos' , route: '/admin/my-raffles', icon: 'bi bi-list' },
-      { title: 'Configurar Recordatorio de Pago', route: '/admin/reminder-config', icon: 'bi bi-gear' }
+      { title: 'Configurar Recordatorio de Pago', route: '/admin/reminder-config', icon: 'bi bi-gear' },
+      { title: 'Deudores', route: '/admin/debtors', icon: 'bi bi-credit-card-fill' },
     ];
   }
 

@@ -1,0 +1,45 @@
+<div class="d-flex flex-column min-vh-100" [ngClass]="loading? 'loading': ''">
+    <app-header></app-header>
+    <main class="flex-fill bg-light p-4">
+      <div class="bg-dark py-5">
+        <div class="container px-4 px-lg-5 my-5">
+          <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Deudores</h1>
+            <p class="lead fw-normal text-white-50 mb-0">
+              Revisa quienes te deben
+            </p>
+          </div>
+        </div>
+      </div>
+      <section class="sorteo-status">
+        <table>
+          <thead>
+            <tr>
+              <th>Número</th>
+              <th>Cliente</th>
+              <th>Estado</th>
+              <th>Fecha de Apartado</th>
+              <th>Último Recordatorio</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let debtor of debtors">
+              <td>{{ debtor.numero }}</td>
+              <td>{{ debtor.cliente }}</td>
+              <td>{{ debtor.estado }}</td>
+              <td>{{ debtor.fechaApartado }}</td>
+              <td>{{ debtor.ultimoRecordatorio || "No disponible" }}</td>
+              <td>
+                <button class="btn btn-primary btn-sm" (click)="sendReminder(debtor)">
+                  Enviar Recordatorio
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+    <app-footer></app-footer>
+  </div>
+  

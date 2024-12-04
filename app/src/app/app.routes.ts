@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { CreateRaffleComponent } from '@pages/create-raffle/create-raffle.component';
+import { DebtorsComponent } from '@pages/debtors/debtors.component';
 import { ModifyRaffleComponent } from '@pages/modify-raffle/modify-raffle.component';
 import { MyRafflesComponent } from '@pages/my-raffles/my-raffles.component';
 import { NotFoundComponent } from '@pages/not-found/not-found.component';
@@ -66,6 +67,10 @@ export const routes: Routes = [
                         component: ModifyRaffleComponent,
                     }
                 ]
+            },
+            {
+                path: 'debtors',
+                component: DebtorsComponent,
             }
         ]
     },
