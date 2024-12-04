@@ -81,6 +81,11 @@ public class SorteoController {
         return ResponseEntity.ok(sorteoService.actualizarSorteo(id, sorteo));
     }
 
+    @GetMapping("/deudores/{idAdmin}")
+    public ResponseEntity<?> obtenerSorteosDeudores(@PathVariable Integer idAdmin) {
+        return ResponseEntity.ok(sorteoService.obtenerSorteosDeudores(idAdmin));
+    }
+
     private ResponseEntity<?> validation(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
 
